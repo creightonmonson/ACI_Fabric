@@ -1,0 +1,18 @@
+---
+- name: Create access policies for fabric1
+  hosts: fabric1
+  gather_facts: false
+  connection: local
+  any_errors_fatal: true
+  module_defaults:
+    group/cisco.aci.all:
+      hostname: "{{ ansible_host }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: "{{ apic_validate_certs }}"
+      use_proxy: "{{ apic_use_proxy }}"
+
+  roles:
+    - roles/ap_vlans
+    - roles/ap_domains
+    - roles/ap_aaep

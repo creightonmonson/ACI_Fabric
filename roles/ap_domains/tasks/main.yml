@@ -1,0 +1,23 @@
+---
+# tasks file for roles/ap-domains
+
+- name: Create/Ensure Domain  (L2dom, L3dom,phys)
+  cisco.aci.aci_domain:
+    domain: "{{ item.domain_name }}"
+    domain_type: "{{ item.domain_type }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  loop: "{{domains}}"
+  when: domains is defined
+
+- name: Bind VLAN Pool to Domain  (infra:RsVlanNs)
+  cisco.aci.aci_domain_to_vlan_pool:
+    domain: "{{ item.domain_name }}"
+    domain_type: "{{ item.domain_type }}"
+    pool: "{{ item.vlan_pool}}"
+    pool_allocation_mode: "{{ item.vlan_pool_allocation_mode }}"
+    state: "{{item.state}}"
+  delegate_to: localhost
+  loop: "{{domains}}"
+  when: domains is defined
+

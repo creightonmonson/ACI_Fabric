@@ -1,0 +1,13 @@
+---
+domains:
+  - domain_name: Apps_PhyDom
+    domain_type: phys
+    vlan_pool: cluster
+    vlan_pool_allocation_mode: static
+    state: present
+
+  - domain_name: Mgmt_PhyDom
+    domain_type: phys
+    vlan_pool: mgmt
+    vlan_pool_allocation_mode: static
+    state: present

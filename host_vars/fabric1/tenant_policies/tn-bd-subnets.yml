@@ -1,0 +1,19 @@
+---
+bridge_domain_subnets:
+  - bd_name: Apps_BD
+    subnet_name: Apps_172.16.1.0
+    gateway: 172.16.1.1
+    mask: 24
+    tenant: demo
+    description: Bridge domain subnet for Applications
+    scope: public 
+    state: present
+
+  - bd_name: Mgmt_BD
+    subnet_name: Mgmt_172.16.2.0
+    gateway: 172.16.2.1
+    mask: 24
+    tenant: demo
+    description: Bridge domain subnet for management access to AD, snmp, etc
+    scope: public 
+    state: present

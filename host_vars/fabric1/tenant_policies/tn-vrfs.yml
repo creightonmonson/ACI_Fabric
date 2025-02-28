@@ -1,0 +1,17 @@
+---
+vrf:
+  - vrf_name: PROD
+    tenant: demo
+    description: PROD vrf for demo tenant
+    policy_control_preference: enforced
+    polcy_control_direction: ingress
+    match_type: at_least_one
+    state: present
+
+  - vrf_name: DEV
+    tenant: demo
+    description: DEV vrf for demo tenant
+    policy_control_preference: enforced
+    polcy_control_direction: ingress
+    match_type: at_least_one
+    state: present

@@ -1,0 +1,22 @@
+---
+# tasks file for roles/ap-aaep
+
+- name: Create Attacheable Access Entity Profile  (infra:AttEntityP, infra:ProvAcc)
+  cisco.aci.aci_aep:
+    aep: "{{item.aaep_name}}"
+    description: "{{item.aaep_description}}"
+    infra_vlan: "{{item.aaep_infra_vlan}}"
+    state: "{{item.state}}"
+  delegate_to: localhost
+  when: aaeps is defined
+  loop: "{{aaeps}}"
+
+- name: Bind the domain to the AAEP (infra:RsDomP)
+  cisco.aci.aci_aep_to_domain:
+    aep: "{{item.aaep_name}}"
+    domain: "{{item.domain_name}}"
+    domain_type: "{{item.domain_type}}"
+    state: "{{item.state}}"
+  delegate_to: localhost
+  loop: "{{aaeps}}"
+  when: aaeps is defined

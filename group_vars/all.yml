@@ -1,0 +1,5 @@
+---
+apic_username: "ansible"
+apic_password: "AnsibleAdmin123!@#"
+apic_validate_certs: "no"
+apic_use_proxy: "no"

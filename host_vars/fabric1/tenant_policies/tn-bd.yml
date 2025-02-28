@@ -1,0 +1,33 @@
+---
+bridge_domains:
+  - bd_name: Apps_BD
+    tenant: demo
+    vrf: PROD
+    description: Bridge Domain for Applications on cluster
+    bd_type: ethernet
+    mac_address: 00:22:BD:F8:19:FF
+    l2_unknown_unicast: proxy # ["flood","proxy"]
+    l3_unknown_multicast: flood # ["flood","opt-flood"]
+    ipv6_l3_unknown_multicast: flood # ["flood","opt-flood"]
+    multi_dest: bd-flood # ["bd-flood", "drop", "encap-flood"]
+    arp_flooding: no # ["yes","no"]
+    enable_routing: yes # ["yes","no"]
+    ip_learning: yes # ["yes","no"]
+    enable_multicast: no # ["yes","no"]
+    state: present
+
+  - bd_name: Mgmt_BD
+    tenant: demo
+    vrf: PROD
+    description: Bridge Domain for manangement devices on cluster
+    bd_type: ethernet
+    mac_address: 00:22:BD:F8:19:FF
+    l2_unknown_unicast: proxy # ["flood","proxy"]
+    l3_unknown_multicast: flood # ["flood","opt-flood"]
+    ipv6_l3_unknown_multicast: flood # ["flood","opt-flood"]
+    multi_dest: bd-flood # ["bd-flood", "drop", "encap-flood"]
+    arp_flooding: no # ["yes","no"]
+    enable_routing: yes # ["yes","no"]
+    ip_learning: yes # ["yes","no"]
+    enable_multicast: no # ["yes","no"]
+    state: present

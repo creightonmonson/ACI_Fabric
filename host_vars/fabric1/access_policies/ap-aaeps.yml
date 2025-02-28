@@ -1,0 +1,15 @@
+---
+aaeps:
+  - aaep_name: Apps_AAEP
+    aaep_description: Apps AAEP for apps residing in cluster
+    aaep_infra_vlan: false
+    domain_name: Apps_PhyDom
+    domain_type: phys
+    state: present
+
+  - aaep_name: Mgmt_AAEP
+    aaep_description: AAEP for mgmt services such as snmp, ntp, AD
+    aaep_infra_vlan: false
+    domain_name: Mgmt_PhyDom
+    domain_type: phys
+    state: present

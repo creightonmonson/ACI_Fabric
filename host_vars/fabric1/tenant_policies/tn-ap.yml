@@ -1,0 +1,12 @@
+---
+app_profiles:
+  - ap_name: App1
+    tenant: demo
+    description: Application Profile for App1 
+    state: present
+
+  - ap_name: Mgmt
+    tenant: demo
+    description: Application Profile for Mgmt 
+    state: present
+

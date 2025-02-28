@@ -1,0 +1,34 @@
+---
+epgs:
+  - epg_name: EPG_Web
+    ap_name: App1
+    tenant: demo
+    description: EPG for web servers
+    intra_epg_isolation: unenforced
+    bd: Apps_BD
+    state: present
+
+  - epg_name: EPG_App
+    ap_name: App1
+    tenant: demo
+    description: EPG for App servers
+    intra_epg_isolation: unenforced
+    bd: Apps_BD
+    state: present
+
+  - epg_name: EPG_DB
+    ap_name: App1
+    tenant: demo
+    description: EPG for DB servers
+    intra_epg_isolation: unenforced
+    bd: Apps_BD
+    state: present
+
+  - epg_name: EPG_SNMP
+    ap_name: Mgmt
+    tenant: demo
+    description: EPG for SNMP server
+    intra_epg_isolation: unenforced
+    bd: Mgmt_BD
+    state: present
+
