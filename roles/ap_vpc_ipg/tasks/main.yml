@@ -1,0 +1,15 @@
+---
+# tasks file for roles/ap_vpc_ipg
+
+- name: Create Leaf VPC Port Policy Group (infra:AccBndlGrp and infra:AccPortGrp)
+  cisco.aci.aci_interface_policy_leaf_policy_group:
+    lag_type: node
+    policy_group: "{{ item.name }}"
+    lldp_policy: "{{ item.lldp }}"
+    port_channel_policy: "{{ item.lacp }}"
+    aep: "{{ item.aaep }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: vpc_policy_group is defined
+  loop: "{{ vpc_policy_group }}"

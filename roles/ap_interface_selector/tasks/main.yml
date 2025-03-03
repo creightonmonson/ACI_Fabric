@@ -1,0 +1,18 @@
+---
+# tasks file for roles/ap_interface_selector
+
+- name: Associate Interface Selector to Interface Profile (infra:HPortS, infra:RsAccBaseGrp, and infra:PortBlk)
+  cisco.aci.aci_access_port_to_interface_policy_leaf_profile:
+    leaf_interface_profile: "{{ item.ifp }}"
+    access_port_selector: "{{ item.name }}"
+    interface_type: "{{ item.interface_type }}"
+    leaf_port_blk: "{{ item.leaf_port_block }}"
+    from_port: "{{ item.from }}"
+    to_port: "{{ item.to }}"
+    policy_group: "{{ item.ipg }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: interface_selector is defined
+  loop: "{{ interface_selector }}"
+  

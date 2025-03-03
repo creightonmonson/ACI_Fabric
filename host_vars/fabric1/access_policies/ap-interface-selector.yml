@@ -1,0 +1,41 @@
+---
+interface_selector:
+  - name: eth1_1
+    description: Port to SNMP Server
+    ifp: LEAF101_IFP
+    interface_type: switch_port
+    leaf_port_block: 1
+    from: 1
+    to: 1
+    ipg: NetServices_IPG
+    state: present
+
+  - name: eth1_15
+    description: Port to AD Server
+    ifp: LEAF102_IFP
+    interface_type: switch_port
+    leaf_port_block: 1
+    from: 15
+    to: 15
+    ipg: Baremetal_Server_IPG
+    state: present
+
+  - name: eth1_10
+    description: VPC to Cluster 1
+    ifp: LEAF101_102_IFP
+    interface_type: vpc
+    leaf_port_block: 1
+    from: 10
+    to: 10
+    ipg: Cluster_VPC_IPG
+    state: present
+
+  - name: eth1_11
+    description: VPC to Cluster 2
+    ifp: LEAF101_102_IFP
+    interface_type: vpc
+    leaf_port_block: 1
+    from: 11
+    to: 11
+    ipg: Cluster_VPC_IPG
+    state: present

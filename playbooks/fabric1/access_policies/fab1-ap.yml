@@ -16,6 +16,9 @@
     - roles/ap_swp
     - roles/ap_ifp
     - roles/ap_int_policy
+    - roles/ap_access_ipg
+    - roles/ap_vpc_ipg
+    - roles/ap_interface_selector
     - roles/ap_vlans
     - roles/ap_domains
     - roles/ap_aaep
