@@ -4,7 +4,7 @@ vrf:
     tenant: demo
     description: PROD vrf for demo tenant
     policy_control_preference: enforced
-    polcy_control_direction: ingress
+    policy_control_direction: ingress
     match_type: at_least_one
     state: present
 
@@ -12,6 +12,6 @@ vrf:
     tenant: demo
     description: DEV vrf for demo tenant
     policy_control_preference: enforced
-    polcy_control_direction: ingress
+    policy_control_direction: ingress
     match_type: at_least_one
     state: present

@@ -33,18 +33,3 @@
   when: interface_policy_lacp is defined
   loop: "{{ interface_policy_lacp }}"
 
-- name: Create Interface Policy for Link Level Options 
-  cisco.aci.aci_rest:
-    method: post
-    path: /api/mo/uni.xml
-    content: '<infraInfra><fabricHIfPol name="{{ item.name }}" descr="{{ item.descr }}" speed="{{ item.speed }}" linkDebounce="{{ item.linkDebounce}}" fecMode="{{item.fec}}" autoNeg="{{ item.autoneg }}"/></infraInfra>'
-  delegate_to: localhost
-  loop:
-    - { name: "link-100M", descr: "100Mbps", speed: "100M", linkDebounce: "100", fec: "inherit", autoneg: "on" }
-    - { name: "link-1G", descr: "1Gbps", speed: "1G", linkDebounce: "100", fec: "inherit", autoneg: "on" }
-    - { name: "link-10G", descr: "10Gbps", speed: "10G", linkDebounce: "100", fec: "inherit", autoneg: "on" }
-    - { name: "link-25G", descr: "25Gbps - use with short-length passive cables", speed: "25G", linkDebounce: "100", fec: "inherit", autoneg: "on" }
-    - { name: "link-25G-FEC-CL74-FC", descr: "25Gbps - use with 3-meter passive cable and 1 to 10-meter active cables", speed: "25G", linkDebounce: "100", fec: "cl74-fc-fec", autoneg: "on" }
-    - { name: "link-25G-FEC-CL91-RC", descr: "25Gbps - use with 5-meter passive cable and 100-meter SPF-25G-SR or SPF-25G-LR", speed: "25G", linkDebounce: "100", fec: "cl91-rs-fec", autoneg: "on" }
-    - { name: "link-40G", descr: "40Gbps", speed: "40G", linkDebounce: "100", fec: "inherit", autoneg: "on" }
-    - { name: "link-100G", descr: "100Gbps", speed: "100G", linkDebounce: "100", fec: "inherit", autoneg: "on" }
