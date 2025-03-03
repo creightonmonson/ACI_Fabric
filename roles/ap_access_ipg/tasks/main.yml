@@ -1,0 +1,14 @@
+---
+# tasks file for roles/ap_access_ipg
+
+- name: Create Access Port IPGs(infra:AccBndlGrp, infra:AccPortGrp)
+  cisco.aci.aci_interface_policy_leaf_policy_group:
+    lag_type: leaf
+    policy_group: "{{ item.name }}"
+    description: "{{ item.description }}"
+    lldp_policy: "{{ item.lldp }}"
+    aep: "{{ item.aaep }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: access_policy_group is defined
+  loop: "{{ access_policy_group }}"

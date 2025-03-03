@@ -1,0 +1,20 @@
+---
+# tasks file for roles/ap_ifp 
+
+- name: Create Leaf Interface Profiles (infra:AccPortP)
+  cisco.aci.aci_interface_policy_leaf_profile:
+    leaf_interface_profile: "{{ item.name }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: interface_profile is defined
+  loop: "{{ interface_profile }}"
+
+- name: Associate Leaf Interface Profile to Switch Profile
+  cisco.aci.aci_interface_selector_to_switch_policy_leaf_profile:
+    leaf_profile: "{{ item.swp }}"
+    interface_selector: "{{ item.name }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: interface_profile is defined
+  loop: "{{ interface_profile }}"

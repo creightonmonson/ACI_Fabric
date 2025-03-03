@@ -1,0 +1,24 @@
+---
+# tasks file for roles/ap-swp
+
+- name: Create Leaf Switch Profiles  (infra:NodeP)
+  cisco.aci.aci_switch_policy_leaf_profile:
+    leaf_profile: "{{ item.name }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: switch_profile is defined
+  loop: "{{switch_profile}}"
+
+- name: Add Leaf Selectors to Leaf Profiles ( infra:LeafS, infra:NodeBlk, infra:RsAccNodePGrp)
+  cisco.aci.aci_switch_leaf_selector:
+    leaf_profile: "{{ item.name }}"
+    leaf: "{{ item.leaf_selector_name }}"
+    leaf_node_blk: "{{ item.node_blk_name }}"
+    from: "{{ item.from }}"
+    to: "{{ item.to }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: switch_profile is defined
+  loop: "{{ switch_profile }}"
+    

@@ -13,6 +13,9 @@
       use_proxy: "{{ apic_use_proxy }}"
 
   roles:
+    - roles/ap_swp
+    - roles/ap_ifp
+    - roles/ap_int_policy
     - roles/ap_vlans
     - roles/ap_domains
     - roles/ap_aaep

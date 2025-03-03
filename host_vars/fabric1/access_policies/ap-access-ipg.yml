@@ -1,0 +1,12 @@
+---
+access_policy_group:
+  - name: Baremetal_Server_IPG
+    lldp: LLDP_Enabled
+    aaep: Mgmt_AAEP
+    description: Baremetal Server IPG
+    state: present
+  - name: NetServices_IPG
+    lldp: LLDP_Enabled
+    aaep: Mgmt_AAEP
+    description: Network Services IPG
+    state: present
