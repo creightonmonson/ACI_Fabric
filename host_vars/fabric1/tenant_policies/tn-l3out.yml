@@ -44,7 +44,6 @@ extepg:
     contract_type: provider
     state: present
 
-# Parameters used by L3Outs but owned by a tenant
 ospf_if_policy:
   tenant: demo       # can be under common and reuse it everywhere
   l3out: OSPF_L3Out
