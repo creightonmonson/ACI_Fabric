@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/ap-vlans
 
-- name: Create/Ensure VLAN Pool 
+- name: Create VLAN Pool 
   cisco.aci.aci_vlan_pool:
     pool: "{{item.vlan_pool_name}}"
     pool_allocation_mode: "{{item.vlan_pool_mode}}"
@@ -11,7 +11,7 @@
   loop: "{{vlan_pools}}"
   when: vlan_pools is defined
 
-- name: Create/Ensure VLAN Pool Block 
+- name: Create VLAN Pool Block 
   cisco.aci.aci_vlan_pool_encap_block:
     pool: "{{item.vlan_pool_name}}"
     pool_allocation_mode: "{{item.vlan_pool_mode}}"

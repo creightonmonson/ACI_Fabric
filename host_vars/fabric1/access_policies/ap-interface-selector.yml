@@ -39,3 +39,13 @@ interface_selector:
     to: 11
     ipg: Cluster_VPC_IPG
     state: present
+
+  - name: eth1_20
+    description: Ext Connection to campus L3Switch
+    ifp: LEAF101_IFP
+    interface_type: switch_port
+    leaf_port_block: 1
+    from: 20
+    to: 20
+    ipg: External_Catalyst_IPG
+    state: present

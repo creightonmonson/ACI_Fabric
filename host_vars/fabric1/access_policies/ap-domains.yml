@@ -11,3 +11,10 @@ domains:
     vlan_pool: mgmt
     vlan_pool_allocation_mode: static
     state: present
+
+  - domain_name: L3Out_Dom
+    domain_type: l3dom 
+    vlan_pool: ext_pool 
+    vlan_pool_allocation_mode: static 
+    state: present
+

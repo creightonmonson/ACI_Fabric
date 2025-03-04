@@ -13,3 +13,10 @@ aaeps:
     domain_name: Mgmt_PhyDom
     domain_type: phys
     state: present
+
+  - aaep_name: External_Net_AAEP
+    aaep_description: AAEP for connection to external networks
+    aaep_infra_vlan: false
+    domain_name: L3Out_Dom  
+    domain_type: l3dom 
+    state: present 
