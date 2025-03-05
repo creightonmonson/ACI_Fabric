@@ -9,3 +9,7 @@
   delegate_to: localhost
   when: tenants is defined
   loop: "{{tenants}}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

@@ -10,4 +10,8 @@
   delegate_to: localhost
   when: app_profiles is defined
   loop: "{{app_profiles}}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
  

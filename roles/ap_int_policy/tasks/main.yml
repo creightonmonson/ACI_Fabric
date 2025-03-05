@@ -12,6 +12,10 @@
   delegate_to: localhost
   when: interface_policy_lldp is defined
   loop: "{{ interface_policy_lldp }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Create Interface Policy for CDP(cdp:IfPol)
   cisco.aci.aci_interface_policy_cdp:
@@ -21,6 +25,10 @@
   delegate_to: localhost
   when: interface_policy_cdp is defined
   loop: "{{ interface_policy_cdp }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Create Interface Policy for LACP(lacp:LagPol)
   cisco.aci.aci_interface_policy_port_channel:
@@ -32,4 +40,8 @@
   delegate_to: localhost
   when: interface_policy_lacp is defined
   loop: "{{ interface_policy_lacp }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 

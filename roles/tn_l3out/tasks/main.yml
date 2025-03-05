@@ -115,6 +115,10 @@
   delegate_to: localhost
   when: extepg is defined
   loop: "{{ extepg }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Create L3Out EPG Subnet (l3ext:Subnet)
   cisco.aci.aci_l3out_extsubnet:
@@ -127,6 +131,24 @@
   delegate_to: localhost
   when: extepg is defined
   loop: "{{ extepg }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Bind L3Out to Bridge Domains (fv:RsBDToOut)
+  cisco.aci.aci_bd_to_l3out:
+    bd: "{{ item.bd_name }}"
+    l3out: "{{ item.l3out }}"
+    tenant: "{{ item.tenant }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: item.l3out is defined
+  loop: "{{ bridge_domains }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 # - name: Add a contract to L3Out EPG 
 #   cisco.aci.aci_l3out_extepg_to_contract:

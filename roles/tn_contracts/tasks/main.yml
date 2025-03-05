@@ -1,0 +1,87 @@
+---
+# tasks fiel for roles/tn_contracts
+
+- name: Create Filters (vz:Filter)
+  cisco.aci.aci_filter:
+    tenant: "{{ tenant }}"
+    filter: "{{ item.filter }}"
+  delegate_to: localhost
+  when: filters is defined
+  loop: "{{ filters }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Create Filter Entry (vz:Entry)
+  cisco.aci.aci_filter_entry:
+    tenant: "{{ tenant }}"
+    filter: "{{ item.filter }}"
+    entry: "{{ item.entry }}"
+    ether_type: "{{ item.ether_type }}"
+    ip_protocol: "{{ item.protocol }}"
+    dst_port: "{{ item.port }}"
+    description: "{{ item.description }}"
+  delegate_to: localhost
+  when: filters is defined
+  loop: "{{ filters }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Create Contracts (vz:BrCP)
+  cisco.aci.aci_contract:
+    tenant: "{{ tenant }}"
+    contract: "{{ item.contract }}"
+    scope: "{{ item.scope }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: contracts is defined
+  loop: "{{ contracts }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Create Contract Subject (vz:Subj)
+  cisco.aci.aci_contract_subject:
+    tenant: "{{ tenant }}"
+    contract: "{{ item.contract }}"
+    subject: "{{ item.subject }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: item.subject is defined
+  loop: "{{ contracts }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Subject to Filter Bindings (vz:RsSubjFiltAtt)
+  cisco.aci.aci_contract_subject_to_filter:
+    tenant: '{{ tenant }}'
+    contract: '{{ item.contract }}'
+    subject: '{{ item.subject }}'
+    filter: '{{ item.filter }}'
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  loop: '{{ contracts }}'
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: bind epg to contract (fv:RsCons, fv:RsProv, fv:RsProtBy, fv:RsConsIf, and fv:RsIntraEpg)
+  cisco.aci.aci_epg_to_contract:
+    tenant: '{{ tenant }}'
+    ap: '{{ item.ap_name }}'
+    epg: '{{ item.epg }}'
+    contract: '{{ item.contract }}'
+    contract_type: '{{ item.type }}'
+  loop: '{{ epg_contracts }}'
+  delegate_to: localhost
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

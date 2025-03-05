@@ -9,6 +9,10 @@
   delegate_to: localhost
   loop: "{{domains}}"
   when: domains is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Bind VLAN Pool to Domain  (infra:RsVlanNs)
   cisco.aci.aci_domain_to_vlan_pool:
@@ -20,4 +24,8 @@
   delegate_to: localhost
   loop: "{{domains}}"
   when: domains is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 

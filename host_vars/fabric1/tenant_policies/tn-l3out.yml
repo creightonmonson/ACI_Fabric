@@ -52,3 +52,4 @@ ospf_if_policy:
   name: OSPF_Broadcast_Pol
   network_type: bcast    # p2p|bcast
   state: present
+

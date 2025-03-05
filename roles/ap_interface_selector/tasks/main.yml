@@ -15,4 +15,8 @@
   delegate_to: localhost
   when: interface_selector is defined
   loop: "{{ interface_selector }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
   

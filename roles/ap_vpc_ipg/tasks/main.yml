@@ -13,3 +13,7 @@
   delegate_to: localhost
   when: vpc_policy_group is defined
   loop: "{{ vpc_policy_group }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

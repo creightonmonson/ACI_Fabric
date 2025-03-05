@@ -13,3 +13,7 @@
   delegate_to: localhost
   loop: "{{vrf}}"
   when: vrf is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

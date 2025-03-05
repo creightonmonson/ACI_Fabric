@@ -9,6 +9,10 @@
   delegate_to: localhost
   when: switch_profile is defined
   loop: "{{switch_profile}}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Add Leaf Selectors to Leaf Profiles ( infra:LeafS, infra:NodeBlk, infra:RsAccNodePGrp)
   cisco.aci.aci_switch_leaf_selector:
@@ -21,4 +25,8 @@
   delegate_to: localhost
   when: switch_profile is defined
   loop: "{{ switch_profile }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
     

@@ -26,6 +26,7 @@ Directory Structure:
         o tn-bd  -------------> Variables for creating Bridge Domains
         o tn-bd-subnets ------> Variables for applying subnets to BDs
         o tn-epg  ------------> Variables for creating endpoint groups
+        o tn-l3out -----------> Variables for L3out 
 
 - playbooks (Organized by Fabric and Logical/Physical model)
     - fabric1  ---------------> Playbooks for Fabric1
@@ -49,6 +50,7 @@ Directory Structure:
     o tn_ap
     o tn_bd
     o tn_epg
+    o tn_l3out
 ```
 
 ## How to Use
@@ -59,7 +61,6 @@ The structure of this repo was built so that you can easily add antoher fabric t
 ## Future additions
 Still need to add:
 - L2Out
-- L3Out
 - Contracts (subjects and filters)
 - System-wide settings
 - vpc domains

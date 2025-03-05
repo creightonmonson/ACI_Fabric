@@ -13,3 +13,7 @@
   delegate_to: localhost
   when: epgs is defined
   loop: "{{epgs}}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

@@ -15,6 +15,7 @@ bridge_domains:
     ip_learning: yes # ["yes","no"]
     enable_multicast: no # ["yes","no"]
     state: present
+    l3out: OSPF_L3Out # Apply L3out variable to bind this BD to an L3Out
 
   - bd_name: Mgmt_BD
     tenant: demo

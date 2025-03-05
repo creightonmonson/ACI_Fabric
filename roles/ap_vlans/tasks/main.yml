@@ -10,6 +10,10 @@
   delegate_to: localhost
   loop: "{{vlan_pools}}"
   when: vlan_pools is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Create VLAN Pool Block 
   cisco.aci.aci_vlan_pool_encap_block:
@@ -21,3 +25,7 @@
   delegate_to: localhost
   loop: "{{vlan_block_ranges}}"
   when: vlan_block_ranges is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

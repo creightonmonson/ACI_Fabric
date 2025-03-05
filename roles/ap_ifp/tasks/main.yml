@@ -9,6 +9,10 @@
   delegate_to: localhost
   when: interface_profile is defined
   loop: "{{ interface_profile }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 - name: Associate Leaf Interface Profile to Switch Profile
   cisco.aci.aci_interface_selector_to_switch_policy_leaf_profile:
@@ -18,3 +22,7 @@
   delegate_to: localhost
   when: interface_profile is defined
   loop: "{{ interface_profile }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

@@ -21,6 +21,10 @@
   delegate_to: localhost
   loop: "{{bridge_domains}}"
   when: bridge_domains is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
 
 
 - name: Apply Bridge Domain Subnet (fv:Subnet)
@@ -36,3 +40,7 @@
   delegate_to: localhost
   loop: "{{bridge_domain_subnets}}"
   when: bridge_domain_subnets is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
