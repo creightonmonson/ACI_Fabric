@@ -85,3 +85,9 @@ epg_contracts:
     ap_name: App1
     contract: Cache
     type: provider
+extepg_contracts:
+  - extepg: Ext_EPG
+    l3out: OSPF_L3Out
+    contract: default
+    contract_type: provider
+    state: present

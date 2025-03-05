@@ -79,8 +79,25 @@
     epg: '{{ item.epg }}'
     contract: '{{ item.contract }}'
     contract_type: '{{ item.type }}'
-  loop: '{{ epg_contracts }}'
   delegate_to: localhost
+  when: epg_contracts is defined
+  loop: '{{ epg_contracts }}'
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Bind L3Out EPG to contract
+  cisco.aci.aci_l3out_extepg_to_contract:
+    tenant: '{{ tenant }}'
+    l3out: '{{ item.l3out }}'
+    extepg: '{{ item.extepg }}'
+    contract: '{{ item.contract }}'
+    contract_type: '{{ item.contract_type }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: extepg_contracts is defined
+  loop: '{{ extepg_contracts }}'
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

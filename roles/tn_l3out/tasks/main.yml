@@ -150,11 +150,3 @@
   delay: "{{ retry_delay }}"
   until: result.failed == false
 
-# - name: Add a contract to L3Out EPG 
-#   cisco.aci.aci_l3out_extepg_to_contract:
-#     tenant: '{{ tenant }}'
-#     l3out: '{{ l3out.name }}'
-#     extepg: '{{ l3out.extepg.name }}'
-#     contract: '{{ l3out.extepg.contract_name }}'
-#     contract_type: '{{ l3out.extepg.contract_type }}'
-#     state: '{{ state }}'
