@@ -55,7 +55,7 @@
   until: result.failed == false
 
 - name: Configure Global AES Passphrase Encryption Settings
-  no_log: True
+  no_log: False
   cisco.aci.aci_rest:
     path: /api/node/mo/uni/exportcryptkey.json
     method: post
@@ -465,23 +465,25 @@
   delay: "{{ retry_delay }}"
   until: result.failed == false
 
-- name: Configure Fabric Pod Management Access Policy - SSL Cipher Configuration
-  cisco.aci.aci_rest:
-    path: /api/node/mo/uni/fabric/comm-{{ item.management_access_name }}/https/cph-{{ item.management_access_ssl_ciphers_id }}.json
-    method: post
-    content:
-      commCipher:
-        attributes:
-          dn: "uni/fabric/comm-{{ item.management_access_name }}/https/cph-{{ item.management_access_ssl_ciphers_id }}"
-          id: "{{ item.management_access_ssl_ciphers_id }}"
-          state: "{{ item.management_access_ssl_ciphers_state }}"
-  loop: '{{ aci_data.fabric.pod_policy|aci_listify("management_access","ssl_ciphers") }}'
-  when:
-    - item.management_access_ssl_ciphers_id is defined
-  register: result
-  retries: "{{ loop_retries }}"
-  delay: "{{ retry_delay }}"
-  until: result.failed == false
+# commented out below due to unsolved errors 
+
+# - name: Configure Fabric Pod Management Access Policy - SSL Cipher Configuration
+#   cisco.aci.aci_rest:
+#     path: /api/node/mo/uni/fabric/comm-{{ item.management_access_name }}/https/cph-{{ item.management_access_ssl_ciphers_id }}.json
+#     method: post
+#     content:
+#       commCipher:
+#         attributes:
+#           dn: "uni/fabric/comm-{{ item.management_access_name }}/https/cph-{{ item.management_access_ssl_ciphers_id }}"
+#           id: "{{ item.management_access_ssl_ciphers_id }}"
+#           state: "{{ item.management_access_ssl_ciphers_state }}"
+#   loop: '{{ aci_data.fabric.pod_policy|aci_listify("management_access","ssl_ciphers") }}'
+#   when:
+#     - item.management_access_ssl_ciphers_id is defined
+#   register: result
+#   retries: "{{ loop_retries }}"
+#   delay: "{{ retry_delay }}"
+#   until: result.failed == false
 
 - name: Configure Fabric Pod ISIS Policy
   cisco.aci.aci_rest:

@@ -58,14 +58,24 @@ Directory Structure:
 ```
 
 ## How to Use
-Add to variable files to add any new objects to the access or tenant policies. The goal is to be able to control the entire DC Fabric through variable files as the variables will be the expected state of the network. Every object (for instane, an EPG) should have a "state" variable, which you will use to control that objects presence in the configuration. This is so that if you want to delete an object down the road, you would change that variable to state = absent and run the playbook which will cause that object to be removed. Note that if you just delete a variable and run the playbook, the object still remains in the configuration. 
+Add to variable files to add any new objects to the access or tenant policies. The goal is to be able to control the entire ACI Fabric through variable files as the variables will be the expected state of the network. Every object (for instance, an EPG) should have a "state" variable, which you will use to control that objects presence in the configuration. This is so that if you want to delete an object down the road, you would change that variable to state = absent and run the playbook which will cause that object to be removed. Note that if you just delete a variable and run the playbook, the object still remains in the configuration. 
 
-The structure of this repo was built so that you can easily add antoher fabric to this infrastructure by simply creating another host to the host file. 
+The structure of this repo was built so that you can easily add another fabric to this infrastructure by simply creating another host to the host file. The playbook directory "fabric1" could be copied to another directory,say "fabric2" and change the playbook targeted host to fabric2. Alternately, the name of the directory could be changed to say, ACI_MultiSite, and change the playbook target host from Fabric1 to All. 
+
+#### Deploy the initial settings (system settings and fabric policy):
+
+`ansible-playbook playbooks/fabric1/initial_setup/fab1-initial-setup.yml -i ACI_Hosts.yml`
+
+#### Deploy the Access Policies:
+`ansible-playbook playbooks/fabric1/access_policies/fab1-ap.yml -i ACI_Hosts.yml`
+
+#### Deploy the Tenant Policies:
+`ansible-playbook playbooks/fabric1/tenant_policies/fab1-tn.yml -i ACI_Hosts.yml`
 
 ## Notes
 Each task has error handling specifically added to avoid timeout errors from the APIC API. I found when running the playbooks that the API would send 503 errors occasionally which caused the playbook to fail.
 
-If you add or modify roles, be sure each task has the following:
+If you add or modify roles, be sure each task has the following for error handling:
 ```
 delegate_to: localhost       # Without this, Ansible will pass the module to the APIC for the APIC to run the task
 register: result                # temporarily store the results of this task

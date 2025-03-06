@@ -16,7 +16,7 @@ aci_data:
 
     global_aes_encryption:
       enabled: "yes"
-      passphrase: "CiscoAdmin1234"
+      passphrase: "CiscoAdmin1234!@#$"
 
     control_plane_mtu: "9000"
 
@@ -49,7 +49,7 @@ aci_data:
 
     date_time:
       format: "local"
-      timezone: "n240_America-New_Yorks"
+      timezone: "n240_America-New_York"
       offset: "enabled"
 
     bgp_rr:
