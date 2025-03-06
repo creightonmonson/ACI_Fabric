@@ -62,4 +62,16 @@ Add to variable files to add any new objects to the access or tenant policies. T
 
 The structure of this repo was built so that you can easily add antoher fabric to this infrastructure by simply creating another host to the host file. 
 
+## Notes
+Each task has error handling specifically added to avoid timeout errors from the APIC API. I found when running the playbooks that the API would send 503 errors occasionally which caused the playbook to fail.
+
+If you add or modify roles, be sure each task has the following:
+```
+delegate_to: localhost       # Without this, Ansible will pass the module to the APIC for the APIC to run the task
+register: result                # temporarily store the results of this task
+retries: "{{ loop_retries }}"   # retry the task 3 times
+delay: "{{ retry_delay }}"      # wait 3 seconds before retrying
+until: result.failed == false   # exit the retry loop when task suceeds
+```
+
 
