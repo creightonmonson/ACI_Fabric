@@ -5,7 +5,7 @@ The goal of this repo is to provide the framework to deploy and maintain an ACI 
 ```
 Directory Structure:
 
--fabric1.yml -----------> Host File for Fabric 1 APIC
+-ACI_Hosts.yml -----------> Host File for Fabric 1 APIC 
 -group_vars
     - all.yml ----------> Contains connection variables
 -host_vars    ----------> host vars split into access policies and tenant policies 
@@ -27,6 +27,7 @@ Directory Structure:
         o tn-bd-subnets ------> Variables for applying subnets to BDs
         o tn-epg  ------------> Variables for creating endpoint groups
         o tn-l3out -----------> Variables for L3out 
+        o tn-contracts.yml ---> Variables for creating and binding contracts
 
 - playbooks (Organized by Fabric and Logical/Physical model)
     - fabric1  ---------------> Playbooks for Fabric1
@@ -51,6 +52,7 @@ Directory Structure:
     o tn_bd
     o tn_epg
     o tn_l3out
+    o tn_contracts
 ```
 
 ## How to Use
@@ -61,6 +63,5 @@ The structure of this repo was built so that you can easily add antoher fabric t
 ## Future additions
 Still need to add:
 - L2Out
-- Contracts (subjects and filters)
 - System-wide settings
 - vpc domains
