@@ -1,0 +1,20 @@
+---
+# tasks file for roles/ap_vpc_prot_grp
+
+# This task loops through VPC pairs defined in the vars file host_vars/ap-vpc-prot-grp.yml 
+# Applies the default vpc domain policy and gives the VPC protection group a Logical Pair id
+
+- name: Create VPC Explicit Protection Group for VPC Pairs (fabric:ExplicitGEp and fabric:NodePEp)
+  cisco.aci.aci_switch_policy_vpc_protection_group:
+    protection_group: "{{ item.vpc_protection_group_name }}"
+    protection_group_id: "{{ item.pg_id }}"
+    switch_1_id: "{{ item.switch_1_id }}" 
+    switch_2_id: "{{ item.switch_2_id }}"
+    vpc_domain_policy: "{{ item.domain_policy }}"
+  delegate_to: localhost
+  when: vpc_protection_group is defined
+  loop: "{{ vpc_protection_group }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

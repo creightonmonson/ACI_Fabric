@@ -1,0 +1,8 @@
+---
+vpc_protection_group:
+  - vpc_protection_group_name: VPC_101_102
+    pg_id: 101
+    switch_1_id: 101
+    switch_2_id: 102
+    domain_policy: default
+    

@@ -15,6 +15,7 @@ Directory Structure:
         o ap-int-policy.yml --> Variables for Policies (LACP, LLDP, etc)
         o ap-access-ipg.yml --> Variables for access port policy groups (IPG)
         o ap-vpc-ipg.yml -----> Variables for VPC port policy groups
+        o ap-vpc-prot-grp ----> Variables for VPC domain protection group
         o ap-interface-selector.yml ---> Variables for interfaces port selector
         o ap-vlanpools.yml ---> Variables for VLAN pools
         o ap-domains.yml -----> Variables for domains
@@ -42,6 +43,7 @@ Directory Structure:
     o ap_int_policy
     o ap_access_ipg
     o ap_vpc_ipg
+    o ap_vpc_prot_grp
     o ap_interface_selector
     o ap_vlanpools
     o ap_domains
@@ -60,8 +62,4 @@ Add to variable files to add any new objects to the access or tenant policies. T
 
 The structure of this repo was built so that you can easily add antoher fabric to this infrastructure by simply creating another host to the host file. 
 
-## Future additions
-Still need to add:
-- L2Out
-- System-wide settings
-- vpc domains
+
