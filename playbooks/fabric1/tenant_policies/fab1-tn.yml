@@ -19,4 +19,4 @@
     - roles/tn_bd
     - roles/tn_epg
     - roles/tn_l3out
-    - roles/tn_contracts
+    - roles/tn_contracts 

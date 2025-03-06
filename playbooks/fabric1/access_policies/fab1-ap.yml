@@ -22,4 +22,4 @@
     - roles/ap_interface_selector
     - roles/ap_vlans
     - roles/ap_domains
-    - roles/ap_aaep
+    - roles/ap_aaep 
