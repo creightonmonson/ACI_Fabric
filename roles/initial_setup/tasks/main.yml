@@ -9,9 +9,9 @@
       mgmtConnectivityPrefs:
         attributes:
           dn: "uni/fabric/connectivityPrefs"
-          interfacePref: "{{ initial_setup.system.apic_conn_pref }}"
+          interfacePref: "{{ initial_setup_aci.system.apic_conn_pref }}"
   when:
-    - initial_setup.system.apic_conn_pref is defined
+    - initial_setup_aci.system.apic_conn_pref is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -25,11 +25,11 @@
       aaaPreLoginBanner:
         attributes:
           dn: "uni/userext/preloginbanner"
-          guiTextMessage: "{{ initial_setup.system.system_alias_banner.alias | default(omit) }}"
-          message: "{{ initial_setup.system.system_alias_banner.apic_banner | default(omit) }}"
-          switchMessage: "{{ initial_setup.system.system_alias_banner.switch_banner | default(omit) }}"
+          guiTextMessage: "{{ initial_setup_aci.system.system_alias_banner.alias | default(omit) }}"
+          message: "{{ initial_setup_aci.system.system_alias_banner.apic_banner | default(omit) }}"
+          switchMessage: "{{ initial_setup_aci.system.system_alias_banner.switch_banner | default(omit) }}"
   when:
-    - initial_setup.system.system_alias_banner is defined
+    - initial_setup_aci.system.system_alias_banner is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -43,12 +43,12 @@
       commApiRespTime:
         attributes:
           dn: "uni/fabric/comm-default/apiResp"
-          enableCalculation: "{{ initial_setup.system.system_response_time.state }}"
-          respTimeThreshold: "{{ initial_setup.system.system_response_time.resp_threshold | default(omit) }}"
-          calcWindow: "{{ initial_setup.system.system_response_time.frequency | default(omit) }}"
-          topNRequests: "{{ initial_setup.system.system_response_time.top_slow_requests | default(omit) }}"
+          enableCalculation: "{{ initial_setup_aci.system.system_response_time.state }}"
+          respTimeThreshold: "{{ initial_setup_aci.system.system_response_time.resp_threshold | default(omit) }}"
+          calcWindow: "{{ initial_setup_aci.system.system_response_time.frequency | default(omit) }}"
+          topNRequests: "{{ initial_setup_aci.system.system_response_time.top_slow_requests | default(omit) }}"
   when:
-    - initial_setup.system.system_response_time.state is defined
+    - initial_setup_aci.system.system_response_time.state is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -63,10 +63,10 @@
       pkiExportEncryptionKey:
         attributes:
           dn: "uni/exportcryptkey"
-          strongEncryptionEnabled: "{{ initial_setup.system.global_aes_encryption.enabled | default('no') }}"
-          passphrase: "{{ initial_setup.system.global_aes_encryption.passphrase }}"
+          strongEncryptionEnabled: "{{ initial_setup_aci.system.global_aes_encryption.enabled | default('no') }}"
+          passphrase: "{{ initial_setup_aci.system.global_aes_encryption.passphrase }}"
   when:
-    - initial_setup.system.global_aes_encryption.passphrase is defined
+    - initial_setup_aci.system.global_aes_encryption.passphrase is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -80,9 +80,9 @@
       infraCPMtuPol:
         attributes:
           dn: "uni/infra/CPMtu"
-          CPMtu: "{{ initial_setup.system.control_plane_mtu }}"
+          CPMtu: "{{ initial_setup_aci.system.control_plane_mtu }}"
   when:
-    - initial_setup.system.control_plane_mtu is defined
+    - initial_setup_aci.system.control_plane_mtu is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -96,9 +96,9 @@
       epLoopProtectP:
         attributes:
           dn: "uni/infra/epLoopProtectP-default"
-          adminSt: "{{ initial_setup.system.endpoint_control.ep_loop_protection.state }}"
+          adminSt: "{{ initial_setup_aci.system.endpoint_control.ep_loop_protection.state }}"
   when:
-    - initial_setup.system.endpoint_control.ep_loop_protection.state is defined
+    - initial_setup_aci.system.endpoint_control.ep_loop_protection.state is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -112,12 +112,12 @@
       epControlP:
         attributes:
           dn: "uni/infra/epCtrlP-default"
-          adminSt: "{{ initial_setup.system.endpoint_control.rogue_ep_control.state }}"
-          rogueEpDetectIntvl: "{{ initial_setup.system.endpoint_control.rogue_ep_control.detection_interval | default(omit) }}"
-          rogueEpDetectMult: "{{ initial_setup.system.endpoint_control.rogue_ep_control.multiplication_factor | default(omit) }}"
-          holdIntvl: "{{ initial_setup.system.endpoint_control.rogue_ep_control.hold_interval | default(omit) }}"
+          adminSt: "{{ initial_setup_aci.system.endpoint_control.rogue_ep_control.state }}"
+          rogueEpDetectIntvl: "{{ initial_setup_aci.system.endpoint_control.rogue_ep_control.detection_interval | default(omit) }}"
+          rogueEpDetectMult: "{{ initial_setup_aci.system.endpoint_control.rogue_ep_control.multiplication_factor | default(omit) }}"
+          holdIntvl: "{{ initial_setup_aci.system.endpoint_control.rogue_ep_control.hold_interval | default(omit) }}"
   when:
-    - initial_setup.system.endpoint_control.rogue_ep_control.state is defined
+    - initial_setup_aci.system.endpoint_control.rogue_ep_control.state is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -131,9 +131,9 @@
       epIpAgingP:
         attributes:
           dn: "uni/infra/ipAgingP-default"
-          adminSt: "{{ initial_setup.system.endpoint_control.ip_aging.state }}"
+          adminSt: "{{ initial_setup_aci.system.endpoint_control.ip_aging.state }}"
   when:
-    - initial_setup.system.endpoint_control.ip_aging.state is defined
+    - initial_setup_aci.system.endpoint_control.ip_aging.state is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -147,15 +147,15 @@
       infraSetPol:
         attributes:
           dn: "uni/infra/settings"
-          unicastXrEpLearnDisable: "{{ initial_setup.system.fabric_wide.disable_remote_ep_learn | default(omit) }}"
-          enforceSubnetCheck: "{{ initial_setup.system.fabric_wide.enforce_subnet_check | default(omit) }}"
-          validateOverlappingVlans: "{{ initial_setup.system.fabric_wide.enforce_epg_vlan_validation | default(omit) }}"
-          domainValidation: "{{ initial_setup.system.fabric_wide.enforce_domain_validation | default(omit) }}"
-          enableRemoteLeafDirect: "{{ initial_setup.system.fabric_wide.enable_remote_leaf_direct | default(omit) }}"
-          opflexpAuthenticateClients: "{{ initial_setup.system.fabric_wide.opflex_client_auth | default(omit) }}"
-          reallocateGipo: "{{ initial_setup.system.fabric_wide.reallocate_gipo | default(omit) }}"
+          unicastXrEpLearnDisable: "{{ initial_setup_aci.system.fabric_wide.disable_remote_ep_learn | default(omit) }}"
+          enforceSubnetCheck: "{{ initial_setup_aci.system.fabric_wide.enforce_subnet_check | default(omit) }}"
+          validateOverlappingVlans: "{{ initial_setup_aci.system.fabric_wide.enforce_epg_vlan_validation | default(omit) }}"
+          domainValidation: "{{ initial_setup_aci.system.fabric_wide.enforce_domain_validation | default(omit) }}"
+          enableRemoteLeafDirect: "{{ initial_setup_aci.system.fabric_wide.enable_remote_leaf_direct | default(omit) }}"
+          opflexpAuthenticateClients: "{{ initial_setup_aci.system.fabric_wide.opflex_client_auth | default(omit) }}"
+          reallocateGipo: "{{ initial_setup_aci.system.fabric_wide.reallocate_gipo | default(omit) }}"
   when:
-    - initial_setup.system.fabric_wide is defined
+    - initial_setup_aci.system.fabric_wide is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -169,11 +169,11 @@
       infraPortTrackPol:
         attributes:
           dn: "uni/infra/trackEqptFabP-default"
-          adminSt: "{{ initial_setup.system.port_track.state }}"
-          delay: "{{ initial_setup.system.port_track.delay | default(omit) }}"
-          minlinks: "{{ initial_setup.system.port_track.links | default(omit) }}"
+          adminSt: "{{ initial_setup_aci.system.port_track.state }}"
+          delay: "{{ initial_setup_aci.system.port_track.delay | default(omit) }}"
+          minlinks: "{{ initial_setup_aci.system.port_track.links | default(omit) }}"
   when:
-    - initial_setup.system.port_track.state is defined
+    - initial_setup_aci.system.port_track.state is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -187,9 +187,9 @@
       fmcastSystemGIPoPol:
         attributes:
           dn: "uni/infra/systemgipopol"
-          useConfiguredSystemGIPo: "{{ initial_setup.system.system_gipo }}"
+          useConfiguredSystemGIPo: "{{ initial_setup_aci.system.system_gipo }}"
   when:
-    - initial_setup.system.system_gipo is defined
+    - initial_setup_aci.system.system_gipo is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -203,11 +203,11 @@
       datetimeFormat:
         attributes:
           dn: "uni/fabric/format-default"
-          displayFormat: "{{ initial_setup.system.date_time.format | default(omit) }}"
-          tz: "{{ initial_setup.system.date_time.timezone | default(omit) }}"
-          showOffset: "{{ initial_setup.system.date_time.offset | default(omit) }}"
+          displayFormat: "{{ initial_setup_aci.system.date_time.format | default(omit) }}"
+          tz: "{{ initial_setup_aci.system.date_time.timezone | default(omit) }}"
+          showOffset: "{{ initial_setup_aci.system.date_time.offset | default(omit) }}"
   when:
-    - initial_setup.system.date_time is defined
+    - initial_setup_aci.system.date_time is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -221,9 +221,9 @@
       bgpAsP:
         attributes:
           dn: "uni/fabric/bgpInstP-default/as"
-          asn: "{{ initial_setup.system.bgp_rr.asn }}"
+          asn: "{{ initial_setup_aci.system.bgp_rr.asn }}"
   when:
-    - initial_setup.system.bgp_rr.asn is defined
+    - initial_setup_aci.system.bgp_rr.asn is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -242,7 +242,7 @@
               attributes:
                 id: "{{ item.node }}"
                 podId: "{{ item.pod | default('1') }}"
-  loop: '{{ initial_setup.system.bgp_rr.rr }}'
+  loop: '{{ initial_setup_aci.system.bgp_rr.rr }}'
   when:
     - item.node is defined
   register: result
@@ -258,9 +258,9 @@
       coopPol:
         attributes:
           dn: "uni/fabric/pol-default"
-          type: "{{ initial_setup.system.coop_group_policy }}"
+          type: "{{ initial_setup_aci.system.coop_group_policy }}"
   when:
-    - initial_setup.system.coop_group_policy is defined
+    - initial_setup_aci.system.coop_group_policy is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -274,12 +274,12 @@
       lbpPol:
         attributes:
           dn: "uni/fabric/lbp-default"
-          dlbMode: "{{ initial_setup.system.load_balancer.dlb | default(omit) }}"
-          pri: "{{ initial_setup.system.load_balancer.dpp | default(omit) }}"
-          mode: "{{ initial_setup.system.load_balancer.lb_mode | default(omit) }}"
-          hashGtp: "{{ initial_setup.system.load_balancer.gtp | default(omit) }}"
+          dlbMode: "{{ initial_setup_aci.system.load_balancer.dlb | default(omit) }}"
+          pri: "{{ initial_setup_aci.system.load_balancer.dpp | default(omit) }}"
+          mode: "{{ initial_setup_aci.system.load_balancer.lb_mode | default(omit) }}"
+          hashGtp: "{{ initial_setup_aci.system.load_balancer.gtp | default(omit) }}"
   when:
-    - initial_setup.system.load_balancer is defined
+    - initial_setup_aci.system.load_balancer is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -293,10 +293,10 @@
       latencyPtpMode:
         attributes:
           dn: "uni/fabric/ptpmode"
-          state: "{{ initial_setup.system.ptp.state }}"
-          systemResolution: "{{ initial_setup.system.ptp.resolution | default(omit) }}"
+          state: "{{ initial_setup_aci.system.ptp.state }}"
+          systemResolution: "{{ initial_setup_aci.system.ptp.resolution | default(omit) }}"
   when:
-    - initial_setup.system.ptp.state is defined
+    - initial_setup_aci.system.ptp.state is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -314,7 +314,7 @@
           adminSt: "{{ item.date_time_admin_state | default(omit) }}"
           serverState: "{{ item.date_time_server_state | default(omit) }}"
           authSt: "{{ item.date_time_auth_state | default(omit) }}"
-  loop: '{{ initial_setup.fabric.pod_policy | aci_listify("date_time") }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy | aci_listify("date_time") }}'
   when:
     - item.date_time_name is defined
   register: result
@@ -338,7 +338,7 @@
           - datetimeRsNtpProvToEpg:
               attributes:
                 tDn: "uni/tn-mgmt/mgmtp-default/{{ item.date_time_ntp_mgmt_epg | default('oob-default') }}"
-  loop: '{{ initial_setup.fabric.pod_policy | aci_listify("date_time", "ntp") }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy | aci_listify("date_time", "ntp") }}'
   when:
     - item.date_time_name is defined
     - item.date_time_ntp_name is defined
@@ -359,7 +359,7 @@
           adminSt: "{{ item.snmp_state | default(omit) }}"
           contact: "{{ item.snmp_contact | default(omit) }}"
           loc: "{{ item.snmp_location | default(omit) }}"
-  loop: '{{ initial_setup.fabric.pod_policy | aci_listify("snmp") }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy | aci_listify("snmp") }}'
   when:
     - item.snmp_name is defined
   register: result
@@ -384,7 +384,7 @@
               attributes:
                 name: "{{ item.snmp_client_group_client_name | default(omit) }}"
                 addr: "{{ item.snmp_client_group_client_ip }}"
-  loop: '{{ initial_setup.fabric.pod_policy | aci_listify("snmp", "client_group", "client") }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy | aci_listify("snmp", "client_group", "client") }}'
   when:
     - item.snmp_name is defined
     - item.snmp_client_group_name is defined
@@ -403,7 +403,7 @@
         attributes:
           name: "{{ item.snmp_community_name }}"
           descr: "{{ item.snmp_community_description | default(omit) }}"
-  loop: '{{ initial_setup.fabric.pod_policy | aci_listify("snmp", "community") }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy | aci_listify("snmp", "community") }}'
   when:
     - item.snmp_name is defined
     - item.snmp_community_name is defined
@@ -432,7 +432,7 @@
                 port: "{{ item.ssh.port | default(omit) }}"
                 passwordAuth: "{{ item.ssh.password_auth | default(omit) }}"
                 sshCiphers: "{{ item.ssh.ciphers | join(',') | default(omit) }}"
-                sshMacs: "{{ item.ssh.macs | join(',')  | default(omit) }}"
+                sshMacs: "{{ item.ssh.macs | join(',') | default(omit) }}"
           - commShellinabox:
               attributes:
                 adminSt: "{{ item.ssh_web.state | default(omit) }}"
@@ -457,7 +457,7 @@
                 - commRsKeyRing:
                     attributes:
                       tnPkiKeyRingName: "{{ item.https.keyring | default(omit) }}"
-  loop: '{{ initial_setup.fabric.pod_policy.management_access }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy.management_access }}'
   when:
     - item.name is defined
   register: result
@@ -477,7 +477,7 @@
 #           dn: "uni/fabric/comm-{{ item.management_access_name }}/https/cph-{{ item.management_access_ssl_ciphers_id }}"
 #           id: "{{ item.management_access_ssl_ciphers_id }}"
 #           state: "{{ item.management_access_ssl_ciphers_state }}"
-#   loop: '{{ initial_setup.fabric.pod_policy|aci_listify("management_access","ssl_ciphers") }}'
+#   loop: '{{ initial_setup_aci.fabric.pod_policy|aci_listify("management_access","ssl_ciphers") }}'
 #   when:
 #     - item.management_access_ssl_ciphers_id is defined
 #   register: result
@@ -493,21 +493,21 @@
       isisDomPol:
         attributes:
           dn: "uni/fabric/isisDomP-default"
-          mtu: "{{ initial_setup.fabric.pod_policy.isis.mtu | default(omit) }}"
-          redistribMetric: "{{ initial_setup.fabric.pod_policy.isis.metric | default(omit) }}"
+          mtu: "{{ initial_setup_aci.fabric.pod_policy.isis.mtu | default(omit) }}"
+          redistribMetric: "{{ initial_setup_aci.fabric.pod_policy.isis.metric | default(omit) }}"
         children:
           - isisLvlComp:
               attributes:
                 type: "l1"
-                lspFastFlood: "{{ initial_setup.fabric.pod_policy.isis.lsp_fastflood | default(omit) }}"
-                lspGenInitIntvl: "{{ initial_setup.fabric.pod_policy.isis.lsp_init | default(omit) }}"
-                lspGenMaxIntvl: "{{ initial_setup.fabric.pod_policy.isis.lsp_max | default(omit) }}"
-                lspGenSecIntvl: "{{ initial_setup.fabric.pod_policy.isis.lsp_sec | default(omit) }}"
-                spfCompInitIntvl: "{{ initial_setup.fabric.pod_policy.isis.spf_init | default(omit) }}"
-                spfCompMaxIntvl: "{{ initial_setup.fabric.pod_policy.isis.spf_max | default(omit) }}"
-                spfCompSecIntvl: "{{ initial_setup.fabric.pod_policy.isis.spf_sec | default(omit) }}"
+                lspFastFlood: "{{ initial_setup_aci.fabric.pod_policy.isis.lsp_fastflood | default(omit) }}"
+                lspGenInitIntvl: "{{ initial_setup_aci.fabric.pod_policy.isis.lsp_init | default(omit) }}"
+                lspGenMaxIntvl: "{{ initial_setup_aci.fabric.pod_policy.isis.lsp_max | default(omit) }}"
+                lspGenSecIntvl: "{{ initial_setup_aci.fabric.pod_policy.isis.lsp_sec | default(omit) }}"
+                spfCompInitIntvl: "{{ initial_setup_aci.fabric.pod_policy.isis.spf_init | default(omit) }}"
+                spfCompMaxIntvl: "{{ initial_setup_aci.fabric.pod_policy.isis.spf_max | default(omit) }}"
+                spfCompSecIntvl: "{{ initial_setup_aci.fabric.pod_policy.isis.spf_sec | default(omit) }}"
   when:
-    - initial_setup.fabric.pod_policy.isis is defined
+    - initial_setup_aci.fabric.pod_policy.isis is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -526,7 +526,7 @@
           - dnsRsProfileToEpg:
               attributes:
                 tDn: "uni/tn-mgmt/mgmtp-default/{{ item.management | default(omit) }}"
-  loop: '{{ initial_setup.fabric.global_policy.dns }}'
+  loop: '{{ initial_setup_aci.fabric.global_policy.dns }}'
   when:
     - item.name is defined
   register: result
@@ -543,7 +543,7 @@
         attributes:
           addr: "{{ item.dns_provider_addr }}"
           preferred: "{{ item.dns_provider_preferred | default(omit) }}"
-  loop: '{{ initial_setup.fabric.global_policy | aci_listify("dns", "provider") }}'
+  loop: '{{ initial_setup_aci.fabric.global_policy | aci_listify("dns", "provider") }}'
   when:
     - item.dns_name is defined
     - item.dns_provider_addr is defined
@@ -562,7 +562,7 @@
           name: "{{ item.dns_domain_name }}"
           descr: "{{ item.dns_domain_description | default(omit) }}"
           isDefault: "{{ item.dns_domain_default | default(omit) }}"
-  loop: '{{ initial_setup.fabric.global_policy | aci_listify("dns", "domain") }}'
+  loop: '{{ initial_setup_aci.fabric.global_policy | aci_listify("dns", "domain") }}'
   when:
     - item.dns_name is defined
     - item.dns_domain_name is defined
@@ -602,7 +602,7 @@
           - fabricRsCommPol:
               attributes:
                 tnCommPolName: "{{ item.management_access | default(omit) }}"
-  loop: '{{ initial_setup.fabric.pod_policy_group }}'
+  loop: '{{ initial_setup_aci.fabric.pod_policy_group }}'
   when:
     - item.name is defined
   register: result
@@ -627,7 +627,7 @@
                 - fabricRsPodPGrp:
                     attributes:
                       tDn: "uni/fabric/funcprof/podpgrp-{{ item.pod_profile_selector_pod_policy_group }}"
-  loop: '{{ initial_setup.fabric  | aci_listify("pod_profile", "selector") }}'
+  loop: '{{ initial_setup_aci.fabric | aci_listify("pod_profile", "selector") }}'
   when:
     - item.pod_profile_name is defined
     - item.pod_profile_selector_name is defined

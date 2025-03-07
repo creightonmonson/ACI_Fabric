@@ -1,5 +1,5 @@
 ---
-initial_setup:
+initial_setup_aci:
   system: # System Settings
     apic_conn_pref: "ooband"
 
