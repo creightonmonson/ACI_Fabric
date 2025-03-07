@@ -15,12 +15,11 @@ jobs:
      
       - name: Install dependencies
         run: |
-          pip install yamllint ansible ansible-lint
+          pip install ansible ansible-lint
           ansible-galaxy collection install cisco.aci
 
       - name: Run ansible-lint
-        run: |
-          ansible-lint ./playbooks
+        run: ansible-lint 
         
 
       # - name: Install yamllint
