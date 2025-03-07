@@ -3,16 +3,16 @@
 
 - name: Create EPGs(fv:AEPg)
   cisco.aci.aci_epg:
-    tenant: "{{ item.tenant }}"
-    ap: "{{item.ap_name}}"
-    epg: "{{item.epg_name}}"
-    description: "{{item.description}}"
-    intra_epg_isolation: "{{item.intra_epg_isolation}}"
-    bd: "{{item.bd}}"
-    state: "{{item.state}}"
+    tenant: "{{  item.tenant }}"
+    ap: "{{ item.ap_name }}"
+    epg: "{{ item.epg_name }}"
+    description: "{{ item.description }}"
+    intra_epg_isolation: "{{ item.intra_epg_isolation }}"
+    bd: "{{ item.bd }}"
+    state: "{{ item.state }}"
   delegate_to: localhost
   when: epgs is defined
-  loop: "{{epgs}}"
+  loop: "{{ epgs }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

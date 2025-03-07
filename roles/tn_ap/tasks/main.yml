@@ -4,12 +4,12 @@
 - name: Create App Profile  (fv:Ap)
   cisco.aci.aci_ap:
     tenant: "{{ item.tenant }}"
-    ap: "{{item.ap_name}}"
-    description: "{{item.description}}"
-    state: "{{item.state}}"
+    ap: "{{ item.ap_name }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
   delegate_to: localhost
   when: app_profiles is defined
-  loop: "{{app_profiles}}"
+  loop: "{{ app_profiles }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

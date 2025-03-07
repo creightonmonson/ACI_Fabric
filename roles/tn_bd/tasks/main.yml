@@ -4,22 +4,22 @@
 - name: Create Bridge Domain (fv:BD)
   cisco.aci.aci_bd:
     tenant: "{{ item.tenant }}"
-    bd: "{{item.bd_name}}"
-    bd_type: "{{item.bd_type}}"
-    description: "{{item.description}}"
-    mac_address: "{{item.mac_address}}"
-    vrf: "{{item.vrf}}"
-    l2_unknown_unicast: "{{item.l2_unknown_unicast}}"
-    l3_unknown_multicast: "{{item.l3_unknown_multicast}}"
-    ipv6_l3_unknown_multicast: "{{item.ipv6_l3_unknown_multicast}}"
-    multi_dest: "{{item.multi_dest}}"
-    arp_flooding: "{{item.arp_flooding}}"
-    enable_routing: "{{item.enable_routing}}"
-    ip_learning: "{{item.ip_learning}}"
-    enable_multicast: "{{item.enable_multicast}}"
-    state: "{{item.state}}"
+    bd: "{{ item.bd_name }}"
+    bd_type: "{{ item.bd_type }}"
+    description: "{{ item.description }}"
+    mac_address: "{{ item.mac_address }}"
+    vrf: "{{ item.vrf }}"
+    l2_unknown_unicast: "{{ item.l2_unknown_unicast }}"
+    l3_unknown_multicast: "{{ item.l3_unknown_multicast }}"
+    ipv6_l3_unknown_multicast: "{{ item.ipv6_l3_unknown_multicast }}"
+    multi_dest: "{{ item.multi_dest }}"
+    arp_flooding: "{{ item.arp_flooding }}"
+    enable_routing: "{{ item.enable_routing }}"
+    ip_learning: "{{ item.ip_learning }}"
+    enable_multicast: "{{ item.enable_multicast }}"
+    state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{bridge_domains}}"
+  loop: "{{ bridge_domains }}"
   when: bridge_domains is defined
   register: result
   retries: "{{ loop_retries }}"
@@ -30,15 +30,15 @@
 - name: Apply Bridge Domain Subnet (fv:Subnet)
   cisco.aci.aci_bd_subnet:
     tenant: "{{ item.tenant }}"
-    bd: "{{item.bd_name}}"
-    subnet_name: "{{item.subnet_name}}"
-    gateway: "{{item.gateway}}"
-    mask: "{{item.mask}}"
-    description: "{{item.description}}"
-    scope: "{{item.scope}}"
-    state: "{{item.state}}"
+    bd: "{{ item.bd_name }}"
+    subnet_name: "{{ item.subnet_name }}"
+    gateway: "{{ item.gateway }}"
+    mask: "{{ item.mask }}"
+    description: "{{ item.description }}"
+    scope: "{{ item.scope }}"
+    state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{bridge_domain_subnets}}"
+  loop: "{{ bridge_domain_subnets }}"
   when: bridge_domain_subnets is defined
   register: result
   retries: "{{ loop_retries }}"

@@ -3,12 +3,12 @@
 
 - name: Create Tenants (fv:Tenant)
   cisco.aci.aci_tenant:
-    tenant: "{{item.tenant}}"
-    description: "{{item.description}}"
-    state: "{{item.state}}"
+    tenant: "{{ item.tenant }}"
+    description: "{{ item.description }}"
+    state: "{{ item.state }}"
   delegate_to: localhost
   when: tenants is defined
-  loop: "{{tenants}}"
+  loop: "{{ tenants }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
