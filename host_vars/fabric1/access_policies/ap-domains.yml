@@ -13,9 +13,7 @@ domains:
     state: present
 
   - domain_name: L3Out_Dom
-    domain_type: l3dom 
+    domain_type: l3dom
     vlan_pool: ext_pool 
-    vlan_pool_allocation_mode: static 
+    vlan_pool_allocation_mode: static
     state: present
-
-

@@ -9,4 +9,3 @@ app_profiles:
     tenant: demo
     description: Application Profile for Mgmt 
     state: present
-    

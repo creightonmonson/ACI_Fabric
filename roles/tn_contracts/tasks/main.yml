@@ -72,7 +72,7 @@
   delay: "{{ retry_delay }}"
   until: result.failed == false
 
-- name: bind epg to contract (fv:RsCons, fv:RsProv, fv:RsProtBy, fv:RsConsIf, and fv:RsIntraEpg)
+- name: Bind epg to contract (fv:RsCons, fv:RsProv, fv:RsProtBy, fv:RsConsIf, and fv:RsIntraEpg)
   cisco.aci.aci_epg_to_contract:
     tenant: '{{ tenant }}'
     ap: '{{ item.ap_name }}'

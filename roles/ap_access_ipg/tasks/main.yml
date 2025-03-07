@@ -16,4 +16,3 @@
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
   until: result.failed == false
-  

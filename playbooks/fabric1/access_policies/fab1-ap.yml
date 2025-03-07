@@ -13,13 +13,13 @@
       use_proxy: "{{ apic_use_proxy }}"
 
   roles:
-    - roles/ap_swp
-    - roles/ap_ifp
-    - roles/ap_int_policy
-    - roles/ap_access_ipg
-    - roles/ap_vpc_ipg
-    - roles/ap_vpc_prot_grp
-    - roles/ap_interface_selector
-    - roles/ap_vlans
-    - roles/ap_domains
-    - roles/ap_aaep
+    - ap_swp
+    - ap_ifp
+    - ap_int_policy
+    - ap_access_ipg
+    - ap_vpc_ipg
+    - ap_vpc_prot_grp
+    - ap_interface_selector
+    - ap_vlans
+    - ap_domains
+    - ap_aaep

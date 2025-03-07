@@ -7,7 +7,7 @@
     domain_type: "{{ item.domain_type }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{domains}}"
+  loop: "{{ domains }}"
   when: domains is defined
   register: result
   retries: "{{ loop_retries }}"
@@ -18,11 +18,11 @@
   cisco.aci.aci_domain_to_vlan_pool:
     domain: "{{ item.domain_name }}"
     domain_type: "{{ item.domain_type }}"
-    pool: "{{ item.vlan_pool}}"
+    pool: "{{ item.vlan_pool }}"
     pool_allocation_mode: "{{ item.vlan_pool_allocation_mode }}"
-    state: "{{item.state}}"
+    state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{domains}}"
+  loop: "{{ domains }}"
   when: domains is defined
   register: result
   retries: "{{ loop_retries }}"

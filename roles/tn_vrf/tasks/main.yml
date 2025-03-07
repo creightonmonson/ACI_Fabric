@@ -11,7 +11,7 @@
     match_type: "{{ item.match_type }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{vrf }}"
+  loop: "{{ vrf }}"
   when: vrf is defined
   register: result
   retries: "{{ loop_retries }}"

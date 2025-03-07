@@ -3,4 +3,3 @@ tenants:
   - tenant: demo
     description: Demo tenant configured by ansible
     state: present
-    

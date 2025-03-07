@@ -13,10 +13,10 @@
       use_proxy: "{{ apic_use_proxy }}"
 
   roles:
-    - roles/tn_tenant
-    - roles/tn_vrf
-    - roles/tn_ap
-    - roles/tn_bd
-    - roles/tn_epg
-    - roles/tn_l3out
-    - roles/tn_contracts
+    - tn_tenant
+    - tn_vrf
+    - tn_ap
+    - tn_bd
+    - tn_epg
+    - tn_l3out
+    - tn_contracts

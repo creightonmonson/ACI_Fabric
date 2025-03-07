@@ -1,13 +1,13 @@
---- 
+---
 l3out:
   - name: OSPF_L3Out
     tenant: demo
     vrf: PROD
     domain: L3Out_Dom
     route_control: export
-    protocol: ospf 
+    protocol: ospf
     ospf_area_id: 0
-    ospf_area_type: regular #(regular, nssa, stub)
+    ospf_area_type: regular # (regular, nssa, stub)
     ospf_area_cost: 1
     state: present
 
@@ -18,7 +18,7 @@ l3out_node:
     pod_id: 1
     node_id: 101
     router_id: 1.11.11.1
-    router_id_as_lo: no
+    router_id_as_lo: false
     state: present
 
 l3out_interface:

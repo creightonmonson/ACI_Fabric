@@ -13,4 +13,4 @@
       use_proxy: "{{ apic_use_proxy }}"
   
   roles:
-    - roles/initial_setup
+    - initial_setup

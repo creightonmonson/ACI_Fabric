@@ -10,10 +10,10 @@ bridge_domains:
     l3_unknown_multicast: flood # ["flood","opt-flood"]
     ipv6_l3_unknown_multicast: flood # ["flood","opt-flood"]
     multi_dest: bd-flood # ["bd-flood", "drop", "encap-flood"]
-    arp_flooding: no # ["yes","no"]
-    enable_routing: yes # ["yes","no"]
-    ip_learning: yes # ["yes","no"]
-    enable_multicast: no # ["yes","no"]
+    arp_flooding: false
+    enable_routing: true
+    ip_learning: true
+    enable_multicast: false
     state: present
     l3out: OSPF_L3Out # Apply L3out variable to bind this BD to an L3Out
 
@@ -27,8 +27,8 @@ bridge_domains:
     l3_unknown_multicast: flood # ["flood","opt-flood"]
     ipv6_l3_unknown_multicast: flood # ["flood","opt-flood"]
     multi_dest: bd-flood # ["bd-flood", "drop", "encap-flood"]
-    arp_flooding: no # ["yes","no"]
-    enable_routing: yes # ["yes","no"]
-    ip_learning: yes # ["yes","no"]
-    enable_multicast: no # ["yes","no"]
+    arp_flooding: false
+    enable_routing: true
+    ip_learning: true
+    enable_multicast: false
     state: present

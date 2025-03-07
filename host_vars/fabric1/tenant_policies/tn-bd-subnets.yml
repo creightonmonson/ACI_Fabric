@@ -6,7 +6,7 @@ bridge_domain_subnets:
     mask: 24
     tenant: demo
     description: Bridge domain subnet for Applications
-    scope: public 
+    scope: public
     state: present
 
   - bd_name: Mgmt_BD
@@ -15,5 +15,5 @@ bridge_domain_subnets:
     mask: 24
     tenant: demo
     description: Bridge domain subnet for management access to AD, snmp, etc
-    scope: public 
+    scope: public
     state: present

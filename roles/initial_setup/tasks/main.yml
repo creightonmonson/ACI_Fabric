@@ -16,7 +16,6 @@
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
   until: result.failed == false
-  
 
 - name: Configure System Alias and Banners
   cisco.aci.aci_rest:
@@ -339,7 +338,7 @@
           - datetimeRsNtpProvToEpg:
               attributes:
                 tDn: "uni/tn-mgmt/mgmtp-default/{{ item.date_time_ntp_mgmt_epg | default('oob-default') }}"
-  loop: '{{ aci_data.fabric.pod_policy | aci_listify("date_time","ntp") }}'
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("date_time", "ntp") }}'
   when:
     - item.date_time_name is defined
     - item.date_time_ntp_name is defined
@@ -385,7 +384,7 @@
               attributes:
                 name: "{{ item.snmp_client_group_client_name | default(omit) }}"
                 addr: "{{ item.snmp_client_group_client_ip }}"
-  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp","client_group","client") }}'
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp", "client_group", "client") }}'
   when:
     - item.snmp_name is defined
     - item.snmp_client_group_name is defined
@@ -404,7 +403,7 @@
         attributes:
           name: "{{ item.snmp_community_name }}"
           descr: "{{ item.snmp_community_description | default(omit) }}"
-  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp","community") }}'
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp", "community") }}'
   when:
     - item.snmp_name is defined
     - item.snmp_community_name is defined
@@ -466,7 +465,7 @@
   delay: "{{ retry_delay }}"
   until: result.failed == false
 
-# commented out below due to unsolved errors 
+# commented out below due to unsolved errors
 
 # - name: Configure Fabric Pod Management Access Policy - SSL Cipher Configuration
 #   cisco.aci.aci_rest:
@@ -544,7 +543,7 @@
         attributes:
           addr: "{{ item.dns_provider_addr }}"
           preferred: "{{ item.dns_provider_preferred | default(omit) }}"
-  loop: '{{ aci_data.fabric.global_policy | aci_listify("dns","provider") }}'
+  loop: '{{ aci_data.fabric.global_policy | aci_listify("dns", "provider") }}'
   when:
     - item.dns_name is defined
     - item.dns_provider_addr is defined
@@ -563,7 +562,7 @@
           name: "{{ item.dns_domain_name }}"
           descr: "{{ item.dns_domain_description | default(omit) }}"
           isDefault: "{{ item.dns_domain_default | default(omit) }}"
-  loop: '{{ aci_data.fabric.global_policy | aci_listify("dns","domain") }}'
+  loop: '{{ aci_data.fabric.global_policy | aci_listify("dns", "domain") }}'
   when:
     - item.dns_name is defined
     - item.dns_domain_name is defined
@@ -628,7 +627,7 @@
                 - fabricRsPodPGrp:
                     attributes:
                       tDn: "uni/fabric/funcprof/podpgrp-{{ item.pod_profile_selector_pod_policy_group }}"
-  loop: '{{ aci_data.fabric|aci_listify("pod_profile","selector") }}'
+  loop: '{{ aci_data.fabric|aci_listify("pod_profile", "selector") }}'
   when:
     - item.pod_profile_name is defined
     - item.pod_profile_selector_name is defined

@@ -15,5 +15,5 @@ access_policy_group:
   - name: External_Catalyst_IPG
     lldp: LLDP_Enabled
     aaep: External_Net_AAEP
-    description: External Network Connection IPG 
+    description: External Network Connection IPG
     state: present

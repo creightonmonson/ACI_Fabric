@@ -1,5 +1,5 @@
 ---
-# tasks file for roles/tn-ap 
+# tasks file for roles/tn-ap
 
 - name: Create App Profile  (fv:Ap)
   cisco.aci.aci_ap:
