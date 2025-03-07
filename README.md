@@ -84,4 +84,6 @@ delay: "{{ retry_delay }}"      # wait 3 seconds before retrying
 until: result.failed == false   # exit the retry loop when task suceeds
 ```
 
-
+## CI/CD
+Currently the only workflow running is to run ansible lint when a push or pull-request is executed on main branch (see .github/workflows directory). Future development is to move to a self-hosted runner and add a CI/CD flow of 
+`push to main -> Ansible-Lint -> ACI snapshot -> Ansible Playbook run from docker container -> ACI Snapshot -> Diff Configs`
