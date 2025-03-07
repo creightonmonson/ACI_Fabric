@@ -13,11 +13,15 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Install yamllint
-        run: pip install yamllint
+      - name: Run ansible-lint
+        uses: ansible-community/ansible-lint-action@main
+        
 
-      - name: Lint YAML files
-        run: |
-          yamllint ./playbooks
-          yamllint ./roles
-          yamllint ./host_vars
+      # - name: Install yamllint
+      #   run: pip install yamllint
+
+      # - name: Lint YAML files
+      #   run: |
+      #     yamllint ./playbooks
+      #     yamllint ./roles
+      #     yamllint ./host_vars
