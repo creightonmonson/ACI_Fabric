@@ -18,3 +18,4 @@ domains:
     vlan_pool_allocation_mode: static 
     state: present
 
+

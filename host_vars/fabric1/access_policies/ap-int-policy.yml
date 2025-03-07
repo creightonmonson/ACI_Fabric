@@ -22,4 +22,4 @@ interface_policy_lacp:
     description: LACP Active 
     min: 1
     max: 16
-    mode: active 
+    mode: active

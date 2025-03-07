@@ -31,4 +31,3 @@ epgs:
     intra_epg_isolation: unenforced
     bd: Mgmt_BD
     state: present
-

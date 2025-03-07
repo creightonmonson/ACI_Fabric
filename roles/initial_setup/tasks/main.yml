@@ -26,9 +26,9 @@
       aaaPreLoginBanner:
         attributes:
           dn: "uni/userext/preloginbanner"
-          guiTextMessage: "{{ aci_data.system.system_alias_banner.alias|default(omit) }}"
-          message: "{{ aci_data.system.system_alias_banner.apic_banner|default(omit) }}"
-          switchMessage: "{{ aci_data.system.system_alias_banner.switch_banner|default(omit) }}"
+          guiTextMessage: "{{ aci_data.system.system_alias_banner.alias | default(omit) }}"
+          message: "{{ aci_data.system.system_alias_banner.apic_banner | default(omit) }}"
+          switchMessage: "{{ aci_data.system.system_alias_banner.switch_banner | default(omit) }}"
   when:
     - aci_data.system.system_alias_banner is defined
   register: result
@@ -46,8 +46,8 @@
           dn: "uni/fabric/comm-default/apiResp"
           enableCalculation: "{{ aci_data.system.system_response_time.state }}"
           respTimeThreshold: "{{ aci_data.system.system_response_time.resp_threshold|default(omit) }}"
-          calcWindow: "{{ aci_data.system.system_response_time.frequency|default(omit) }}"
-          topNRequests: "{{ aci_data.system.system_response_time.top_slow_requests|default(omit) }}"
+          calcWindow: "{{ aci_data.system.system_response_time.frequency | default(omit) }}"
+          topNRequests: "{{ aci_data.system.system_response_time.top_slow_requests | default(omit) }}"
   when:
     - aci_data.system.system_response_time.state is defined
   register: result
@@ -64,7 +64,7 @@
       pkiExportEncryptionKey:
         attributes:
           dn: "uni/exportcryptkey"
-          strongEncryptionEnabled: "{{ aci_data.system.global_aes_encryption.enabled|default('no') }}"
+          strongEncryptionEnabled: "{{ aci_data.system.global_aes_encryption.enabled | default('no') }}"
           passphrase: "{{ aci_data.system.global_aes_encryption.passphrase }}"
   when:
     - aci_data.system.global_aes_encryption.passphrase is defined
@@ -114,9 +114,9 @@
         attributes:
           dn: "uni/infra/epCtrlP-default"
           adminSt: "{{ aci_data.system.endpoint_control.rogue_ep_control.state }}"
-          rogueEpDetectIntvl: "{{ aci_data.system.endpoint_control.rogue_ep_control.detection_interval|default(omit) }}"
-          rogueEpDetectMult: "{{ aci_data.system.endpoint_control.rogue_ep_control.multiplication_factor|default(omit) }}"
-          holdIntvl: "{{ aci_data.system.endpoint_control.rogue_ep_control.hold_interval|default(omit) }}"
+          rogueEpDetectIntvl: "{{ aci_data.system.endpoint_control.rogue_ep_control.detection_interval | default(omit) }}"
+          rogueEpDetectMult: "{{ aci_data.system.endpoint_control.rogue_ep_control.multiplication_factor | default(omit) }}"
+          holdIntvl: "{{ aci_data.system.endpoint_control.rogue_ep_control.hold_interval | default(omit) }}"
   when:
     - aci_data.system.endpoint_control.rogue_ep_control.state is defined
   register: result
@@ -148,13 +148,13 @@
       infraSetPol:
         attributes:
           dn: "uni/infra/settings"
-          unicastXrEpLearnDisable: "{{ aci_data.system.fabric_wide.disable_remote_ep_learn|default(omit) }}"
-          enforceSubnetCheck: "{{ aci_data.system.fabric_wide.enforce_subnet_check|default(omit) }}"
-          validateOverlappingVlans: "{{ aci_data.system.fabric_wide.enforce_epg_vlan_validation|default(omit) }}"
-          domainValidation: "{{ aci_data.system.fabric_wide.enforce_domain_validation|default(omit) }}"
-          enableRemoteLeafDirect: "{{ aci_data.system.fabric_wide.enable_remote_leaf_direct|default(omit) }}"
-          opflexpAuthenticateClients: "{{ aci_data.system.fabric_wide.opflex_client_auth|default(omit) }}"
-          reallocateGipo: "{{ aci_data.system.fabric_wide.reallocate_gipo|default(omit) }}"
+          unicastXrEpLearnDisable: "{{ aci_data.system.fabric_wide.disable_remote_ep_learn | default(omit) }}"
+          enforceSubnetCheck: "{{ aci_data.system.fabric_wide.enforce_subnet_check | default(omit) }}"
+          validateOverlappingVlans: "{{ aci_data.system.fabric_wide.enforce_epg_vlan_validation | default(omit) }}"
+          domainValidation: "{{ aci_data.system.fabric_wide.enforce_domain_validation | default(omit) }}"
+          enableRemoteLeafDirect: "{{ aci_data.system.fabric_wide.enable_remote_leaf_direct | default(omit) }}"
+          opflexpAuthenticateClients: "{{ aci_data.system.fabric_wide.opflex_client_auth | default(omit) }}"
+          reallocateGipo: "{{ aci_data.system.fabric_wide.reallocate_gipo | default(omit) }}"
   when:
     - aci_data.system.fabric_wide is defined
   register: result
@@ -171,8 +171,8 @@
         attributes:
           dn: "uni/infra/trackEqptFabP-default"
           adminSt: "{{ aci_data.system.port_track.state }}"
-          delay: "{{ aci_data.system.port_track.delay|default(omit) }}"
-          minlinks: "{{ aci_data.system.port_track.links|default(omit) }}"
+          delay: "{{ aci_data.system.port_track.delay | default(omit) }}"
+          minlinks: "{{ aci_data.system.port_track.links | default(omit) }}"
   when:
     - aci_data.system.port_track.state is defined
   register: result
@@ -204,9 +204,9 @@
       datetimeFormat:
         attributes:
           dn: "uni/fabric/format-default"
-          displayFormat: "{{ aci_data.system.date_time.format|default(omit) }}"
-          tz: "{{ aci_data.system.date_time.timezone|default(omit) }}"
-          showOffset: "{{ aci_data.system.date_time.offset|default(omit) }}"
+          displayFormat: "{{ aci_data.system.date_time.format | default(omit) }}"
+          tz: "{{ aci_data.system.date_time.timezone | default(omit) }}"
+          showOffset: "{{ aci_data.system.date_time.offset | default(omit) }}"
   when:
     - aci_data.system.date_time is defined
   register: result
@@ -242,7 +242,7 @@
           - bgpRRNodePEp:
               attributes:
                 id: "{{ item.node }}"
-                podId: "{{ item.pod|default('1') }}"
+                podId: "{{ item.pod | default('1') }}"
   loop: '{{ aci_data.system.bgp_rr.rr }}'
   when:
     - item.node is defined
@@ -275,10 +275,10 @@
       lbpPol:
         attributes:
           dn: "uni/fabric/lbp-default"
-          dlbMode: "{{ aci_data.system.load_balancer.dlb|default(omit) }}"
-          pri: "{{ aci_data.system.load_balancer.dpp|default(omit) }}"
-          mode: "{{ aci_data.system.load_balancer.lb_mode|default(omit) }}"
-          hashGtp: "{{ aci_data.system.load_balancer.gtp|default(omit) }}"
+          dlbMode: "{{ aci_data.system.load_balancer.dlb | default(omit) }}"
+          pri: "{{ aci_data.system.load_balancer.dpp | default(omit) }}"
+          mode: "{{ aci_data.system.load_balancer.lb_mode | default(omit) }}"
+          hashGtp: "{{ aci_data.system.load_balancer.gtp | default(omit) }}"
   when:
     - aci_data.system.load_balancer is defined
   register: result
@@ -295,7 +295,7 @@
         attributes:
           dn: "uni/fabric/ptpmode"
           state: "{{ aci_data.system.ptp.state }}"
-          systemResolution: "{{ aci_data.system.ptp.resolution|default(omit) }}"
+          systemResolution: "{{ aci_data.system.ptp.resolution | default(omit) }}"
   when:
     - aci_data.system.ptp.state is defined
   register: result
@@ -311,11 +311,11 @@
       datetimePol:
         attributes:
           name: "{{ item.date_time_name }}"
-          descr: "{{ item.date_time_description|default(omit) }}"
-          adminSt: "{{ item.date_time_admin_state|default(omit) }}"
-          serverState: "{{ item.date_time_server_state|default(omit) }}"
-          authSt: "{{ item.date_time_auth_state|default(omit) }}"
-  loop: '{{ aci_data.fabric.pod_policy|aci_listify("date_time") }}'
+          descr: "{{ item.date_time_description | default(omit) }}"
+          adminSt: "{{ item.date_time_admin_state | default(omit) }}"
+          serverState: "{{ item.date_time_server_state | default(omit) }}"
+          authSt: "{{ item.date_time_auth_state | default(omit) }}"
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("date_time") }}'
   when:
     - item.date_time_name is defined
   register: result
@@ -331,15 +331,15 @@
       datetimeNtpProv:
         attributes:
           name: "{{ item.date_time_ntp_name }}"
-          minPoll: "{{ item.date_time_ntp_min_poll|default(omit) }}"
-          maxPoll: "{{ item.date_time_ntp_max_poll|default(omit) }}"
-          preferred: "{{ item.date_time_ntp_preferred|default(omit) }}"
-          descr: "{{ item.date_time_ntp_description|default(omit) }}"
+          minPoll: "{{ item.date_time_ntp_min_poll | default(omit) }}"
+          maxPoll: "{{ item.date_time_ntp_max_poll | default(omit) }}"
+          preferred: "{{ item.date_time_ntp_preferred | default(omit) }}"
+          descr: "{{ item.date_time_ntp_description | default(omit) }}"
         children:
           - datetimeRsNtpProvToEpg:
               attributes:
-                tDn: "uni/tn-mgmt/mgmtp-default/{{ item.date_time_ntp_mgmt_epg|default('oob-default') }}"
-  loop: '{{ aci_data.fabric.pod_policy|aci_listify("date_time","ntp") }}'
+                tDn: "uni/tn-mgmt/mgmtp-default/{{ item.date_time_ntp_mgmt_epg | default('oob-default') }}"
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("date_time","ntp") }}'
   when:
     - item.date_time_name is defined
     - item.date_time_ntp_name is defined
@@ -356,11 +356,11 @@
       snmpPol:
         attributes:
           name: "{{ item.snmp_name }}"
-          descr: "{{ item.snmp_description|default(omit) }}"
-          adminSt: "{{ item.snmp_state|default(omit) }}"
-          contact: "{{ item.snmp_contact|default(omit) }}"
-          loc: "{{ item.snmp_location|default(omit) }}"
-  loop: '{{ aci_data.fabric.pod_policy|aci_listify("snmp") }}'
+          descr: "{{ item.snmp_description | default(omit) }}"
+          adminSt: "{{ item.snmp_state | default(omit) }}"
+          contact: "{{ item.snmp_contact | default(omit) }}"
+          loc: "{{ item.snmp_location | default(omit) }}"
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp") }}'
   when:
     - item.snmp_name is defined
   register: result
@@ -376,16 +376,16 @@
       snmpClientGrpP:
         attributes:
           name: "{{ item.snmp_client_group_name }}"
-          descr: "{{ item.snmp_client_group_description|default(omit) }}"
+          descr: "{{ item.snmp_client_group_description | default(omit) }}"
         children:
           - snmpRsEpg:
               attributes:
-                tDn: "uni/tn-mgmt/mgmtp-default/{{ item.snmp_client_group_mgmt_epg|default('oob-default') }}"
+                tDn: "uni/tn-mgmt/mgmtp-default/{{ item.snmp_client_group_mgmt_epg | default('oob-default') }}"
           - snmpClientP:
               attributes:
-                name: "{{ item.snmp_client_group_client_name|default(omit) }}"
+                name: "{{ item.snmp_client_group_client_name | default(omit) }}"
                 addr: "{{ item.snmp_client_group_client_ip }}"
-  loop: '{{ aci_data.fabric.pod_policy|aci_listify("snmp","client_group","client") }}'
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp","client_group","client") }}'
   when:
     - item.snmp_name is defined
     - item.snmp_client_group_name is defined
@@ -403,8 +403,8 @@
       snmpCommunityP:
         attributes:
           name: "{{ item.snmp_community_name }}"
-          descr: "{{ item.snmp_community_description|default(omit) }}"
-  loop: '{{ aci_data.fabric.pod_policy|aci_listify("snmp","community") }}'
+          descr: "{{ item.snmp_community_description | default(omit) }}"
+  loop: '{{ aci_data.fabric.pod_policy | aci_listify("snmp","community") }}'
   when:
     - item.snmp_name is defined
     - item.snmp_community_name is defined
@@ -421,43 +421,43 @@
       commPol:
         attributes:
           name: "{{ item.name }}"
-          descr: "{{ item.description|default(omit) }}"
+          descr: "{{ item.description | default(omit) }}"
         children:
           - commTelnet:
               attributes:
-                adminSt: "{{ item.telnet.state|default(omit) }}"
-                port: "{{ item.telnet.port|default(omit) }}"
+                adminSt: "{{ item.telnet.state | default(omit) }}"
+                port: "{{ item.telnet.port | default(omit) }}"
           - commSsh:
               attributes:
-                adminSt: "{{ item.ssh.state|default(omit) }}"
-                port: "{{ item.ssh.port|default(omit) }}"
-                passwordAuth: "{{ item.ssh.password_auth|default(omit) }}"
-                sshCiphers: "{{ item.ssh.ciphers|join(',')|default(omit) }}"
-                sshMacs: "{{ item.ssh.macs|join(',')|default(omit) }}"
+                adminSt: "{{ item.ssh.state | default(omit) }}"
+                port: "{{ item.ssh.port | default(omit) }}"
+                passwordAuth: "{{ item.ssh.password_auth | default(omit) }}"
+                sshCiphers: "{{ item.ssh.ciphers | join(',')|default(omit) }}"
+                sshMacs: "{{ item.ssh.macs | join(',')|default(omit) }}"
           - commShellinabox:
               attributes:
-                adminSt: "{{ item.ssh_web.state|default(omit) }}"
+                adminSt: "{{ item.ssh_web.state | default(omit) }}"
           - commHttp:
               attributes:
-                adminSt: "{{ item.http.state|default(omit) }}"
-                port: "{{ item.http.port|default(omit) }}"
-                redirectSt: "{{ item.http.redirect|default(omit) }}"
-                accessControlAllowOrigins: "{{ item.http.allow_origins|default(omit) }}"
-                accessControlAllowCredential: "{{ item.http.allow_credentials|default(omit) }}"
-                globalThrottleSt: "{{ item.http.throttle|default(omit) }}"
+                adminSt: "{{ item.http.state | default(omit) }}"
+                port: "{{ item.http.port | default(omit) }}"
+                redirectSt: "{{ item.http.redirect | default(omit) }}"
+                accessControlAllowOrigins: "{{ item.http.allow_origins | default(omit) }}"
+                accessControlAllowCredential: "{{ item.http.allow_credentials | default(omit) }}"
+                globalThrottleSt: "{{ item.http.throttle | default(omit) }}"
           - commHttps:
               attributes:
-                adminSt: "{{ item.https.state|default(omit) }}"
-                port: "{{ item.https.port|default(omit) }}"
-                accessControlAllowOrigins: "{{ item.https.allow_origins|default(omit) }}"
-                accessControlAllowCredential: "{{ item.https.allow_credentials|default(omit) }}"
-                sslProtocols: "{{ item.https.ssl_protocols|join(',')|default(omit) }}"
-                dhParam: "{{ item.https.dh_param|default(omit) }}"
-                globalThrottleSt: "{{ item.https.throttle|default(omit) }}"
+                adminSt: "{{ item.https.state | default(omit) }}"
+                port: "{{ item.https.port | default(omit) }}"
+                accessControlAllowOrigins: "{{ item.https.allow_origins | default(omit) }}"
+                accessControlAllowCredential: "{{ item.https.allow_credentials | default(omit) }}"
+                sslProtocols: "{{ item.https.ssl_protocols | join(',') | default(omit) }}"
+                dhParam: "{{ item.https.dh_param | default(omit) }}"
+                globalThrottleSt: "{{ item.https.throttle | default(omit) }}"
               children:
                 - commRsKeyRing:
                     attributes:
-                      tnPkiKeyRingName: "{{ item.https.keyring|default(omit) }}"
+                      tnPkiKeyRingName: "{{ item.https.keyring | default(omit) }}"
   loop: '{{ aci_data.fabric.pod_policy.management_access }}'
   when:
     - item.name is defined
@@ -494,19 +494,19 @@
       isisDomPol:
         attributes:
           dn: "uni/fabric/isisDomP-default"
-          mtu: "{{ aci_data.fabric.pod_policy.isis.mtu|default(omit) }}"
-          redistribMetric: "{{ aci_data.fabric.pod_policy.isis.metric|default(omit) }}"
+          mtu: "{{ aci_data.fabric.pod_policy.isis.mtu | default(omit) }}"
+          redistribMetric: "{{ aci_data.fabric.pod_policy.isis.metric | default(omit) }}"
         children:
           - isisLvlComp:
               attributes:
                 type: "l1"
-                lspFastFlood: "{{ aci_data.fabric.pod_policy.isis.lsp_fastflood|default(omit) }}"
-                lspGenInitIntvl: "{{ aci_data.fabric.pod_policy.isis.lsp_init|default(omit) }}"
-                lspGenMaxIntvl: "{{ aci_data.fabric.pod_policy.isis.lsp_max|default(omit) }}"
-                lspGenSecIntvl: "{{ aci_data.fabric.pod_policy.isis.lsp_sec|default(omit) }}"
-                spfCompInitIntvl: "{{ aci_data.fabric.pod_policy.isis.spf_init|default(omit) }}"
-                spfCompMaxIntvl: "{{ aci_data.fabric.pod_policy.isis.spf_max|default(omit) }}"
-                spfCompSecIntvl: "{{ aci_data.fabric.pod_policy.isis.spf_sec|default(omit) }}"
+                lspFastFlood: "{{ aci_data.fabric.pod_policy.isis.lsp_fastflood | default(omit) }}"
+                lspGenInitIntvl: "{{ aci_data.fabric.pod_policy.isis.lsp_init | default(omit) }}"
+                lspGenMaxIntvl: "{{ aci_data.fabric.pod_policy.isis.lsp_max | default(omit) }}"
+                lspGenSecIntvl: "{{ aci_data.fabric.pod_policy.isis.lsp_sec | default(omit) }}"
+                spfCompInitIntvl: "{{ aci_data.fabric.pod_policy.isis.spf_init | default(omit) }}"
+                spfCompMaxIntvl: "{{ aci_data.fabric.pod_policy.isis.spf_max | default(omit) }}"
+                spfCompSecIntvl: "{{ aci_data.fabric.pod_policy.isis.spf_sec | default(omit) }}"
   when:
     - aci_data.fabric.pod_policy.isis is defined
   register: result
@@ -522,11 +522,11 @@
       dnsProfile:
         attributes:
           name: "{{ item.name }}"
-          descr: "{{ item.description|default(omit) }}"
+          descr: "{{ item.description | default(omit) }}"
         children:
           - dnsRsProfileToEpg:
               attributes:
-                tDn: "uni/tn-mgmt/mgmtp-default/{{ item.management|default(omit) }}"
+                tDn: "uni/tn-mgmt/mgmtp-default/{{ item.management | default(omit) }}"
   loop: '{{ aci_data.fabric.global_policy.dns }}'
   when:
     - item.name is defined
@@ -543,8 +543,8 @@
       dnsProv:
         attributes:
           addr: "{{ item.dns_provider_addr }}"
-          preferred: "{{ item.dns_provider_preferred|default(omit) }}"
-  loop: '{{ aci_data.fabric.global_policy|aci_listify("dns","provider") }}'
+          preferred: "{{ item.dns_provider_preferred | default(omit) }}"
+  loop: '{{ aci_data.fabric.global_policy | aci_listify("dns","provider") }}'
   when:
     - item.dns_name is defined
     - item.dns_provider_addr is defined
@@ -561,9 +561,9 @@
       dnsDomain:
         attributes:
           name: "{{ item.dns_domain_name }}"
-          descr: "{{ item.dns_domain_description|default(omit) }}"
-          isDefault: "{{ item.dns_domain_default|default(omit) }}"
-  loop: '{{ aci_data.fabric.global_policy|aci_listify("dns","domain") }}'
+          descr: "{{ item.dns_domain_description | default(omit) }}"
+          isDefault: "{{ item.dns_domain_default | default(omit) }}"
+  loop: '{{ aci_data.fabric.global_policy | aci_listify("dns","domain") }}'
   when:
     - item.dns_name is defined
     - item.dns_domain_name is defined
@@ -580,29 +580,29 @@
       fabricPodPGrp:
         attributes:
           name: "{{ item.name }}"
-          descr: "{{ item.description|default(omit) }}"
+          descr: "{{ item.descriptio | default(omit) }}"
         children:
           - fabricRsSnmpPol:
               attributes:
-                tnSnmpPolName: "{{ item.snmp|default(omit) }}"
+                tnSnmpPolName: "{{ item.snmp | default(omit) }}"
           - fabricRsPodPGrpIsisDomP:
               attributes:
-                tnIsisDomPolName: "{{ item.isis|default(omit) }}"
+                tnIsisDomPolName: "{{ item.isis | default(omit) }}"
           - fabricRsPodPGrpCoopP:
               attributes:
-                tnCoopPolName: "{{ item.coop|default(omit) }}"
+                tnCoopPolName: "{{ item.coop | default(omit) }}"
           - fabricRsPodPGrpBGPRRP:
               attributes:
-                tnBgpInstPolName: "{{ item.bgp_rr|default(omit) }}"
+                tnBgpInstPolName: "{{ item.bgp_rr | default(omit) }}"
           - fabricRsTimePol:
               attributes:
-                tnDatetimePolName: "{{ item.date_time|default(omit) }}"
+                tnDatetimePolName: "{{ item.date_time | default(omit) }}"
           - fabricRsMacsecPol:
               attributes:
-                tnMacsecFabIfPolName: "{{ item.macsec|default(omit) }}"
+                tnMacsecFabIfPolName: "{{ item.macsec | default(omit) }}"
           - fabricRsCommPol:
               attributes:
-                tnCommPolName: "{{ item.management_access|default(omit) }}"
+                tnCommPolName: "{{ item.management_access | default(omit) }}"
   loop: '{{ aci_data.fabric.pod_policy_group }}'
   when:
     - item.name is defined
