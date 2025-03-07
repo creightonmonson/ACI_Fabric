@@ -19,7 +19,8 @@ jobs:
           ansible-galaxy collection install cisco.aci
 
       - name: Run ansible-lint
-        uses: ansible-community/ansible-lint-action@main
+        run: |
+          ansible-lint ./playbooks
         
 
       # - name: Install yamllint
