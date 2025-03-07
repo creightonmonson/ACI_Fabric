@@ -18,6 +18,6 @@ jobs:
 
       - name: Lint YAML files
         run: |
-          yamllint ./playbooks/**/*.yml
-          yamllint ./roles/**/*.yml
-          yamllint ./host_vars/**/*.yml
+          yamllint ./playbooks
+          yamllint ./roles
+          yamllint ./host_vars
