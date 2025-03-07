@@ -9,7 +9,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: aaeps is defined
-  loop: "{{aaeps }}"
+  loop: "{{ aaeps }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

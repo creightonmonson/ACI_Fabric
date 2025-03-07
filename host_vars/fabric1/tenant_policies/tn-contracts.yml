@@ -34,7 +34,7 @@ contracts:
 filters:
   - filter: sql
     entry: sql
-    ether_type: ip 
+    ether_type: ip
     protocol: tcp
     port: 3306
     description: Filter traffic destined to SQL

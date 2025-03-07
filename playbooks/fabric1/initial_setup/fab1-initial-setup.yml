@@ -11,6 +11,6 @@
       password: "{{ apic_password }}"
       validate_certs: "{{ apic_validate_certs }}"
       use_proxy: "{{ apic_use_proxy }}"
-  
+
   roles:
     - initial_setup

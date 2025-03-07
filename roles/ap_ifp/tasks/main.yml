@@ -1,5 +1,5 @@
 ---
-# tasks file for roles/ap_ifp 
+# tasks file for roles/ap_ifp
 
 - name: Create Leaf Interface Profiles (infra:AccPortP)
   cisco.aci.aci_interface_policy_leaf_profile:
