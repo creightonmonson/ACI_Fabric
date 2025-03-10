@@ -85,5 +85,7 @@ until: result.failed == false   # exit the retry loop when task suceeds
 ```
 
 ## CI/CD
-Currently the only workflow running is to run ansible lint when a push or pull-request is executed on main branch (see .github/workflows directory). Future development is to move to a self-hosted runner and add a CI/CD flow of 
+Currently the only workflow running is to run ansible lint when a push or pull-request is executed on main branch (see .github/workflows directory). This runs on a self-hosted runner, but can be run using github cloud runner by changing `runs-on: self-hosted` to `runs-on: ubuntu-latest` 
+
+Future development is to use self-hosted runner and add a CI/CD flow of 
 `push to main -> Ansible-Lint -> ACI snapshot -> Ansible Playbook run from docker container -> ACI Snapshot -> Diff Configs`
