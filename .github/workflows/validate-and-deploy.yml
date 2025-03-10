@@ -1,0 +1,24 @@
+name: Validate and Deploy ACI Fabric
+on: [push, pull_request]
+
+jobs:
+  ansible-lint:
+    name: Ansible Lint # Run a linting action against the repo before next step
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main
+        with:
+          setup_python: "true"
+
+  ansible-dry-run:
+    name: Ansible Dry Run
+    runs-on: self-hosted
+    needs: ansible-lint
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ansible playbook dry-run
+        run: |
+          ansible --version
+          ansible-playbook playbooks/initial_setup/fab1-initial-setup.yml -i ACI_Hosts.yml --check
