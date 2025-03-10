@@ -21,4 +21,4 @@ jobs:
       - name: Run ansible playbook dry-run
         run: |
           ansible --version
-          ansible-playbook playbooks/initial_setup/fab1-initial-setup.yml -i ACI_Hosts.yml --check
+          ansible-playbook playbooks/fabric1/initial_setup/fab1-initial-setup.yml -i ACI_Hosts.yml --check
