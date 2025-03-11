@@ -1,0 +1,26 @@
+---
+- name: Create Snapshot (config:Snapshot and config:ExportP)
+  cisco.aci.aci_config_snapshot:
+    state: present
+    export_policy: config_backup
+    max_count: 10
+    description: Backups taken before new config applied 
+  delegate_to: localhost
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Wait for snapshot to be finished before querying
+  pause:
+    seconds: 10
+
+- name: Query Snapshot to Ensure Its Created
+  cisco.aci.aci_config_snapshot:
+    export_policy: config_backup
+    state: query
+  delegate_to: localhost
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
