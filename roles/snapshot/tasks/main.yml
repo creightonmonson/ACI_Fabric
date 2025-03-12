@@ -20,7 +20,11 @@
     export_policy: config_backup
     state: query
   delegate_to: localhost
-  register: result
+  register: query_result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
   until: result.failed == false
+
+- name: Print Query result
+  ansible.builtin.debug:
+    msg: "{{ query_result }}"

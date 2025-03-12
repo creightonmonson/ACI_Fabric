@@ -2,6 +2,7 @@ name: Validate and Deploy ACI Fabric
 on: [push, pull_request]
 
 jobs:
+# run the ansible-lint process
   ansible-lint:
     name: Ansible Lint # Run a linting action against the repo before next step
     runs-on: self-hosted
@@ -12,6 +13,7 @@ jobs:
         with:
           setup_python: "true"
 
+# run dry run and store the results of the pending changes in a file in each respective playbook directory
   ansible-dry-run:
     name: Ansible Dry Run
     runs-on: self-hosted
@@ -22,3 +24,25 @@ jobs:
         run: |
           ansible --version
           ansible-playbook playbooks/fabric1/fabric_deploy -i ACI_Hosts.yml --check
+
+# take an ACI snapshot
+  aci-snapshot:
+    name: ACI Snapshot
+    runs-on: self-hosted
+    needs: ansible-dry-run
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ansible playbook snapshot
+        run: |
+          ansible-playbook playbooks/fabric1/snapshot.yml -i ACI_Hosts.yml
+
+# deploy the ACI fabric changes using Ansible
+  ansible-deploy:
+    name: Ansible Deploy Fabric
+    runs-on: self-hosted
+    needs: aci-snapshot
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ansible playbook Fabric Deploy
+        run: |
+          ansible-playbook playbooks/fabric1/fabric_deploy -i ACI_Hosts.yml
