@@ -4,7 +4,7 @@
     state: present
     export_policy: config_backup
     max_count: 10
-    description: Backups taken before new config applied 
+    description: Backups taken before new config applied
   delegate_to: localhost
   register: result
   retries: "{{ loop_retries }}"
@@ -12,7 +12,7 @@
   until: result.failed == false
 
 - name: Wait for snapshot to be finished before querying
-  pause:
+  ansible.builtin.pause:
     seconds: 10
 
 - name: Query Snapshot to Ensure Its Created
