@@ -23,7 +23,7 @@ jobs:
       - name: Run ansible playbook dry-run
         run: |
           ansible --version
-          ansible-playbook playbooks/fabric1/fabric_deploy -i ACI_Hosts.yml --check
+          ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml --check
 
 # take an ACI snapshot
   aci-snapshot:
