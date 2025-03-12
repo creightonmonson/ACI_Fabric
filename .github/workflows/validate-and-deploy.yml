@@ -18,6 +18,7 @@ jobs:
     name: Ansible Dry Run
     runs-on: self-hosted
     needs: ansible-lint
+    container: adealdag/ansible:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run ansible playbook dry-run
@@ -30,6 +31,7 @@ jobs:
     name: ACI Snapshot
     runs-on: self-hosted
     needs: ansible-dry-run
+    container: adealdag/ansible:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run ansible playbook snapshot
@@ -41,6 +43,7 @@ jobs:
     name: Ansible Deploy Fabric
     runs-on: self-hosted
     needs: aci-snapshot
+    container: adealdag/ansible:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run ansible playbook Fabric Deploy
