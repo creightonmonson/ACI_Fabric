@@ -1,6 +1,6 @@
 # ACI Fabric Infrastructure as Code
 
-The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is don ein a way to maximize scalability and flexibility.
+The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility.
 
 ```
 Directory Structure:
@@ -36,6 +36,8 @@ Directory Structure:
             o fab1-ap.yml  ---> Access Policies playbook for Fabric1
         - tenant_policies
             o fab1-tn.yml  ---> Tenant Policies playbook for Fabric1
+        o fabric_deploy.yml
+        o snapshot.yml
 
 - roles  (A Role for each variable file that are then referenced in playbooks)
     o ap_swp
@@ -55,6 +57,9 @@ Directory Structure:
     o tn_epg
     o tn_l3out
     o tn_contracts
+    o initial_setup
+    o snapshot
+    o fabric_deploy
 ```
 
 ## How to Use
@@ -72,6 +77,11 @@ The structure of this repo was built so that you can easily add another fabric t
 #### Deploy the Tenant Policies:
 `ansible-playbook playbooks/fabric1/tenant_policies/fab1-tn.yml -i ACI_Hosts.yml`
 
+#### Deploy Fabric:
+This playbook uses ansible import to run the above 3 playbooks in a row to maintain the state of the entire fabric. 
+
+`ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml`
+
 ## Notes
 Each task has error handling specifically added to avoid timeout errors from the APIC API. I found when running the playbooks that the API would send 503 errors occasionally which caused the playbook to fail.
 
@@ -84,8 +94,20 @@ delay: "{{ retry_delay }}"      # wait 3 seconds before retrying
 until: result.failed == false   # exit the retry loop when task suceeds
 ```
 
-## CI/CD
-Currently the only workflow running is to run ansible lint when a push or pull-request is executed on main branch (see .github/workflows directory). This runs on a self-hosted runner, but can be run using github cloud runner by changing `runs-on: self-hosted` to `runs-on: ubuntu-latest` 
+## Github Actions Workflow
+A github actions workflow (pipeline) is located in the .github/workflows directory, and executes the following using a self-hosted runner configured on an ubuntu server:
+- Ansible Linting/syntax validation
+- Ansible dry-run:
 
-Future development is to use self-hosted runner and add a CI/CD flow of 
-`push to main -> Ansible-Lint -> ACI snapshot -> Ansible Playbook run from docker container -> ACI Snapshot -> Diff Configs`
+     This job runs the ansible playbook fabric_deploy.yml using check mode. When playbooks are running in check mode, they do not make changes in the infrastructure, instead Ansible just simulates the changes. When using check mode together with Cisco ACI Ansible collection, the body of POST requests is saved in an output file (.json)that can be found in the playbook directory. 
+
+- Snapshot:
+
+    This job runs a snapshot in the ACI fabric that can be used as a rollback point 
+
+- Ansible Deployment:
+
+    This job runs the fabric_deploy playbook
+
+
+Future use of the dry-run output (.json) is to use these with NDI's pre-change analysis to validate the changes. Also will look to add a post-change analysis using NDI's delta analysis. Also, future additions will be to use a docker container for the ansible tasks on the runner. 
