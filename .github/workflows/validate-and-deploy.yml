@@ -18,7 +18,7 @@ jobs:
     name: Ansible Dry Run
     runs-on: self-hosted
     needs: ansible-lint
-#    container: cmons/ansible:latest
+    container: cmons/ansible:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run ansible playbook dry-run
@@ -31,11 +31,12 @@ jobs:
     name: ACI Snapshot
     runs-on: self-hosted
     needs: ansible-dry-run
-#    container: cmons/ansible:latest
+    container: cmons/ansible:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run ansible playbook snapshot
         run: |
+          ansible --version
           ansible-playbook playbooks/fabric1/snapshot.yml -i ACI_Hosts.yml
 
 # deploy the ACI fabric changes using Ansible
@@ -43,9 +44,10 @@ jobs:
     name: Ansible Deploy Fabric
     runs-on: self-hosted
     needs: aci-snapshot
-#    container: cmons/ansible:latest
+    container: cmons/ansible:latest
     steps:
       - uses: actions/checkout@v4
       - name: Run ansible playbook Fabric Deploy
         run: |
+          ansible --version
           ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml
