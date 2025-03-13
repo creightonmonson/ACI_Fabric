@@ -21,6 +21,12 @@ jobs:
     container: cmons/ansible:latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Cisco ACI Ansible collection
+        run: |
+          ansible-galaxy collection install cisco.aci
+          ansible-galaxy collection install cisco.nxos
+          ansible-galaxy collection install cisco.ios
+          ansible-galaxy collection install ansible.netcommon
       - name: Run ansible playbook dry-run
         run: |
           ansible --version
