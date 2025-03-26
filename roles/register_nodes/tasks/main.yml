@@ -1,0 +1,16 @@
+---
+- name: Register Leaf and Spines (fabric:NodeIdentP)
+  cisco.aci.aci_fabric_node:
+    switch: "{{ item.switch_name }}"
+    node_id: "{{ item.node_id }}"
+    serial: "{{ item.serial }}"
+    role: "{{ item.role }}"
+    pod_id: "{{ item.pod_id }}"
+    state: "{{ item.present }}"
+  delegate_to: localhost
+  when: nodes is defined
+  loop: "{{ nodes }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
