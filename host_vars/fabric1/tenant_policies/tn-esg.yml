@@ -1,13 +1,13 @@
 ---
 esgs:
-  - esg_name: App1_ESG 
+  - esg_name: App1_ESG
     description: ESG for application1 end points
     tenant: demo
     vrf: PROD
     ap: Security_Zones
     intra_esg_isolation: unenforced
     state: present
-  - esg_name: App2_ESG 
+  - esg_name: App2_ESG
     description: ESG for application2 end points
     tenant: demo
     vrf: PROD

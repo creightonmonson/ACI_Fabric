@@ -12,5 +12,5 @@ app_profiles:
 
   - ap_name: Security_Zones
     tenant: demo
-    description: Application Profile for ESGs 
+    description: Application Profile for ESGs
     state: present

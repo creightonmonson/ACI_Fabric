@@ -1,5 +1,5 @@
 ---
-nodes:
+register_nodes_nodes:
   - switch_name: LEAF-201
     node_id: 201
     serial: 11223344

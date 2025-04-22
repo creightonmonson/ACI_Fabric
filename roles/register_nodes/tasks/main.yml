@@ -9,7 +9,7 @@
     state: "{{ item.present }}"
   delegate_to: localhost
   when: nodes is defined
-  loop: "{{ nodes }}"
+  loop: "{{ register_nodes_nodes }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
