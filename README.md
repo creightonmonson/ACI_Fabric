@@ -1,6 +1,6 @@
 # ACI Fabric Infrastructure as Code
 
-The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility.
+The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Also, varaibles are organized in a way to use Loops as much as possible in the roles/tasks.
 
 ```
 Directory Structure:
@@ -27,6 +27,7 @@ Directory Structure:
         o tn-bd  -------------> Variables for creating Bridge Domains
         o tn-bd-subnets ------> Variables for applying subnets to BDs
         o tn-epg  ------------> Variables for creating endpoint groups
+        o tn-esg  ------------> Variables for creating endpoint security groups
         o tn-l3out -----------> Variables for L3out 
         o tn-contracts.yml ---> Variables for creating and binding contracts
 
@@ -55,6 +56,7 @@ Directory Structure:
     o tn_ap
     o tn_bd
     o tn_epg
+    o tn_esg
     o tn_l3out
     o tn_contracts
     o initial_setup
