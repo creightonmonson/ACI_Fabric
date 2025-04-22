@@ -57,32 +57,32 @@ filters:
     port: 6379
     description: Filter traffic destined to caching port
 epg_contracts:
-  - epg: EPG_Web
-    ap_name: App1
+  - epg: EPG_Web1
+    ap_name: App1_Network_Segments
     contract: Web-App
     type: consumer
-  - epg: EPG_Web
-    ap_name: App1
+  - epg: EPG_Web1
+    ap_name: App1_Network_Segments
     contract: default
     type: consumer
-  - epg: EPG_App
-    ap_name: App1
+  - epg: EPG_App1
+    ap_name: App1_Network_Segments
     contract: SQL
     type: consumer
-  - epg: EPG_App
-    ap_name: App1
+  - epg: EPG_App1
+    ap_name: App1_Network_Segments
     contract: Web-App
     type: provider
-  - epg: EPG_App
-    ap_name: App1
+  - epg: EPG_App1
+    ap_name: App1_Network_Segments
     contract: Cache
     type: consumer
-  - epg: EPG_DB
-    ap_name: App1
+  - epg: EPG_DB1
+    ap_name: App1_Network_Segments
     contract: SQL
     type: provider
-  - epg: EPG_DB
-    ap_name: App1
+  - epg: EPG_DB1
+    ap_name: App1_Network_Segments
     contract: Cache
     type: provider
 extepg_contracts:

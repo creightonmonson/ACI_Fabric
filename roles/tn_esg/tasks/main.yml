@@ -1,0 +1,35 @@
+---
+# tasks file for roles/tn_esg
+
+- name: Create ESGs (fv:ESg)
+  cisco.aci.aci_esg:
+    tenant: "{{  item.tenant }}"
+    vrf: "{{ item.vrf }}"
+    ap: "{{ item.ap }}"
+    esg: "{{ item.esg_name }}"
+    description: "{{ item.description }}"
+    intra_esg_isolation: "{{ item.intra_esg_isolation }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: esgs is defined
+  loop: "{{ esgs }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Add EPG to ESG Selectors (fV:EPgSelector)
+  cisco.aci.aci_esg_epg_selector:
+    tenant: "{{ item.tenant }}"
+    ap: Security_Zones
+    esg: "{{ item.esg }}"
+    epg_ap: "{{ item.ap_name }}"
+    epg: "{{ item.epg_name }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: esgs is defined
+  loop: "{{ epgs }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false

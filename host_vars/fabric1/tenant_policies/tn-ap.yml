@@ -1,11 +1,16 @@
 ---
 app_profiles:
-  - ap_name: App1
+  - ap_name: App1_Network_Segments
     tenant: demo
     description: Application Profile for App1
     state: present
 
-  - ap_name: Mgmt
+  - ap_name: App2_Network_Segments
     tenant: demo
-    description: Application Profile for Mgmt
+    description: Application Profile for App2
+    state: present
+
+  - ap_name: Security_Zones
+    tenant: demo
+    description: Application Profile for ESGs 
     state: present

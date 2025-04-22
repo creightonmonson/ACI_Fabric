@@ -1,9 +1,9 @@
 ---
 bridge_domains:
-  - bd_name: Apps_BD
+  - bd_name: 172.16.1.0_BD
     tenant: demo
     vrf: PROD
-    description: Bridge Domain for Applications on cluster
+    description: Bridge Domain for Applications in VLAN 10
     bd_type: ethernet
     mac_address: 00:22:BD:F8:19:FF
     l2_unknown_unicast: proxy # ["flood","proxy"]
@@ -17,10 +17,10 @@ bridge_domains:
     state: present
     l3out: OSPF_L3Out # Apply L3out variable to bind this BD to an L3Out
 
-  - bd_name: Mgmt_BD
+  - bd_name: 172.16.2.0_BD
     tenant: demo
     vrf: PROD
-    description: Bridge Domain for manangement devices on cluster
+    description: Bridge Domain for Applications in VLAN 20
     bd_type: ethernet
     mac_address: 00:22:BD:F8:19:FF
     l2_unknown_unicast: proxy # ["flood","proxy"]

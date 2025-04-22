@@ -1,33 +1,55 @@
 ---
 epgs:
-  - epg_name: EPG_Web
-    ap_name: App1
+  - epg_name: EPG_Web1
+    ap_name: App1_Network_Segments
     tenant: demo
     description: EPG for web servers
     intra_epg_isolation: unenforced
-    bd: Apps_BD
+    bd: 172.16.1.0_BD
+    esg: App1_ESG
     state: present
 
-  - epg_name: EPG_App
-    ap_name: App1
+  - epg_name: EPG_App1
+    ap_name: App1_Network_Segments
     tenant: demo
     description: EPG for App servers
     intra_epg_isolation: unenforced
-    bd: Apps_BD
+    bd: 172.16.1.0_BD
+    esg: App1_ESG
     state: present
 
-  - epg_name: EPG_DB
-    ap_name: App1
+  - epg_name: EPG_DB1
+    ap_name: App1_Network_Segments
     tenant: demo
     description: EPG for DB servers
     intra_epg_isolation: unenforced
-    bd: Apps_BD
+    bd: 172.16.1.0_BD
+    esg: App1_ESG
     state: present
 
-  - epg_name: EPG_SNMP
-    ap_name: Mgmt
+  - epg_name: EPG_Web2
+    ap_name: App2_Network_Segments
     tenant: demo
-    description: EPG for SNMP server
+    description: EPG for web servers
     intra_epg_isolation: unenforced
-    bd: Mgmt_BD
+    bd: 172.16.2.0_BD
+    esg: App2_ESG
+    state: present
+
+  - epg_name: EPG_App2
+    ap_name: App2_Network_Segments
+    tenant: demo
+    description: EPG for app servers
+    intra_epg_isolation: unenforced
+    bd: 172.16.2.0_BD
+    esg: App2_ESG
+    state: present
+
+  - epg_name: EPG_DB2
+    ap_name: App2_Network_Segments
+    tenant: demo
+    description: EPG for web servers
+    intra_epg_isolation: unenforced
+    bd: 172.16.2.0_BD
+    esg: App2_ESG
     state: present
