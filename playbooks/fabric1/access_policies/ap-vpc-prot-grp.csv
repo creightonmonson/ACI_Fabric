@@ -1,0 +1,2 @@
+vpc_protection_group_name,pg_id,switch_1_id,switch_2_id,domain_policy,state
+VPC_101_102,101,101,102,default,present

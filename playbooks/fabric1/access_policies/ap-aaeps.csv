@@ -1,0 +1,4 @@
+aaep_name,aaep_description,aaep_infra_vlan,domain_name,domain_type,state
+Apps_AAEP,AAEP for apps residing in cluster,FALSE,Apps_PhyDom,phys,present
+Mgmt_AAEP,AAEP for mgmt services,FALSE,Mgmt_PhyDom,phys,present
+External_Net_AAEP,AAEP for connection to ext networks,FALSE,L3Out_Dom,l3dom,present

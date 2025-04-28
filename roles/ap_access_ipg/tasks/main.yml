@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/ap_access_ipg
+- name: Read CSV information
+  community.general.read_csv:
+    path: ap-access-ipg.csv
+  register: access_policy_group
 
 - name: Create Access Port IPGs(infra:AccBndlGrp, infra:AccPortGrp)
   cisco.aci.aci_interface_policy_leaf_policy_group:
@@ -11,7 +15,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: access_policy_group is defined
-  loop: "{{ access_policy_group }}"
+  loop: "{{ access_policy_group.list }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

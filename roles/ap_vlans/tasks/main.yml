@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/ap-vlans
+- name: Read CSV information
+  community.general.read_csv:
+    path: ap-vlanpools.csv
+  register: vlan_pools
 
 - name: Create VLAN Pool
   cisco.aci.aci_vlan_pool:
@@ -8,7 +12,7 @@
     description: "{{ item.vlan_pool_description }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ vlan_pools }}"
+  loop: "{{ vlan_pools.list }}"
   when: vlan_pools is defined
   register: result
   retries: "{{ loop_retries }}"
@@ -23,8 +27,8 @@
     block_end: "{{ item.end }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ vlan_block_ranges }}"
-  when: vlan_block_ranges is defined
+  loop: "{{ vlan_pools.list }}"
+  when: vlan_pools is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

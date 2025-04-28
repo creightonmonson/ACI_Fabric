@@ -1,14 +1,18 @@
 ---
 # tasks file for roles/ap-swp
+- name: Read CSV information
+  community.general.read_csv:
+    path: ap-swp.csv
+  register: switch_profile
 
 - name: Create Leaf Switch Profiles  (infra:NodeP)
   cisco.aci.aci_switch_policy_leaf_profile:
-    leaf_profile: "{{ item.name }}"
+    leaf_profile: "{{ item.swp_name }}"
     description: "{{ item.description }}"
     state: "{{ item.state }}"
   delegate_to: localhost
   when: switch_profile is defined
-  loop: "{{ switch_profile }}"
+  loop: "{{ switch_profile.list }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -16,15 +20,15 @@
 
 - name: Add Leaf Selectors to Leaf Profiles ( infra:LeafS, infra:NodeBlk, infra:RsAccNodePGrp)
   cisco.aci.aci_switch_leaf_selector:
-    leaf_profile: "{{ item.name }}"
+    leaf_profile: "{{ item.swp_name }}"
     leaf: "{{ item.leaf_selector_name }}"
     leaf_node_blk: "{{ item.node_blk_name }}"
-    from: "{{ item.from }}"
-    to: "{{ item.to }}"
+    from: "{{ item.from_node }}"
+    to: "{{ item.to_node }}"
     state: "{{ item.state }}"
   delegate_to: localhost
   when: switch_profile is defined
-  loop: "{{ switch_profile }}"
+  loop: "{{ switch_profile.list }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

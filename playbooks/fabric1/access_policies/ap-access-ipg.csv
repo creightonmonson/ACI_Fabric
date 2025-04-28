@@ -1,0 +1,4 @@
+name,lldp,aaep,description,state
+Baremetal_Server_IPG,LLDP_Enabled,Mgmt_AAEP,Baremetal Server IPG,present
+Cluster_IPG,LLDP_Enabled,Apps_AAEP,Cluster IPG,present
+External_Catalyst_IPG,LLDP_Enabled,External_Net_AAEP,External Network Connection IPG,present

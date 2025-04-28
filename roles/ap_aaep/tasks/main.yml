@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/ap-aaep
+- name: Read CSV information
+  community.general.read_csv:
+    path: ap-aaeps.csv
+  register: aaeps
 
 - name: Create Attacheable Access Entity Profile  (infra:AttEntityP, infra:ProvAcc)
   cisco.aci.aci_aep:
@@ -9,7 +13,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: aaeps is defined
-  loop: "{{ aaeps }}"
+  loop: "{{ aaeps.list }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -22,7 +26,7 @@
     domain_type: "{{ item.domain_type }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ aaeps }}"
+  loop: "{{ aaeps.list }}"
   when: aaeps is defined
   register: result
   retries: "{{ loop_retries }}"

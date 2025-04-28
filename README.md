@@ -1,6 +1,6 @@
 # ACI Fabric Infrastructure as Code
 
-The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Also, varaibles are organized in a way to use Loops as much as possible in the roles/tasks.
+The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Access policy variables in the host_vars are commented out currently to test using csv files instead - which are located in the access policy playbook directory. Also, varaibles are organized in a way to use Loops as much as possible in the roles/tasks.
 
 ```
 Directory Structure:
@@ -35,6 +35,7 @@ Directory Structure:
     - fabric1  ---------------> Playbooks for Fabric1
         - access_policies
             o fab1-ap.yml  ---> Access Policies playbook for Fabric1
+            o all csv files with variables for access policies
         - tenant_policies
             o fab1-tn.yml  ---> Tenant Policies playbook for Fabric1
         o fabric_deploy.yml

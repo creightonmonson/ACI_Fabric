@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/ap-domains
+- name: Read CSV information
+  community.general.read_csv:
+    path: ap-domains.csv
+  register: domains
 
 - name: Create/Ensure Domain  (L2dom, L3dom,phys)
   cisco.aci.aci_domain:
@@ -7,7 +11,7 @@
     domain_type: "{{ item.domain_type }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ domains }}"
+  loop: "{{ domains.list }}"
   when: domains is defined
   register: result
   retries: "{{ loop_retries }}"
@@ -22,7 +26,7 @@
     pool_allocation_mode: "{{ item.vlan_pool_allocation_mode }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ domains }}"
+  loop: "{{ domains.list }}"
   when: domains is defined
   register: result
   retries: "{{ loop_retries }}"

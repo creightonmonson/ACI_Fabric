@@ -1,0 +1,6 @@
+name,description,ifp,interface_type,leaf_port_block,from,to,ipg,state
+eth1_1,Port to Baremetal,LEAF101_IFP,switch_port,1,1,1,Baremetal_Server_IPG,present
+eth1_15,Port to Baremetal server,LEAF102_IFP,switch_port,1,15,15,Baremetal_Server_IPG,present
+eth1_10,VPC to Cluster 1,LEAF101-102_IFP,vpc,1,10,10,Cluster_VPC_IPG,present
+eth1_11,VPC to Cluster 2,LEAF101-102_IFP,vpc,1,11,11,Cluster_VPC_IPG,present
+eth1_20,Ext Connection to campus L3 switch,LEAF101_IFP,switch_port,1,20,20,External_Catalyst_IPG,present

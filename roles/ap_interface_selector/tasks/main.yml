@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/ap_interface_selector
+- name: Read CSV information
+  community.general.read_csv:
+    path: ap-interface-selector.csv
+  register: interface_selector
 
 - name: Associate Interface Selector to Interface Profile (infra:HPortS, infra:RsAccBaseGrp, and infra:PortBlk)
   cisco.aci.aci_access_port_to_interface_policy_leaf_profile:
@@ -14,7 +18,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: interface_selector is defined
-  loop: "{{ interface_selector }}"
+  loop: "{{ interface_selector.list }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
