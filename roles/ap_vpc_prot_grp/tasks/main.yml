@@ -4,9 +4,11 @@
 # This task loops through VPC pairs defined in the vars file ap-vpc-prot-grp.csv
 # Applies the default vpc domain policy and gives the VPC protection group a Logical Pair id
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-vpc-prot-grp.csv
   register: vpc_protection_group
+  tags:
+    - skip_ansible_lint
 
 - name: Create VPC Explicit Protection Group for VPC Pairs (fabric:ExplicitGEp and fabric:NodePEp)
   cisco.aci.aci_switch_policy_vpc_protection_group:

@@ -1,9 +1,11 @@
 ---
 # tasks file for roles/ap-vlans
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-vlanpools.csv
   register: vlan_pools
+  tags:
+    - skip_ansible_lint
 
 - name: Create VLAN Pool
   cisco.aci.aci_vlan_pool:

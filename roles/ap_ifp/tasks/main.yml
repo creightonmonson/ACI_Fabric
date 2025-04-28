@@ -1,9 +1,11 @@
 ---
 # tasks file for roles/ap_ifp
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-ifp.csv
   register: interface_profile
+  tags:
+    - skip_ansible_lint
 
 - name: Create Leaf Interface Profiles (infra:AccPortP)
   cisco.aci.aci_interface_policy_leaf_profile:

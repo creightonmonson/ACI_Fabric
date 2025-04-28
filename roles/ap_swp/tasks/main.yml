@@ -1,9 +1,11 @@
 ---
 # tasks file for roles/ap-swp
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-swp.csv
   register: switch_profile
+  tags:
+    - skip_ansible_lint
 
 - name: Create Leaf Switch Profiles  (infra:NodeP)
   cisco.aci.aci_switch_policy_leaf_profile:

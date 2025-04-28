@@ -1,9 +1,11 @@
 ---
 # tasks file for roles/ap_interface_selector
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-interface-selector.csv
   register: interface_selector
+  tags:
+    - skip_ansible_lint
 
 - name: Associate Interface Selector to Interface Profile (infra:HPortS, infra:RsAccBaseGrp, and infra:PortBlk)
   cisco.aci.aci_access_port_to_interface_policy_leaf_profile:

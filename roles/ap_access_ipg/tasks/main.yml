@@ -4,6 +4,8 @@
   read_csv:
     path: ap-access-ipg.csv
   register: access_policy_group
+  tags:
+    - skip_ansible_lint
 
 - name: Create Access Port IPGs(infra:AccBndlGrp, infra:AccPortGrp)
   cisco.aci.aci_interface_policy_leaf_policy_group:

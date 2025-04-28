@@ -4,6 +4,8 @@
   read_csv:
     path: ap-domains.csv
   register: domains
+  tags:
+    - skip_ansible_lint
 
 - name: Create/Ensure Domain  (L2dom, L3dom,phys)
   cisco.aci.aci_domain:

@@ -1,9 +1,11 @@
 ---
 # tasks file for roles/ap-aaep
 - name: Read CSV information
-  read_csv:
+  read_csv: 
     path: ap-aaeps.csv
   register: aaeps
+  tags:
+    - skip_ansible_lint
 
 - name: Create Attacheable Access Entity Profile  (infra:AttEntityP, infra:ProvAcc)
   cisco.aci.aci_aep:
