@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/ap-domains
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-domains.csv
   register: domains
 

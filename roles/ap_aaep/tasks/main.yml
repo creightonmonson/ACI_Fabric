@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/ap-aaep
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-aaeps.csv
   register: aaeps
 

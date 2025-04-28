@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/ap_access_ipg
 - name: Read CSV information
-  community.general.read_csv:
+  read_csv:
     path: ap-access-ipg.csv
   register: access_policy_group
 
