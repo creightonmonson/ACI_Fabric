@@ -56,35 +56,49 @@ filters:
     protocol: tcp
     port: 6379
     description: Filter traffic destined to caching port
-epg_contracts:
-  - epg: EPG_Web1
-    ap_name: App1_Network_Segments
-    contract: Web-App
-    type: consumer
-  - epg: EPG_Web1
-    ap_name: App1_Network_Segments
+esg_contracts:
+  - esg: App1_ESG
+    ap_name: Security_Zones
     contract: default
     type: consumer
-  - epg: EPG_App1
-    ap_name: App1_Network_Segments
+    state: present
+  - esg: App1_ESG
+    ap_name: Security_Zones
+    contract: Web-App
+    type: consumer
+    state: present
+  - esg: App1_ESG
+    ap_name: Security_Zones
     contract: SQL
     type: consumer
-  - epg: EPG_App1
-    ap_name: App1_Network_Segments
+    state: present
+  - esg: App1_ESG
+    ap_name: Security_Zones
+    contract: Cache
+    type: consumer
+    state: present
+
+  - esg: App2_ESG
+    ap_name: Security_Zones
+    contract: default
+    type: consumer
+    state: present
+  - esg: App2_ESG
+    ap_name: Security_Zones
     contract: Web-App
     type: provider
-  - epg: EPG_App1
-    ap_name: App1_Network_Segments
+    state: present
+  - esg: App2_ESG
+    ap_name: Security_Zones
     contract: Cache
-    type: consumer
-  - epg: EPG_DB1
-    ap_name: App1_Network_Segments
+    type: provider
+    state: present
+  - esg: App2_ESG
+    ap_name: Security_Zones
     contract: SQL
     type: provider
-  - epg: EPG_DB1
-    ap_name: App1_Network_Segments
-    contract: Cache
-    type: provider
+    state: present
+
 extepg_contracts:
   - extepg: Ext_EPG
     l3out: OSPF_L3Out
