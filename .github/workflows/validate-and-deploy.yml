@@ -12,6 +12,7 @@ jobs:
         uses: ansible/ansible-lint@main
         with:
           setup_python: "true"
+          requirements_file: "ansible-lint-requirements.yml"
 
 # run dry run and store the results of the pending changes in a file in each respective playbook directory
   ansible-dry-run:
