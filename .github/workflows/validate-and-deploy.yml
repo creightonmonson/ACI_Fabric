@@ -59,3 +59,12 @@ jobs:
         run: |
           ansible --version
           ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml
+
+# fix permissions
+  fix-permissions:
+    name: fix permissions after Docker run
+    runs-on: self-hosted
+    steps:
+      - name: Correct permissions on runner
+        run: |
+          sudo chown -R $USER:$USER ${{ github.workspace }}
