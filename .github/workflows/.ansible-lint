@@ -1,3 +1,0 @@
----
-skip_list:
-    - skip_ansible_lint   # tag added to tasks to skip lint on
