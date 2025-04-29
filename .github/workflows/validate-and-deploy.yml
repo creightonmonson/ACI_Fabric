@@ -64,6 +64,7 @@ jobs:
   fix-permissions:
     name: fix permissions after Docker run
     runs-on: self-hosted
+    needs: ansible-deploy
     steps:
       - name: Correct permissions on runner
         run: |
