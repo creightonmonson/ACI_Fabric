@@ -28,6 +28,7 @@ jobs:
           ansible-galaxy collection install cisco.nxos
           ansible-galaxy collection install cisco.ios
           ansible-galaxy collection install ansible.netcommon
+          ansible-galaxy collection install community.general
       - name: Run ansible playbook dry-run
         run: |
           ansible --version
