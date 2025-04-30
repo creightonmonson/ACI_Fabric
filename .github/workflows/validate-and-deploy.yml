@@ -32,7 +32,7 @@ jobs:
       - name: Run ansible playbook dry-run
         run: |
           ansible --version
-          ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml --check
+          ansible-playbook fabric_deploy.yml -i ACI_Hosts.yml --check
 
 # take an ACI snapshot
   aci-snapshot:
@@ -45,7 +45,7 @@ jobs:
       - name: Run ansible playbook snapshot
         run: |
           ansible --version
-          ansible-playbook playbooks/fabric1/snapshot.yml -i ACI_Hosts.yml
+          ansible-playbook snapshot.yml -i ACI_Hosts.yml
 
 # deploy the ACI fabric changes using Ansible
   ansible-deploy:
@@ -58,7 +58,7 @@ jobs:
       - name: Run ansible playbook Fabric Deploy
         run: |
           ansible --version
-          ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml
+          ansible-playbook fabric_deploy.yml -i ACI_Hosts.yml
 
 # fix permissions
   fix-permissions:
