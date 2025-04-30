@@ -1,6 +1,6 @@
 # ACI Fabric Infrastructure as Code
 
-The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Access policy variables in the host_vars are commented out currently to test using csv files instead - which are located in the access policy playbook directory. Also, varaibles are organized in a way to use Loops as much as possible in the roles/tasks.
+The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Access policy variables in the host_vars are commented out currently to test using csv files instead. Also, variables are organized in a way to use Loops as much as possible in the roles/tasks so that additions to the fabric configuration can be accomplished simply by adding new variables to the vars files.
 
 ```
 Directory Structure:
@@ -8,38 +8,29 @@ Directory Structure:
 -ACI_Hosts.yml -----------> Host File for Fabric 1 APIC 
 -group_vars
     - all.yml ----------> Contains connection variables
--host_vars    ----------> host vars split into access policies and tenant policies 
-    - access_policies
-        o ap-swp.yml ---------> Variables for switch profiles
-        o ap-ifp.yml ---------> Variables for interface profiles
-        o ap-int-policy.yml --> Variables for Policies (LACP, LLDP, etc)
-        o ap-access-ipg.yml --> Variables for access port policy groups (IPG)
-        o ap-vpc-ipg.yml -----> Variables for VPC port policy groups
-        o ap-vpc-prot-grp ----> Variables for VPC domain protection group
-        o ap-interface-selector.yml ---> Variables for interfaces port selector
-        o ap-vlanpools.yml ---> Variables for VLAN pools
-        o ap-domains.yml -----> Variables for domains
-        o ap-aaep.yml --------> Variables for AAEP
-    - tenant_policies
-        o tn-tenant.yml ------> Variables for creating tenants
-        o tn-vrf -------------> Variables for creating VRFs
-        o tn-ap  -------------> Variables for creating Application Profiles
-        o tn-bd  -------------> Variables for creating Bridge Domains
-        o tn-bd-subnets ------> Variables for applying subnets to BDs
-        o tn-epg  ------------> Variables for creating endpoint groups
-        o tn-esg  ------------> Variables for creating endpoint security groups
-        o tn-l3out -----------> Variables for L3out 
-        o tn-contracts.yml ---> Variables for creating and binding contracts
-
-- playbooks (Organized by Fabric and Logical/Physical model)
-    - fabric1  ---------------> Playbooks for Fabric1
+-host_vars    ----------> host vars split into access policies and tenant policies per fabric
+    - fabric1
         - access_policies
-            o fab1-ap.yml  ---> Access Policies playbook for Fabric1
-            o all csv files with variables for access policies
+            o ap-swp.yml ---------> Variables for switch profiles
+            o ap-ifp.yml ---------> Variables for interface profiles
+            o ap-int-policy.yml --> Variables for Policies (LACP, LLDP, etc)
+            o ap-access-ipg.yml --> Variables for access port policy groups (IPG)
+            o ap-vpc-ipg.yml -----> Variables for VPC port policy groups
+            o ap-vpc-prot-grp ----> Variables for VPC domain protection group
+            o ap-interface-selector.yml ---> Variables for interfaces port selector
+            o ap-vlanpools.yml ---> Variables for VLAN pools
+            o ap-domains.yml -----> Variables for domains
+            o ap-aaep.yml --------> Variables for AAEP
         - tenant_policies
-            o fab1-tn.yml  ---> Tenant Policies playbook for Fabric1
-        o fabric_deploy.yml
-        o snapshot.yml
+            o tn-tenant.yml ------> Variables for creating tenants
+            o tn-vrf -------------> Variables for creating VRFs
+            o tn-ap  -------------> Variables for creating Application Profiles
+            o tn-bd  -------------> Variables for creating Bridge Domains
+            o tn-bd-subnets ------> Variables for applying subnets to BDs
+            o tn-epg  ------------> Variables for creating endpoint groups
+            o tn-esg  ------------> Variables for creating endpoint security groups
+            o tn-l3out -----------> Variables for L3out 
+            o tn-contracts.yml ---> Variables for creating and binding contracts
 
 - roles  (A Role for each variable file that are then referenced in playbooks)
     o ap_swp
@@ -63,27 +54,35 @@ Directory Structure:
     o initial_setup
     o snapshot
     o fabric_deploy
+
+system_configuration_deploy.yml -------> Playbook to deploy system configurations 
+access_policy_deploy.yml  -------------> Playbook to deploy access policies
+tenant_policy_deploy.yml  -------------> Playbook to deploy tenant policies
+snapshot.yml              -------------> Playbook to take a snapshot
+fabric_deploy.yml         -------------> Playbook that runs system, access_policy, and tenant_policy playbooks sequentially
+register_nodes.yml        -------------> Playbook to register new nodes to fabric
+
 ```
 
 ## How to Use
 Add to variable files to add any new objects to the access or tenant policies. The goal is to be able to control the entire ACI Fabric through variable files as the variables will be the expected state of the network. Every object (for instance, an EPG) should have a "state" variable, which you will use to control that objects presence in the configuration. This is so that if you want to delete an object down the road, you would change that variable to state = absent and run the playbook which will cause that object to be removed. Note that if you just delete a variable and run the playbook, the object still remains in the configuration. 
 
-The structure of this repo was built so that you can easily add another fabric to this infrastructure by simply creating another host to the host file. The playbook directory "fabric1" could be copied to another directory,say "fabric2" and change the playbook targeted host to fabric2. Alternately, the name of the directory could be changed to say, ACI_MultiSite, and change the playbook target host from Fabric1 to All. 
+The structure of this repo was built so that you can easily add another fabric to this infrastructure by simply creating another host to the host file and then taking all the vars files from host_vars/fabric1 and pasting them into host_vars/fabric2 and setting the variables appropriately for the new fabric. Then change the playbooks host from fabric1 to fabric2, or if you want to configure both fabrics at the same time set the host to mynetwork.
 
 #### Deploy the initial settings (system settings and fabric policy):
 
-`ansible-playbook playbooks/fabric1/initial_setup/fab1-initial-setup.yml -i ACI_Hosts.yml`
+`ansible-playbook system_configuration_deploy.yml -i ACI_Hosts.yml`
 
 #### Deploy the Access Policies:
-`ansible-playbook playbooks/fabric1/access_policies/fab1-ap.yml -i ACI_Hosts.yml`
+`ansible-playbook access_policy_deploy.yml -i ACI_Hosts.yml`
 
 #### Deploy the Tenant Policies:
-`ansible-playbook playbooks/fabric1/tenant_policies/fab1-tn.yml -i ACI_Hosts.yml`
+`ansible-playbook tenant_policy_deploy.yml -i ACI_Hosts.yml`
 
 #### Deploy Fabric:
 This playbook uses ansible import to run the above 3 playbooks in a row to maintain the state of the entire fabric. 
 
-`ansible-playbook playbooks/fabric1/fabric_deploy.yml -i ACI_Hosts.yml`
+`ansible-playbook fabric_deploy.yml -i ACI_Hosts.yml`
 
 ## Notes
 Each task has error handling specifically added to avoid timeout errors from the APIC API. I found when running the playbooks that the API would send 503 errors occasionally which caused the playbook to fail.
@@ -102,7 +101,7 @@ A github actions workflow (pipeline) is located in the .github/workflows directo
 - Ansible Linting/syntax validation
 - Ansible dry-run:
 
-     This job runs the ansible playbook fabric_deploy.yml using check mode. When playbooks are running in check mode, they do not make changes in the infrastructure, instead Ansible just simulates the changes. When using check mode together with Cisco ACI Ansible collection, the body of POST requests is saved in an output file (.json)that can be found in the playbook directory. 
+     This job runs the ansible playbook fabric_deploy.yml using check mode. When playbooks are running in check mode, they do not make changes in the infrastructure, instead Ansible just simulates the changes. When using check mode together with Cisco ACI Ansible collection, the body of POST requests is saved in an output file (.json)that can be found in outputs directory. 
 
 - Snapshot:
 

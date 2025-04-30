@@ -2,7 +2,7 @@
 # tasks file for roles/ap-swp
 - name: Read CSV information
   read_csv:
-    path: ap-swp.csv
+    path: host_vars/fabric1/access_policies/ap-swp.csv
   register: switch_profile
   tags:
     - skip_ansible_lint

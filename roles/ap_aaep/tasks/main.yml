@@ -2,7 +2,7 @@
 # tasks file for roles/ap-aaep
 - name: Read CSV information
   read_csv:
-    path: ap-aaeps.csv
+    path: host_vars/fabric1/access_policies/ap-aaeps.csv
   register: aaeps
   tags:
     - skip_ansible_lint

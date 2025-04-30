@@ -1,5 +1,5 @@
 ---
-- name: Configure Initail Settings for fabric1
+- name: Configure Initial Settings
   hosts: fabric1
   gather_facts: false
   connection: local
@@ -11,7 +11,7 @@
       password: "{{ apic_password }}"
       validate_certs: "{{ apic_validate_certs }}"
       use_proxy: "{{ apic_use_proxy }}"
-      output_path: "{{ playbook_dir }}/initial_dryrun_data.json"
+      output_path: "system_settings_dryrun_data.json"
 
   roles:
     - initial_setup

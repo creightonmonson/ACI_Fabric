@@ -2,7 +2,7 @@
 # tasks file for roles/ap-domains
 - name: Read CSV information
   read_csv:
-    path: ap-domains.csv
+    path: host_vars/fabric1/access_policies/ap-domains.csv
   register: domains
   tags:
     - skip_ansible_lint

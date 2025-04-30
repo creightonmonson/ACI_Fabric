@@ -1,0 +1,1 @@
+[{"ospfExtP": {"attributes": {"areaId": "0", "areaType": "regular", "areaCost": "1", "annotation": "orchestrator:ansible"}}}][{"vzEntry": {"attributes": {"descr": "Filter traffic destined to ICMP", "dFromPort": "0", "dToPort": "0", "etherT": "ip", "name": "icmp", "prot": "icmp", "tcpRules": "", "annotation": "orchestrator:ansible", "dn": "uni/tn-demo/flt-icmp/e-icmp"}}}]

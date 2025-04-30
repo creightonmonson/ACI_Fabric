@@ -1,0 +1,9 @@
+---
+- name: Configure Initial Setup (System Settings and Fabric Policies)
+  ansible.builtin.import_playbook: system_configuration_deploy.yml
+
+- name: Configure Access Policies
+  ansible.builtin.import_playbook: access_policy_deploy.yml
+
+- name: Configure Tenant Policies
+  ansible.builtin.import_playbook: tenant_policy_deploy.yml

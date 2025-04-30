@@ -2,7 +2,7 @@
 # tasks file for roles/ap_ifp
 - name: Read CSV information
   read_csv:
-    path: ap-ifp.csv
+    path: host_vars/fabric1/access_policies/ap-ifp.csv
   register: interface_profile
   tags:
     - skip_ansible_lint

@@ -2,7 +2,7 @@
 # tasks file for roles/ap_access_ipg
 - name: Read CSV information
   read_csv:
-    path: ap-access-ipg.csv
+    path: host_vars/fabric1/access_policies/ap-access-ipg.csv
   register: access_policy_group
   tags:
     - skip_ansible_lint
