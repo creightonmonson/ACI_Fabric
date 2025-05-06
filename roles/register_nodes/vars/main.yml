@@ -1,28 +1,28 @@
 ---
 register_nodes_nodes:
-  - switch_name: LEAF-201
-    node_id: 201
-    serial: 11223344
-    role: leaf
-    pod_id: 1
-    state: present
-    ipv4_addr: 192.168.1.201/24
-    ipv4_gw: 192.168.1.1
-
-  - switch_name: LEAF-202
-    node_id: 202
-    serial: 11223345
-    pod_id: 1
-    role: leaf
-    state: present
-    ipv4_addr: 192.168.1.202/24
-    ipv4_gw: 192.168.1.1
-
-  - switch_name: SPINE-101
+  - switch_name: LEAF-101
     node_id: 101
-    serial: 11223346
+    serial: TEP-1-101
+    role: leaf
+    pod_id: 1
+    state: present
+    ipv4_addr: 192.168.1.101/24
+    ipv4_gw: 192.168.1.1
+
+  - switch_name: LEAF-102
+    node_id: 102
+    serial: TEP-1-102
+    pod_id: 1
+    role: leaf
+    state: present
+    ipv4_addr: 192.168.1.102/24
+    ipv4_gw: 192.168.1.1
+
+  - switch_name: SPINE-201
+    node_id: 201
+    serial: TEP-1-103
     pod_id: 1
     role: spine
     state: present
-    ipv4_addr: 192.168.1.101/24
+    ipv4_addr: 192.168.1.201/24
     ipv4_gw: 192.168.1.1
