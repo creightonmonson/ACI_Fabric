@@ -7,6 +7,11 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.1.0_BD
     esg: App1_ESG
+    aaep: Apps_AAEP
+    vlan: 100
+    interface_mode: trunk # access, native, trunk
+    domain: Apps_PhyDom
+    domain_type: phys
     state: present
 
   - epg_name: EPG_App1
@@ -16,6 +21,11 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.1.0_BD
     esg: App1_ESG
+    aaep: Apps_AAEP
+    vlan: 101
+    interface_mode: trunk # access, native, trunk
+    domain: Apps_PhyDom
+    domain_type: phys
     state: present
 
   - epg_name: EPG_DB1
@@ -25,6 +35,11 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.1.0_BD
     esg: App1_ESG
+    aaep: Apps_AAEP
+    vlan: 102
+    interface_mode: trunk # access, native, trunk
+    domain: Apps_PhyDom
+    domain_type: phys
     state: present
 
   - epg_name: EPG_Web2
@@ -34,6 +49,11 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.2.0_BD
     esg: App2_ESG
+    aaep: Apps_AAEP
+    vlan: 103
+    interface_mode: trunk # access, native, trunk
+    domain: Apps_PhyDom
+    domain_type: phys
     state: present
 
   - epg_name: EPG_App2
@@ -43,6 +63,11 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.2.0_BD
     esg: App2_ESG
+    aaep: Apps_AAEP
+    vlan: 104
+    interface_mode: trunk # access, native, trunk
+    domain: Apps_PhyDom
+    domain_type: phys
     state: present
 
   - epg_name: EPG_DB2
@@ -52,4 +77,9 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.2.0_BD
     esg: App2_ESG
+    aaep: Apps_AAEP
+    vlan: 105
+    interface_mode: trunk # access, native, trunk
+    domain: Apps_PhyDom
+    domain_type: phys
     state: present
