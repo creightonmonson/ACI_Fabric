@@ -28,6 +28,7 @@
           guiTextMessage: "{{ initial_setup_aci.system.system_alias_banner.alias | default(omit) }}"
           message: "{{ initial_setup_aci.system.system_alias_banner.apic_banner | default(omit) }}"
           switchMessage: "{{ initial_setup_aci.system.system_alias_banner.switch_banner | default(omit) }}"
+          guiMessage: "{{ initial_setup_aci.system.system_alias_banner.prelogin_text | default(omit) }}"
   when:
     - initial_setup_aci.system.system_alias_banner is defined
   register: result
@@ -566,6 +567,45 @@
   when:
     - item.dns_name is defined
     - item.dns_domain_name is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Create MACSEC Parameter
+  cisco.aci.aci_rest:
+    path:  api/node/mo/uni/fabric/macsecpcontfab/fabparamp-{{ initial_setup_aci.fabric.global_policy.macsec_config.param_name }}.json
+    method: post
+    content: 
+      macsecFabParamPol:
+        attributes:
+          name: "{{ initial_setup_aci.fabric.global_policy.macsec_config.param_name | default(omit) }}"
+          secPolicy: "{{ initial_setup_aci.fabric.global_policy.macsec_config.sec_policy | default(omit)  }}"
+          cipherSuite: "{{ initial_setup_aci.fabric.global_policy.macsec_config.cipher | default(omit)  }}"
+          replayWindow: "{{ initial_setup_aci.fabric.global_policy.macsec_config.replay_window | default(omit) }}"
+  when: 
+    - initial_setup_aci.fabric.global_policy.macsec_config is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Create MACSEC Interface Policy
+  cisco.aci.aci_rest:
+    path: api/node/mo/uni/fabric/macsecfabifp-{{ initial_setup_aci.fabric.global_policy.macsec_config.ifpol_name }}.json
+    method: post
+    content:
+      macsecFabIfPol:
+        attributes:
+          name: "{{ initial_setup_aci.fabric.global_policy.macsec_config.ifpol_name }}"
+          adminSt: "enabled"
+          useAutoKeys: "yes"
+        children:
+          - macsecRsToParamPol:
+              attributes:
+                tDn: uni/fabric/macsecpcontfab/fabparamp-{{ initial_setup_aci.fabric.global_policy.macsec_config.param_name }}
+  when: 
+    - initial_setup_aci.fabric.global_policy.macsec_config is defined
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

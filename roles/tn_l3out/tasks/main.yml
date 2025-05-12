@@ -137,7 +137,7 @@
 - name: Bind L3Out to Bridge Domains (fv:RsBDToOut)
   cisco.aci.aci_bd_to_l3out:
     bd: "{{ item.bd_name }}"
-    l3out: "{{ item.l3out }}"
+    l3out: "{{ item.l3out | default(omit) }}"
     tenant: "{{ item.tenant }}"
     state: "{{ item.state }}"
   delegate_to: localhost

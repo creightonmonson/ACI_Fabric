@@ -7,6 +7,7 @@ initial_setup_aci:
       alias: "Ansible-demo"
       apic_banner: "Welcome to this Ansible-automated fabric"
       switch_banner: "You are logging into a switch that belongs to an Ansible-automated ACI fabric"
+      prelogin_text: "This is ACI SIM is managed by Ansible"
 
     system_response_time:
       state: "enabled"
@@ -73,7 +74,7 @@ initial_setup_aci:
   fabric: # Fabric policies
     pod_policy:
       date_time:
-        - name: "default"
+        - name: "lab_time"
           description: ""
           admin_state: "enabled"
           server_state: "disabled"
@@ -86,7 +87,7 @@ initial_setup_aci:
               max_poll: "6"
               mgmt_epg: "oob-default"
       snmp:
-        - name: "default"
+        - name: "lab_snmp"
           description: ""
           state: "enabled"
           contact: ""
@@ -103,7 +104,7 @@ initial_setup_aci:
                   name: "snmpManager"
 
       management_access:
-        - name: "default"
+        - name: "lab_access"
           description: ""
           telnet:
             state: "disabled"
@@ -197,7 +198,7 @@ initial_setup_aci:
 
     global_policy:
       dns:
-        - name: "default"
+        - name: "lab_dns"
           description: ""
           management: "oob-default"
           domain:
@@ -207,23 +208,29 @@ initial_setup_aci:
           provider:
             - addr: "192.168.2.1"
               preferred: "yes"
+      macsec_config:
+        param_name: "macsec_param_should_secure"
+        sec_policy: "should-secure"
+        replay_window: "120"
+        cipher: "gcm-aes-xpn-256"
+        ifpol_name: "should_secure_ifpol"
 
     pod_policy_group:
-      - name: "default"
+      - name: "lab_pod_pol"
         description: ""
-        date_time: "default"
+        date_time: "lab_time"
         isis: "default"
         coop: "default"
         bgp_rr: "default"
-        management_access: "default"
-        snmp: "default"
-        macsec: "default"
+        management_access: "lab_access"
+        snmp: "lab_snmp"
+        macsec: "should_secure_ifpol"
 
     pod_profile:
-      - name: "default"
+      - name: "lab_pod_prof"
         description: ""
         selector:
           - name: "default"
             description: ""
             type: "ALL"
-            pod_policy_group: "default"
+            pod_policy_group: "lab_pod_pol"
