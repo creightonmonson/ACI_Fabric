@@ -5,3 +5,5 @@ all:
       hosts:
         fabric1:
           ansible_host: 192.168.1.4
+        fabric2:
+          ansible_host: 192.168.1.5

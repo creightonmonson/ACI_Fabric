@@ -3,6 +3,8 @@ apic_username: "ansible"
 apic_password: "AnsibleAdmin123!@#"
 apic_validate_certs: "no"
 apic_use_proxy: "no"
+use_ssl: "yes"
+use_port: "443"
 
 loop_retries: 3
 retry_delay: 3

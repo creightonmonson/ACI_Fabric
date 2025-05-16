@@ -1,0 +1,14 @@
+# ---
+# interface_profile:
+#   - name: LEAF101_IFP
+#     swp: LEAF101-SWP
+#     description: Interface Profile for Leaf 101
+#     state: present
+#   - name: LEAF102_IFP
+#     swp: LEAF102-SWP
+#     description: Interface Profile for Leaf 102
+#     state: present
+#   - name: LEAF101_102_IFP
+#     swp: LEAF101-102-SWP
+#     description: Leaf 101_102 vPC LEAF101_102 Interface Profile
+#     state: present

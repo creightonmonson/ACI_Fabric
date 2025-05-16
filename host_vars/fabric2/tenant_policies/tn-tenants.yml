@@ -1,0 +1,5 @@
+---
+tenants:
+  - tenant: demo-2
+    description: Demo tenant configured by ansible
+    state: present

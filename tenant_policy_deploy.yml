@@ -1,6 +1,6 @@
 ---
 - name: Create tenant policies
-  hosts: fabric1
+  hosts: mynetwork
   gather_facts: false
   connection: local
   any_errors_fatal: true
