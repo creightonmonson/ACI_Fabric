@@ -1,4 +1,0 @@
-vlan_pool_name,vlan_pool_description,vlan_pool_mode,start,end,state
-cluster,cluster hosts vlan pool,static,100,199,present
-mgmt,mgmt vlan pool,static,200,299,present
-ext_pool,L3 out vlan pool,static,300,399,present

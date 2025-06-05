@@ -1,11 +1,5 @@
 ---
 # tasks file for roles/ap_interface_selector
-- name: Read CSV information
-  read_csv:
-    path: host_vars/fabric1/access_policies/ap-interface-selector.csv
-  register: interface_selector
-  tags:
-    - skip_ansible_lint
 
 - name: Associate Interface Selector to Interface Profile (infra:HPortS, infra:RsAccBaseGrp, and infra:PortBlk)
   cisco.aci.aci_access_port_to_interface_policy_leaf_profile:
@@ -20,7 +14,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: interface_selector is defined
-  loop: "{{ interface_selector.list }}"
+  loop: "{{ interface_selector }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

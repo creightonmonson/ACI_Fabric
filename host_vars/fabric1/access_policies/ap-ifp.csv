@@ -1,4 +1,0 @@
-name,swp,description,state
-LEAF101_IFP,LEAF101_SWP,Interface profile for Leaf 101,present
-LEAF102_IFP,LEAF102_SWP,Interface profile for Leaf 102,present
-LEAF101-102_IFP,LEAF101-102_SWP,Leaf 101_102 vPC Interface Profile,present

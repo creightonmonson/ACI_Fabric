@@ -303,6 +303,21 @@
   delay: "{{ retry_delay }}"
   until: result.failed == false
 
+- name: Configure Digital Optical Monitoring - Enable
+  cisco.aci.aci_rest:
+    path: /api/node/mo/uni/fabric/nodecontrol-default.json
+    method: post
+    content: 
+      fabricNodeControl:
+        attributes:
+          control: "{{ initial_setup_aci.fabric.digital_optical_monitoring }}"
+  when:
+    - initial_setup_aci.fabric.digital_optical_monitoring is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
 - name: Configure Fabric Pod Date and Time Policy
   cisco.aci.aci_rest:
     path: /api/node/mo/uni/fabric/time-{{ item.date_time_name }}.json

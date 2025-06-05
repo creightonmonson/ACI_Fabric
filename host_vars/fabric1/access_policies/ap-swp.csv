@@ -1,4 +1,0 @@
-swp_name,description,leaf_selector_name,node_blk_name,from_node,to_node,state
-LEAF101_SWP,Leaf 101 Switch Profile,LEAF101_Selector,node_blk_101,101,101,present
-LEAF102_SWP,Leaf 102 Switch Profile,LEAF102_Selector,node_blk_102,102,102,present
-LEAF101-102_SWP,Leaf 101-102 Switch Profile,LEAF101-102_Selector,node_blk_101_102,101,102,present

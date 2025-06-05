@@ -1,8 +1,0 @@
----
-vpc_policy_group:
-  - name: Cluster_VPC_IPG
-    lldp: LLDP_Enabled
-    lacp: LACP_Active
-    aaep: Apps_AAEP
-    description: IPG for cluster hosting Apps
-    state: present

@@ -1,0 +1,2 @@
+bd_name,tenant,vrf,subnet_name,gateway,mask,scope,description,bd_type,mac_address,l2_unknown_unicast,l3_unknown_multicast,ipv6_l3_unknown_multicast,multi_dest,arp_flooding,enable_routing,ip_learning,enable_multicast,state
+172.16.1.0_BD,demo,PROD,172.16.1.0_BD,172.16.1.1,24,public,something,ethernet,00:22:BD:F8:19:FF,proxy,flood,flood,bd-flood,FALSE,TRUE,TRUE,FALSE,present

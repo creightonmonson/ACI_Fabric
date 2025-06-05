@@ -100,8 +100,8 @@ esg_contracts:
     state: present
 
 extepg_contracts:
-  - extepg: Ext_EPG
-    l3out: OSPF_L3Out
+  - extepg: BGP_Ext_EPG
+    l3out: BGP_L3Out
     contract: default
     contract_type: provider
     state: present

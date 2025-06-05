@@ -1,11 +1,11 @@
 ---
 # tasks file for roles/ap-swp
-- name: Read CSV information
-  read_csv:
-    path: host_vars/fabric1/access_policies/ap-swp.csv
-  register: switch_profile
-  tags:
-    - skip_ansible_lint
+# - name: Read CSV information
+#   read_csv:
+#     path: host_vars/fabric1/access_policies/ap-swp.csv
+#   register: switch_profile
+#   tags:
+#     - skip_ansible_lint
 
 - name: Create Leaf Switch Profiles  (infra:NodeP)
   cisco.aci.aci_switch_policy_leaf_profile:
@@ -14,7 +14,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: switch_profile is defined
-  loop: "{{ switch_profile.list }}"
+  loop: "{{ switch_profile }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -30,7 +30,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: switch_profile is defined
-  loop: "{{ switch_profile.list }}"
+  loop: "{{ switch_profile }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

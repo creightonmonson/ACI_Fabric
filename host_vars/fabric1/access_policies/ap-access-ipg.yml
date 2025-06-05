@@ -1,19 +1,26 @@
-# ---
-# access_policy_group:
-#   - name: Baremetal_Server_IPG
-#     lldp: LLDP_Enabled
-#     aaep: Mgmt_AAEP
-#     description: Baremetal Server IPG
-#     state: present
+---
+access_policy_group:
+  - name: Baremetal_Server_IPG
+    lldp: LLDP_Enabled
+    aaep: Apps_AAEP
+    link_level: system-link-level-1G-auto
+    description: Baremetal Server IPG
+    state: present
 
-#   - name: NetServices_IPG
-#     lldp: LLDP_Enabled
-#     aaep: Mgmt_AAEP
-#     description: Network Services IPG
-#     state: present
+  - name: NetServices_IPG
+    lldp: LLDP_Enabled
+    aaep: Mgmt_AAEP
+    description: Network Services IPG
+    state: present
 
-#   - name: External_Catalyst_IPG
-#     lldp: LLDP_Enabled
-#     aaep: External_Net_AAEP
-#     description: External Network Connection IPG
-#     state: present
+  - name: External_Catalyst_IPG
+    lldp: LLDP_Enabled
+    aaep: External_Net_AAEP
+    description: External Network Connection IPG
+    state: present
+
+  - name: APIC_INB_IPG
+    lldp: LLDP_Enabled
+    aaep: INB_AAEP
+    description: APIC IN-Band connection IPG
+    state: present

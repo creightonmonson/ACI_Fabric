@@ -1,23 +1,22 @@
-# ---
-# switch_profile:
-#   - name: LEAF101-SWP
-#     description: Leaf 101 Switch Profile
-#     state: present
-#     leaf_selector_name: LEAF101_Selector
-#     node_blk_name: node_blk_101
-#     from: 101
-#     to: 101
-#   - name: LEAF102-SWP
-#     description: Leaf 102 Switch Profile
-#     state: present
-#     leaf_selector_name: LEAF102_Selector
-#     node_blk_name: node_blk_102
-#     from: 102
-#     to: 102
-#   - name: LEAF101-102-SWP
-#     description: Leaf 101-102 Switch Profile
-#     state: present
-#     leaf_selector_name: LEAF101_102_Selector
-#     node_blk_name: node_blk_101_102
-#     from: 101
-#     to: 102
+switch_profile:
+- swp_name: LEAF101_SWP
+  description: Leaf 101 Switch Profile
+  leaf_selector_name: LEAF101_Selector
+  node_blk_name: node_blk_101
+  from_node: 101
+  to_node: 101
+  state: present
+- swp_name: LEAF102_SWP
+  description: Leaf 102 Switch Profile
+  leaf_selector_name: LEAF102_Selector
+  node_blk_name: node_blk_102
+  from_node: 102
+  to_node: 102
+  state: present
+- swp_name: LEAF101-102_SWP
+  description: Leaf 101-102 Switch Profile
+  leaf_selector_name: LEAF101-102_Selector
+  node_blk_name: node_blk_101_102
+  from_node: 101
+  to_node: 102
+  state: present

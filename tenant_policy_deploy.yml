@@ -1,6 +1,6 @@
 ---
 - name: Create tenant policies
-  hosts: mynetwork
+  hosts: fabric1
   gather_facts: false
   connection: local
   any_errors_fatal: true
@@ -14,11 +14,14 @@
       output_path: "output/tenant_dryrun_data.json"
 
   roles:
+    - tn_in_band
     - tn_tenant
     - tn_vrf
     - tn_ap
     - tn_bd
     - tn_epg
+    - tn_static_path_binding
     - tn_esg
+    - tn_l2out
     - tn_l3out
     - tn_contracts

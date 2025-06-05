@@ -71,6 +71,7 @@ initial_setup_aci:
       resolution: "0"
 
   fabric: # Fabric policies
+    digital_optical_monitoring: "Dom"
     pod_policy:
       date_time:
         - name: "lab_time"
@@ -126,13 +127,13 @@ initial_setup_aci:
             state: "disabled"
             port: "80"
             redirect: "disabled"
-            allow_origins: "http:\/\/127.0.0.1:8000"
+            allow_origins: "http://127.0.0.1:8000"
             allow_credentials: "disabled"
             throttle: "disabled"
           https:
             state: "enabled"
             port: "443"
-            allow_origins: "http:\/\/127.0.0.1:8000"
+            allow_origins: "http://127.0.0.1:8000"
             allow_credentials: "disabled"
             ssl_protocols:
               - "TLSv1.2"

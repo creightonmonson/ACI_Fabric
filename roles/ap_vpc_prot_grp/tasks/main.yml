@@ -3,12 +3,7 @@
 
 # This task loops through VPC pairs defined in the vars file ap-vpc-prot-grp.csv
 # Applies the default vpc domain policy and gives the VPC protection group a Logical Pair id
-- name: Read CSV information
-  read_csv:
-    path: host_vars/fabric1/access_policies/ap-vpc-prot-grp.csv
-  register: vpc_protection_group
-  tags:
-    - skip_ansible_lint
+
 
 - name: Create VPC Explicit Protection Group for VPC Pairs (fabric:ExplicitGEp and fabric:NodePEp)
   cisco.aci.aci_switch_policy_vpc_protection_group:
@@ -20,7 +15,7 @@
     state: "{{ item.state }}"
   delegate_to: localhost
   when: vpc_protection_group is defined
-  loop: "{{ vpc_protection_group.list }}"
+  loop: "{{ vpc_protection_group }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

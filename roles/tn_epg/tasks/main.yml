@@ -20,21 +20,21 @@
 
 - name: Bind EPG to AAEP (infra:RsFuncToEPG)
   cisco.aci.aci_aep_to_epg:
-    epg: "{{ item.epg_name }}"
-    aep: "{{ item.aaep }}"
-    tenant: "{{ item.tenant }}"
-    ap: "{{ item.ap_name }}"
-    encap_id: "{{ item.vlan }}"
-    interface_mode: "{{ item.interface_mode }}"
-    state: "{{ item.state }}"
+    epg: "{{ item.0.epg_name }}"
+    aep: "{{ item.1 }}"
+    tenant: "{{ item.0.tenant }}"
+    ap: "{{ item.0.ap_name }}"
+    encap_id: "{{ item.0.vlan }}"
+    interface_mode: "{{ item.0.interface_mode }}"
+    state: "{{ item.0.state }}"
   delegate_to: localhost
-  when: epgs is defined
-  loop: "{{ epgs }}"
+  loop: "{{ epgs | selectattr('aaep_list', 'defined') | selectattr('aaep_list', 'truthy') | list | subelements('aaep_list') }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
   until: result.failed == false
-
+  tags:
+    - bind_EPG
 - name: Bind EPG to Domain (fv:RsDomAtt)
   cisco.aci.aci_epg_to_domain:
     epg: "{{ item.epg_name }}"

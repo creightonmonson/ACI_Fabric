@@ -1,11 +1,5 @@
 ---
 # tasks file for roles/ap-vlans
-- name: Read CSV information
-  read_csv:
-    path: host_vars/fabric1/access_policies/ap-vlanpools.csv
-  register: vlan_pools
-  tags:
-    - skip_ansible_lint
 
 - name: Create VLAN Pool
   cisco.aci.aci_vlan_pool:
@@ -14,7 +8,7 @@
     description: "{{ item.vlan_pool_description }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ vlan_pools.list }}"
+  loop: "{{ vlan_pools }}"
   when: vlan_pools is defined
   register: result
   retries: "{{ loop_retries }}"
@@ -29,7 +23,7 @@
     block_end: "{{ item.end }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ vlan_pools.list }}"
+  loop: "{{ vlan_block_ranges }}"
   when: vlan_pools is defined
   register: result
   retries: "{{ loop_retries }}"

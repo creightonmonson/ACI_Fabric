@@ -1,0 +1,242 @@
+- name: Apply In Band Bridge Domain Subnet (fv:Subnet)
+  cisco.aci.aci_bd_subnet:
+    tenant: "{{ item.tenant }}"
+    bd: "{{ item.bd_name }}"
+    subnet_name: "{{ item.subnet_name }}"
+    gateway: "{{ item.gateway }}"
+    mask: "{{ item.mask }}"
+    description: "{{ item.description }}"
+    scope: "{{ item.scope }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  loop: "{{ inb_bridge_domain }}"
+  when: item.gateway is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create In Band EPG (mgmt:OoB and mgmt:InB)
+  cisco.aci.aci_node_mgmt_epg:
+    epg: "{{ item.epg_name }}"
+    type: "{{ item.type }}"
+    encap: "{{ item.vlan }}"
+    bd: "{{ item.bd }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  loop: "{{ inb_epg }}"
+  when: inb_epg is defined
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Assign In Band addresses to nodes (mgmt:RsInBStNode)
+  cisco.aci.aci_static_node_mgmt_address:
+    epg: "{{ item.epg }}"
+    pod_id: "{{ item.pod_id }}"
+    type: in_band
+    node_id: "{{ item.node_id }}"
+    ipv4_address: "{{ item.ipv4_addr }}"
+    ipv4_gw: "{{ item.ipv4_gw }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: inb_addresses is defined
+  loop: "{{ inb_addresses }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+# L3Out for INB 
+- name: Create BGP L3Out (l3ext:Out)
+  cisco.aci.aci_l3out:
+    tenant: '{{ item.tenant }}'
+    vrf: '{{ item.vrf }}'
+    name: '{{ item.name }}'
+    domain: '{{ item.domain }}'
+    route_control: '{{ item.route_control }}'
+    l3protocol: '{{ item.protocol }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_l3out is defined
+  loop: "{{ inb_bgp_l3out }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create BGP L3Out Node Profile (l3ext:LNodeP)
+  cisco.aci.aci_l3out_logical_node_profile:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    node_profile: '{{ item.profile }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_l3out_node_profile is defined
+  loop: "{{ inb_bgp_l3out_node_profile }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Configure a node in the Node Profile (l3ext:RsNodeL3OutAtt)
+  cisco.aci.aci_l3out_logical_node:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    node_profile: '{{ item.profile }}'
+    pod_id: '{{ item.pod_id }}'
+    node_id: '{{ item.node_id }}'
+    router_id: '{{ item.router_id }}'
+    router_id_as_loopback: '{{ item.router_id_as_lo }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_l3out_nodes is defined
+  loop: "{{ inb_bgp_l3out_nodes }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create L3Out Interface Profile (l3ext:LIfP)
+  cisco.aci.aci_l3out_logical_interface_profile:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    node_profile: '{{ item.node_profile }}'
+    interface_profile: '{{ item.profile }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_l3out_interface_profile is defined
+  loop: "{{ inb_bgp_l3out_interface_profile }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Configure an interface in the Interface Profile (l3ext:RsPathL3OutAtt)
+  cisco.aci.aci_l3out_interface:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    node_profile: '{{ item.node_profile }}'
+    interface_profile: '{{ item.if_profile }}'
+    pod_id: '{{ item.pod_id }}'
+    node_id: '{{ item.node_id }}'
+    path_ep: '{{ item.if_path }}'
+    interface_type: '{{ item.if_type }}'
+    encap: "{{ item.vlan }}"
+    addr: '{{ item.addr }}'
+    mtu: '{{ item.mtu }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_l3out_interfaces is defined
+  loop: "{{ inb_bgp_l3out_interfaces }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create BGP Peer connectivity profile under interface profile (bgp:PeerP and bgp:InfraPeerP)
+  cisco.aci.aci_l3out_bgp_peer:
+    tenant: '{{ item.0.tenant }}'
+    l3out: '{{ item.0.l3out}}'
+    node_profile: '{{ item.0.node_profile }}'
+    interface_profile: '{{ item.0.if_profile }}'
+    pod_id: '{{ item.0.pod_id }}'
+    node_id: '{{ item.0.node_id }}'
+    path_ep: '{{ item.0.if_path }}'
+    peer_ip: '{{ item.1.peer_ip }}'
+    remote_asn: '{{ item.1.remote_asn }}'
+    ttl: '{{ item.1.ttl }}'
+    admin_state: "{{ item.1.admin_state }}"
+    bgp_controls: "{{ item.1.bgp_controls | default(omit) }}"
+    state: '{{ item.0.state }}'
+  delegate_to: localhost
+  when: inb_bgp_l3out_interfaces is defined
+  loop: '{{ inb_bgp_l3out_interfaces | subelements("bgp_peers") }}'
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+# ------------------------------------
+# Configure L3Out (EPG and contract)
+# ------------------------------------
+- name: Create L3Out EPG (l3ext:InstP)
+  cisco.aci.aci_l3out_extepg:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    name: '{{ item.name }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_extepg is defined
+  loop: "{{ inb_bgp_extepg }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create L3Out EPG Subnet for BGP l3out (l3ext:Subnet)
+  cisco.aci.aci_l3out_extsubnet:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    extepg: '{{ item.name }}'
+    network: '{{ item.subnet }}'
+    scope: '{{ item.subnet_scope }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: inb_bgp_extepg is defined
+  loop: "{{ inb_bgp_extepg }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Bind L3Out to Bridge Domains (fv:RsBDToOut)
+  cisco.aci.aci_bd_to_l3out:
+    bd: "{{ item.bd_name }}"
+    l3out: "{{ item.l3out | default(omit) }}"
+    tenant: "{{ item.tenant }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: item.l3out is defined
+  loop: "{{ inb_bridge_domain }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never

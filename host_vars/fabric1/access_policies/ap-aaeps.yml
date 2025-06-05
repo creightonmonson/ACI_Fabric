@@ -1,22 +1,31 @@
-# ---
-# aaeps:
-#   - aaep_name: Apps_AAEP
-#     aaep_description: Apps AAEP for apps residing in cluster
-#     aaep_infra_vlan: false
-#     domain_name: Apps_PhyDom
-#     domain_type: phys
-#     state: present
-
-#   - aaep_name: Mgmt_AAEP
-#     aaep_description: AAEP for mgmt services such as snmp, ntp, AD
-#     aaep_infra_vlan: false
-#     domain_name: Mgmt_PhyDom
-#     domain_type: phys
-#     state: present
-
-#   - aaep_name: External_Net_AAEP
-#     aaep_description: AAEP for connection to external networks
-#     aaep_infra_vlan: false
-#     domain_name: L3Out_Dom
-#     domain_type: l3dom
-#     state: present
+aaeps:
+  - aaep_name: Apps_AAEP
+    aaep_description: AAEP for apps residing in cluster
+    aaep_infra_vlan: 'FALSE'
+    domain_name: demo_PhyDom
+    domain_type: phys
+    state: present
+  - aaep_name: Mgmt_AAEP
+    aaep_description: AAEP for mgmt services
+    aaep_infra_vlan: 'FALSE'
+    domain_name: demo_PhyDom
+    domain_type: phys
+    state: present
+  - aaep_name: External_Net_AAEP
+    aaep_description: AAEP for connection to ext networks
+    aaep_infra_vlan: 'FALSE'
+    domain_name: L3Out_Dom
+    domain_type: l3dom
+    state: present
+  - aaep_name: External_L2Net_AAEP
+    aaep_description: AAEP for connection to ext networks
+    aaep_infra_vlan: 'FALSE'
+    domain_name: demo_PhyDom
+    domain_type: phys
+    state: present
+  - aaep_name: INB_AAEP
+    aaep_description: AAEP for connection to ext networks
+    aaep_infra_vlan: 'FALSE'
+    domain_name: demo_PhyDom
+    domain_type: phys
+    state: present

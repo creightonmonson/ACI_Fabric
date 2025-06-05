@@ -1,9 +1,10 @@
 ---
 # tasks file for roles/tn_l3out
 # ------------------------------------
-# Configure L3Out (OSPF) on a single border leaf
+# Configure L3Out (BGP) on a single border leaf
 # ------------------------------------
-- name: Create L3Out (l3ext:Out)
+
+- name: Create BGP L3Out (l3ext:Out)
   cisco.aci.aci_l3out:
     tenant: '{{ item.tenant }}'
     vrf: '{{ item.vrf }}'
@@ -13,31 +14,18 @@
     l3protocol: '{{ item.protocol }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: l3out is defined
-  loop: "{{ l3out }}"
+  when: bgp_l3out is defined
+  loop: "{{ bgp_l3out }}"
 
-- name: Configure L3Out OSPF Area
-  cisco.aci.aci_rest:
-    path: /api/mo/uni/tn-{{ item.tenant }}/out-{{ item.name }}.json
-    method: post
-    content:
-      ospfExtP:
-        attributes:
-          areaId: "{{ item.ospf_area_id | default('1') }}"
-          areaType: "{{ item.ospf_area_type | default('nssa') }}"
-          areaCost: "{{ item.ospf_area_cost | default('1') }}"
-  delegate_to: localhost
-  loop: "{{ l3out }}"
-
-- name: Create L3Out Node Profile (l3ext:LNodeP)
+- name: Create BGP L3Out Node Profile (l3ext:LNodeP)
   cisco.aci.aci_l3out_logical_node_profile:
     tenant: '{{ item.tenant }}'
     l3out: '{{ item.l3out }}'
     node_profile: '{{ item.profile }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: l3out_node is defined
-  loop: "{{ l3out_node }}"
+  when: bgp_l3out_node_profile is defined
+  loop: "{{ bgp_l3out_node_profile }}"
 
 - name: Configure a node in the Node Profile (l3ext:RsNodeL3OutAtt)
   cisco.aci.aci_l3out_logical_node:
@@ -50,8 +38,8 @@
     router_id_as_loopback: '{{ item.router_id_as_lo }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: l3out_node is defined
-  loop: "{{ l3out_node }}"
+  when: bgp_l3out_nodes is defined
+  loop: "{{ bgp_l3out_nodes }}"
 
 - name: Create L3Out Interface Profile (l3ext:LIfP)
   cisco.aci.aci_l3out_logical_interface_profile:
@@ -61,46 +49,45 @@
     interface_profile: '{{ item.profile }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: l3out_interface is defined
-  loop: "{{ l3out_interface }}"
+  when: bgp_l3out_interface_profile is defined
+  loop: "{{ bgp_l3out_interface_profile }}"
 
 - name: Configure an interface in the Interface Profile (l3ext:RsPathL3OutAtt)
   cisco.aci.aci_l3out_interface:
     tenant: '{{ item.tenant }}'
     l3out: '{{ item.l3out }}'
     node_profile: '{{ item.node_profile }}'
-    interface_profile: '{{ item.profile }}'
+    interface_profile: '{{ item.if_profile }}'
     pod_id: '{{ item.pod_id }}'
     node_id: '{{ item.node_id }}'
     path_ep: '{{ item.if_path }}'
     interface_type: '{{ item.if_type }}'
+    encap: "{{ item.vlan }}"
     addr: '{{ item.addr }}'
     mtu: '{{ item.mtu }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: l3out_interface is defined
-  loop: "{{ l3out_interface }}"
+  when: bgp_l3out_interfaces is defined
+  loop: "{{ bgp_l3out_interfaces }}"
 
-- name: Create OSPF Interface Policy (ospf:IfPol)
-  cisco.aci.aci_interface_policy_ospf:
-    tenant: '{{ ospf_if_policy.tenant }}'
-    name: '{{ ospf_if_policy.name }}'
-    network_type: '{{ ospf_if_policy.network_type }}'
-    state: '{{ ospf_if_policy.state }}'
+- name: Create BGP Peer connectivity profile under interface profile (bgp:PeerP and bgp:InfraPeerP)
+  cisco.aci.aci_l3out_bgp_peer:
+    tenant: '{{ item.0.tenant }}'
+    l3out: '{{ item.0.l3out}}'
+    node_profile: '{{ item.0.node_profile }}'
+    interface_profile: '{{ item.0.if_profile }}'
+    pod_id: '{{ item.0.pod_id }}'
+    node_id: '{{ item.0.node_id }}'
+    path_ep: '{{ item.0.if_path }}'
+    peer_ip: '{{ item.1.peer_ip }}'
+    remote_asn: '{{ item.1.remote_asn }}'
+    ttl: '{{ item.1.ttl }}'
+    admin_state: "{{ item.1.admin_state }}"
+    bgp_controls: "{{ item.1.bgp_controls | default(omit) }}"
+    state: '{{ item.0.state }}'
   delegate_to: localhost
-  when: ospf_if_policy is defined
-
-- name: Create an OSPF Interface Profile with OSPF Interface Policy
-  cisco.aci.aci_l3out_logical_interface_profile_ospf_policy:
-    tenant: "{{ ospf_if_policy.tenant }}"
-    l3out: "{{ ospf_if_policy.l3out }}"
-    node_profile: "{{ ospf_if_policy.node_profile }}"
-    interface_profile: "{{ ospf_if_policy.interface_profile }}"
-    ospf_policy: "{{ ospf_if_policy.name }}"
-    state: "{{ ospf_if_policy.state }}"
-  delegate_to: localhost
-  when: ospf_if_policy is defined
-
+  when: bgp_l3out_interfaces is defined
+  loop: '{{ bgp_l3out_interfaces | subelements("bgp_peers") }}'
 # ------------------------------------
 # Configure L3Out (EPG and contract)
 # ------------------------------------
@@ -111,24 +98,8 @@
     name: '{{ item.name }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: extepg is defined
-  loop: "{{ extepg }}"
-  register: result
-  retries: "{{ loop_retries }}"
-  delay: "{{ retry_delay }}"
-  until: result.failed == false
-
-- name: Create L3Out EPG Subnet (l3ext:Subnet)
-  cisco.aci.aci_l3out_extsubnet:
-    tenant: '{{ item.tenant }}'
-    l3out: '{{ item.l3out }}'
-    extepg: '{{ item.name }}'
-    network: '{{ item.subnet }}'
-    scope: '{{ item.subnet_scope }}'
-    state: '{{ item.state }}'
-  delegate_to: localhost
-  when: extepg is defined
-  loop: "{{ extepg }}"
+  when: bgp_extepg is defined
+  loop: "{{ bgp_extepg }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -143,6 +114,22 @@
   delegate_to: localhost
   when: item.l3out is defined
   loop: "{{ bridge_domains }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Create L3Out EPG Subnet for BGP l3out (l3ext:Subnet)
+  cisco.aci.aci_l3out_extsubnet:
+    tenant: '{{ item.tenant }}'
+    l3out: '{{ item.l3out }}'
+    extepg: '{{ item.name }}'
+    network: '{{ item.subnet }}'
+    scope: '{{ item.subnet_scope }}'
+    state: '{{ item.state }}'
+  delegate_to: localhost
+  when: bgp_extepg is defined
+  loop: "{{ bgp_extepg }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

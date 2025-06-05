@@ -1,35 +1,13 @@
-# ---
-# vlan_pools:
-#   - vlan_pool_name: cluster
-#     vlan_pool_description: Cluster hosts vlan pool
-#     vlan_pool_mode: static
-#     state: present
+---
+vlan_pools:
+  - vlan_pool_name: physical_pool
+    vlan_pool_description: physical pool
+    vlan_pool_mode: static
+    state: present
 
-#   - vlan_pool_name: mgmt
-#     vlan_pool_description: mgmt vlan pool
-#     vlan_pool_mode: static
-#     state: present
-
-#   - vlan_pool_name: ext_pool
-#     vlan_pool_description: L3 out vlan pool
-#     vlan_pool_mode: static
-#     state: present
-
-# vlan_block_ranges:
-#   - start: 100
-#     end: 199
-#     vlan_pool_name: ext_pool
-#     state: present
-#     vlan_pool_mode: static
-
-#   - start: 200
-#     end: 299
-#     vlan_pool_name: cluster
-#     state: present
-#     vlan_pool_mode: static
-
-#   - start: 300
-#     end: 399
-#     vlan_pool_name: mgmt
-#     state: present
-#     vlan_pool_mode: static
+vlan_block_ranges:
+  - start: 100
+    end: 1000
+    vlan_pool_name: physical_pool
+    state: present
+    vlan_pool_mode: static

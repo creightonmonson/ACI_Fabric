@@ -6,3 +6,9 @@ vpc_policy_group:
     aaep: Apps_AAEP
     description: IPG for cluster hosting Apps
     state: present
+  - name: L2Out_VPC_IPG
+    lldp: LLDP_Enabled
+    lacp: LACP_Active
+    aaep: External_L2Net_AAEP
+    description: IPG for L2Out VPC
+    state: present

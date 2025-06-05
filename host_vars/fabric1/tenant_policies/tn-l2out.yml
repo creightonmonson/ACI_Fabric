@@ -1,0 +1,32 @@
+---
+l2out:
+  - name: L2Out_Demo
+    tenant: demo
+    bd: L2Out_BD
+    domain: L2Out_Dom
+    vlan: 199
+    state: absent
+
+l2out_node:
+  - profile: L2Out_Node_Profile
+    tenant: demo
+    l2out: L2Out_Demo
+    state: absent
+
+l2out_interface:
+  - interface_profile: L2Out_Interface_Profile
+    tenant: demo
+    l2out: L2Out_Demo
+    node_profile: L2Out_Node_Profile
+    pod_id: 1
+    leaves: 101-102
+    interface_type: vpc
+    interface: L2Out_VPC_IPG
+    state: absent
+
+l2_extepg:
+  - name: l2_extepg
+    tenant: demo
+    l2out: L2Out_Demo
+    description: L2Out for tenant
+    state: absent

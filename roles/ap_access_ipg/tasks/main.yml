@@ -1,11 +1,5 @@
 ---
 # tasks file for roles/ap_access_ipg
-- name: Read CSV information
-  read_csv:
-    path: host_vars/fabric1/access_policies/ap-access-ipg.csv
-  register: access_policy_group
-  tags:
-    - skip_ansible_lint
 
 - name: Create Access Port IPGs(infra:AccBndlGrp, infra:AccPortGrp)
   cisco.aci.aci_interface_policy_leaf_policy_group:
@@ -13,11 +7,12 @@
     policy_group: "{{ item.name }}"
     description: "{{ item.description }}"
     lldp_policy: "{{ item.lldp }}"
+    link_level_policy: "{{ item.link_level | default(omit) }}"
     aep: "{{ item.aaep }}"
     state: "{{ item.state }}"
   delegate_to: localhost
   when: access_policy_group is defined
-  loop: "{{ access_policy_group.list }}"
+  loop: "{{ access_policy_group }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

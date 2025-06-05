@@ -1,6 +1,6 @@
 ---
 - name: Configure Initial Settings
-  hosts: mynetwork
+  hosts: fabric1
   gather_facts: false
   connection: local
   any_errors_fatal: true
@@ -11,6 +11,7 @@
       password: "{{ apic_password }}"
       validate_certs: "{{ apic_validate_certs }}"
       use_proxy: "{{ apic_use_proxy }}"
+      use_ssl: "{{ apic_use_ssl }}"
       output_path: "system_settings_dryrun_data.json"
 
   roles:

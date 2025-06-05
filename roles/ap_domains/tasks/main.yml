@@ -1,11 +1,5 @@
 ---
 # tasks file for roles/ap-domains
-- name: Read CSV information
-  read_csv:
-    path: host_vars/fabric1/access_policies/ap-domains.csv
-  register: domains
-  tags:
-    - skip_ansible_lint
 
 - name: Create/Ensure Domain  (L2dom, L3dom,phys)
   cisco.aci.aci_domain:
@@ -13,7 +7,7 @@
     domain_type: "{{ item.domain_type }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ domains.list }}"
+  loop: "{{ domains }}"
   when: domains is defined
   register: result
   retries: "{{ loop_retries }}"
@@ -28,7 +22,7 @@
     pool_allocation_mode: "{{ item.vlan_pool_allocation_mode }}"
     state: "{{ item.state }}"
   delegate_to: localhost
-  loop: "{{ domains.list }}"
+  loop: "{{ domains }}"
   when: domains is defined
   register: result
   retries: "{{ loop_retries }}"

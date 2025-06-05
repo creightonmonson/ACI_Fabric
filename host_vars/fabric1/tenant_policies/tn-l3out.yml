@@ -1,54 +1,92 @@
 ---
-l3out:
-  - name: OSPF_L3Out
+bgp_l3out:
+  - name: BGP_L3Out
     tenant: demo
     vrf: PROD
     domain: L3Out_Dom
     route_control: export
-    protocol: ospf
-    ospf_area_id: 0
-    ospf_area_type: regular # (regular, nssa, stub)
-    ospf_area_cost: 1
+    protocol: bgp
     state: present
 
-l3out_node:
-  - profile: OSPF_L3Out_Nodes
+bgp_l3out_node_profile:
+  - profile: BGP_L3Out_Nodes
     tenant: demo
-    l3out: OSPF_L3Out
+    l3out: BGP_L3Out
+    state: present
+
+bgp_l3out_nodes:
+  - profile: BGP_L3Out_Nodes
+    tenant: demo
+    l3out: BGP_L3Out
     pod_id: 1
     node_id: 101
-    router_id: 1.11.11.1
+    router_id: 101.101.101.101
+    router_id_as_lo: false
+    state: present
+  - profile: BGP_L3Out_Nodes
+    tenant: demo
+    l3out: BGP_L3Out
+    pod_id: 1
+    node_id: 102
+    router_id: 102.102.102.102
     router_id_as_lo: false
     state: present
 
-l3out_interface:
-  - profile: OSPF_L3Out_Interfaces
-    node_profile: OSPF_L3Out_Nodes
+bgp_l3out_interface_profile:
+  - profile: BGP_L3Out_Interfaces
+    node_profile: BGP_L3Out_Nodes
     tenant: demo
-    l3out: OSPF_L3Out
-    pod_id: 1
-    node_id: 101
-    if_path: eth1/20
-    if_type: l3-port # (l3-port, sub-interface, ext-svi)
-    addr: 10.2.2.1/30
-    mtu: 1500
+    l3out: BGP_L3Out
     state: present
 
-extepg:
-  - name: Ext_EPG
+bgp_l3out_interfaces:
+  - if_profile: BGP_L3Out_Interfaces
+    node_profile: BGP_L3Out_Nodes
     tenant: demo
-    l3out: OSPF_L3Out
+    l3out: BGP_L3Out
+    pod_id: 1
+    node_id: 101
+    if_path: eth1/21
+    if_type: sub-interface # (l3-port, sub-interface, ext-svi)
+    vlan: vlan-149
+    addr: 10.10.10.1/30
+    mtu: 1500
+    bgp_peers:
+      - peer_ip: 10.10.10.2
+        remote_asn: 65010
+        ttl: 5
+        admin_state: enabled
+        bgp_controls:
+          - send-com
+          - send-ext-com
+    state: present
+  - if_profile: BGP_L3Out_Interfaces
+    node_profile: BGP_L3Out_Nodes
+    tenant: demo
+    l3out: BGP_L3Out
+    pod_id: 1
+    node_id: 102
+    if_path: eth1/21
+    if_type: sub-interface # (l3-port, sub-interface, ext-svi)
+    vlan: vlan-149
+    addr: 10.10.10.5/30
+    mtu: 1500
+    bgp_peers:
+      - peer_ip: 10.3.2.2
+        remote_asn: 65010
+        ttl: 5
+        admin_state: enabled
+        bgp_controls:
+          - send-com
+          - send-ext-com
+    state: present
+
+bgp_extepg:
+  - name: BGP_Ext_EPG
+    tenant: demo
+    l3out: BGP_L3Out
     subnet: 0.0.0.0/0
     subnet_scope: import-security
     contract_name: ICMP
     contract_type: provider
     state: present
-
-ospf_if_policy:
-  tenant: demo       # can be under common and reuse it everywhere
-  l3out: OSPF_L3Out
-  node_profile: OSPF_L3Out_Nodes
-  interface_profile: OSPF_L3Out_Interfaces
-  name: OSPF_Broadcast_Pol
-  network_type: bcast    # p2p|bcast
-  state: present

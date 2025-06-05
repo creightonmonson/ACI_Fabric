@@ -7,10 +7,12 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.1.0_BD
     esg: App1_ESG
-    aaep: Apps_AAEP
-    vlan: 100
+    aaep_list: 
+      - Apps_AAEP
+      - External_L2Net_AAEP
+    vlan: 200
     interface_mode: trunk # access, native, trunk
-    domain: Apps_PhyDom
+    domain: demo_PhyDom
     domain_type: phys
     state: present
 
@@ -21,10 +23,12 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.1.0_BD
     esg: App1_ESG
-    aaep: Apps_AAEP
-    vlan: 101
+    aaep_list: 
+      - Apps_AAEP
+      - External_L2Net_AAEP
+    vlan: 201
     interface_mode: trunk # access, native, trunk
-    domain: Apps_PhyDom
+    domain: demo_PhyDom
     domain_type: phys
     state: present
 
@@ -35,10 +39,12 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.1.0_BD
     esg: App1_ESG
-    aaep: Apps_AAEP
-    vlan: 102
+    aaep_list: 
+      - Apps_AAEP
+      - External_L2Net_AAEP
+    vlan: 202
     interface_mode: trunk # access, native, trunk
-    domain: Apps_PhyDom
+    domain: demo_PhyDom
     domain_type: phys
     state: present
 
@@ -49,10 +55,12 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.2.0_BD
     esg: App2_ESG
-    aaep: Apps_AAEP
-    vlan: 103
+    aaep_list: 
+      - Apps_AAEP
+      - External_L2Net_AAEP
+    vlan: 203
     interface_mode: trunk # access, native, trunk
-    domain: Apps_PhyDom
+    domain: demo_PhyDom
     domain_type: phys
     state: present
 
@@ -63,10 +71,12 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.2.0_BD
     esg: App2_ESG
-    aaep: Apps_AAEP
-    vlan: 104
+    aaep_list: 
+      - Apps_AAEP
+      - External_L2Net_AAEP
+    vlan: 204
     interface_mode: trunk # access, native, trunk
-    domain: Apps_PhyDom
+    domain: demo_PhyDom
     domain_type: phys
     state: present
 
@@ -77,9 +87,11 @@ epgs:
     intra_epg_isolation: unenforced
     bd: 172.16.2.0_BD
     esg: App2_ESG
-    aaep: Apps_AAEP
-    vlan: 105
+    aaep_list: 
+      - Apps_AAEP
+      - External_L2Net_AAEP
+    vlan: 205
     interface_mode: trunk # access, native, trunk
-    domain: Apps_PhyDom
+    domain: demo_PhyDom
     domain_type: phys
     state: present

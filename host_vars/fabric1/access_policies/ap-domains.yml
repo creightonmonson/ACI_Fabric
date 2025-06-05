@@ -1,19 +1,13 @@
-# ---
-# domains:
-#   - domain_name: Apps_PhyDom
-#     domain_type: phys
-#     vlan_pool: cluster
-#     vlan_pool_allocation_mode: static
-#     state: present
+---
+domains:
+  - domain_name: demo_PhyDom
+    domain_type: phys
+    vlan_pool: physical_pool
+    vlan_pool_allocation_mode: static
+    state: present
 
-#   - domain_name: Mgmt_PhyDom
-#     domain_type: phys
-#     vlan_pool: mgmt
-#     vlan_pool_allocation_mode: static
-#     state: present
-
-#   - domain_name: L3Out_Dom
-#     domain_type: l3dom
-#     vlan_pool: ext_pool
-#     vlan_pool_allocation_mode: static
-#     state: present
+  - domain_name: L3Out_Dom
+    domain_type: l3dom
+    vlan_pool: physical_pool
+    vlan_pool_allocation_mode: static
+    state: present

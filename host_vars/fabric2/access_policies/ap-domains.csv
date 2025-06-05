@@ -1,4 +1,0 @@
-domain_name,domain_type,vlan_pool,vlan_pool_allocation_mode,state
-Apps_PhyDom,phys,cluster,static,present
-Mgmt_PhyDom,phys,mgmt,static,present
-L3Out_Dom,l3dom,ext_pool,static,present
