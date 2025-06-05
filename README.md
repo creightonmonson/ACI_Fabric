@@ -1,13 +1,13 @@
 # ACI Fabric Infrastructure as Code
 
-The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Access policy variables in the host_vars are commented out currently to test using csv files instead. Also, variables are organized in a way to use Loops as much as possible in the roles/tasks so that additions to the fabric configuration can be accomplished simply by adding new variables to the vars files.
+The goal of this repo is to provide the framework to deploy and maintain an ACI fabric using Ansible, and to do so in a modular fashion. The organization of this repo is done in a way to maximize scalability and flexibility. Each role has an associated variables file in host_vars to increase readability. Also, variables are organized in a way to use Loops as much as possible in the roles/tasks so that additions to the fabric configuration can be accomplished simply by adding new variables to the vars files.
 
 ```
 Directory Structure:
 
 -ACI_Hosts.yml -----------> Host File for Fabric 1 APIC 
 -group_vars
-    - all.yml ----------> Contains connection variables
+    - mynetwork.yml ----------> Contains connection variables
 -host_vars    ----------> host vars split into access policies and tenant policies per fabric
     - fabric1
         - access_policies
@@ -22,15 +22,17 @@ Directory Structure:
             o ap-domains.yml -----> Variables for domains
             o ap-aaep.yml --------> Variables for AAEP
         - tenant_policies
+            o tn-in-band.yml -----> Variables for configuring in band management
             o tn-tenant.yml ------> Variables for creating tenants
             o tn-vrf -------------> Variables for creating VRFs
             o tn-ap  -------------> Variables for creating Application Profiles
             o tn-bd  -------------> Variables for creating Bridge Domains
-            o tn-bd-subnets ------> Variables for applying subnets to BDs
             o tn-epg  ------------> Variables for creating endpoint groups
+            o tn-static-path-bindings.yml --> Variables for configuring static path bindings
             o tn-esg  ------------> Variables for creating endpoint security groups
             o tn-l3out -----------> Variables for L3out 
             o tn-contracts.yml ---> Variables for creating and binding contracts
+        - initial-setup.yml ------> Variables for the initial configuration of system settings and fabric wide settings
 
 - roles  (A Role for each variable file that are then referenced in playbooks)
     o ap_swp
@@ -43,15 +45,18 @@ Directory Structure:
     o ap_vlanpools
     o ap_domains
     o ap_aaep
+    o tn_in_band
     o tn_tenant
     o tn_vrf
     o tn_ap
     o tn_bd
     o tn_epg
+    o tn_static_path_bindings
     o tn_esg
     o tn_l3out
     o tn_contracts
     o initial_setup
+    o register_nodes
     o snapshot
     o fabric_deploy
 
