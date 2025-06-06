@@ -1,6 +1,10 @@
+---
+# ------------------------------------#
+# Configure InBand BD and EPG         #
+# ------------------------------------#
 - name: Apply In Band Bridge Domain Subnet (fv:Subnet)
   cisco.aci.aci_bd_subnet:
-    tenant: "{{ item.tenant }}"
+    tenant: "{{ tenant }}"
     bd: "{{ item.bd_name }}"
     subnet_name: "{{ item.subnet_name }}"
     gateway: "{{ item.gateway }}"
@@ -57,10 +61,12 @@
     - create_inband
     - never
 
-# L3Out for INB 
+# ------------------------------------#
+# Configure L3Out for INB             #
+# ------------------------------------#
 - name: Create BGP L3Out (l3ext:Out)
   cisco.aci.aci_l3out:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     vrf: '{{ item.vrf }}'
     name: '{{ item.name }}'
     domain: '{{ item.domain }}'
@@ -80,7 +86,7 @@
 
 - name: Create BGP L3Out Node Profile (l3ext:LNodeP)
   cisco.aci.aci_l3out_logical_node_profile:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.l3out }}'
     node_profile: '{{ item.profile }}'
     state: '{{ item.state }}'
@@ -97,7 +103,7 @@
 
 - name: Configure a node in the Node Profile (l3ext:RsNodeL3OutAtt)
   cisco.aci.aci_l3out_logical_node:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.l3out }}'
     node_profile: '{{ item.profile }}'
     pod_id: '{{ item.pod_id }}'
@@ -118,7 +124,7 @@
 
 - name: Create L3Out Interface Profile (l3ext:LIfP)
   cisco.aci.aci_l3out_logical_interface_profile:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.l3out }}'
     node_profile: '{{ item.node_profile }}'
     interface_profile: '{{ item.profile }}'
@@ -136,7 +142,7 @@
 
 - name: Configure an interface in the Interface Profile (l3ext:RsPathL3OutAtt)
   cisco.aci.aci_l3out_interface:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.l3out }}'
     node_profile: '{{ item.node_profile }}'
     interface_profile: '{{ item.if_profile }}'
@@ -161,7 +167,7 @@
 
 - name: Create BGP Peer connectivity profile under interface profile (bgp:PeerP and bgp:InfraPeerP)
   cisco.aci.aci_l3out_bgp_peer:
-    tenant: '{{ item.0.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.0.l3out}}'
     node_profile: '{{ item.0.node_profile }}'
     interface_profile: '{{ item.0.if_profile }}'
@@ -185,12 +191,12 @@
     - create_inband
     - never
 
-# ------------------------------------
-# Configure L3Out (EPG and contract)
-# ------------------------------------
+# ------------------------------------#
+# Configure L3Out EPG                 #
+# ------------------------------------#
 - name: Create L3Out EPG (l3ext:InstP)
   cisco.aci.aci_l3out_extepg:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.l3out }}'
     name: '{{ item.name }}'
     state: '{{ item.state }}'
@@ -207,7 +213,7 @@
 
 - name: Create L3Out EPG Subnet for BGP l3out (l3ext:Subnet)
   cisco.aci.aci_l3out_extsubnet:
-    tenant: '{{ item.tenant }}'
+    tenant: '{{ tenant }}'
     l3out: '{{ item.l3out }}'
     extepg: '{{ item.name }}'
     network: '{{ item.subnet }}'
@@ -228,11 +234,164 @@
   cisco.aci.aci_bd_to_l3out:
     bd: "{{ item.bd_name }}"
     l3out: "{{ item.l3out | default(omit) }}"
-    tenant: "{{ item.tenant }}"
+    tenant: "{{ tenant }}"
     state: "{{ item.state }}"
   delegate_to: localhost
   when: item.l3out is defined
   loop: "{{ inb_bridge_domain }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+# ---------------------------------------#
+# Configure and bind contract            #
+# ---------------------------------------#
+- name: Create Contract Filters (vz:Filter)
+  cisco.aci.aci_filter:
+    tenant: "{{ tenant }}"
+    filter: "{{ item.filter_name }}"
+  delegate_to: localhost
+  when: inb_filters is defined
+  loop: "{{ inb_filters }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create Filter Entry (vz:Entry)
+  cisco.aci.aci_filter_entry:
+    tenant: "{{ tenant }}"
+    filter: "{{ item.filter_name }}"
+    entry: "{{ item.entry_name }}"
+    ether_type: "{{ item.ether_type }}"
+    ip_protocol: "{{ item.protocol }}"
+    dst_port: "{{ item.port }}"
+    description: "{{ item.description }}"
+  delegate_to: localhost
+  when: inb_filters is defined
+  loop: "{{ inb_filters }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+    
+- name: Create Contracts (vz:BrCP)
+  cisco.aci.aci_contract:
+    tenant: "{{ tenant }}"
+    contract: "{{ item.contract }}"
+    scope: "{{ item.scope }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: inb_contracts is defined
+  loop: "{{ inb_contracts }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Create Contract Subject (vz:Subj)
+  cisco.aci.aci_contract_subject:
+    tenant: "{{ tenant }}"
+    contract: "{{ item.contract }}"
+    subject: "{{ item.subject }}"
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: item.subject is defined
+  loop: "{{ inb_contracts }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Subject to Filter Bindings (vz:RsSubjFiltAtt)
+  cisco.aci.aci_contract_subject_to_filter:
+    tenant: '{{ tenant }}'
+    contract: '{{ item.contract }}'
+    subject: '{{ item.subject }}'
+    filter: '{{ item.filter }}'
+    state: "{{ item.state }}"
+  delegate_to: localhost
+  when: inb_contracts is defined
+  loop: '{{ inb_contracts }}'
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Bind L3Out EPG to contract
+  cisco.aci.aci_l3out_extepg_to_contract:
+    tenant: '{{ tenant }}'
+    l3out: '{{ item.0.l3out }}'
+    extepg: '{{ item.0.extepg }}'
+    contract: '{{ item.0.contract }}'
+    contract_type: '{{ item.1 }}'
+    state: '{{ item.0.state }}'
+  delegate_to: localhost
+  when: inb_extepg_contracts is defined
+  loop: "{{ inb_extepg_contracts | subelements('contract_types') }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Bind contract to INB EPG as consumer 
+  cisco.aci.aci_rest:
+    path: /api/node/mo/uni/tn-mgmt/mgmtp-default/inb-INB_EPG/rscons-{{ item.contract }}.json
+    method: post
+    content:
+      fvRsCons:
+        attributes:
+          dn: "uni/tn-mgmt/mgmtp-default/inb-INB_EPG/rscons-{{ item.contract }}"
+          tnVzBrCPName: "{{ item.contract }}"
+          status: created
+        children: []
+  delegate_to: localhost
+  when: inb_contracts is defined
+  loop: "{{ inb_contracts }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+  tags:
+    - create_inband
+    - never
+
+- name: Bind contract to INB EPG as provider (only if not present)
+  cisco.aci.aci_rest:
+    path: /api/node/mo/uni/tn-mgmt/mgmtp-default/inb-INB_EPG/rsprov-{{ item.contract }}.json
+    method: post
+    content:
+      fvRsProv:
+        attributes:
+          dn: "uni/tn-mgmt/mgmtp-default/inb-INB_EPG/rsprov-{{ item.contract }}"
+          tnVzBrCPName: "{{ item.contract }}"
+          matchT: AtleastOne
+          status: created
+        children: []
+  delegate_to: localhost
+  when: inb_contracts is defined
+  loop: "{{ inb_contracts }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

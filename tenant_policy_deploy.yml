@@ -22,6 +22,5 @@
     - tn_epg
     - tn_static_path_binding
     - tn_esg
-    - tn_l2out
     - tn_l3out
     - tn_contracts

@@ -1,7 +1,10 @@
 ---
+tenant: mgmt
+# ------------------------------ #
+# INB BD, EPG, and static ip add #
+# ------------------------------ #
 inb_bridge_domain:
   - bd_name: inb
-    tenant: mgmt
     subnet_name: inb
     gateway: 172.16.1.1
     mask: 24
@@ -43,11 +46,12 @@ inb_addresses:
     ipv4_gw: 172.16.1.1
     state: present
 
-# L3 Out for INB
+# -------------- #
+# L3 Out for INB #
+# -------------- #
 
 inb_bgp_l3out:
   - name: INB_BGP_L3Out
-    tenant: mgmt
     vrf: inb
     domain: L3Out_Dom
     route_control: export
@@ -56,13 +60,11 @@ inb_bgp_l3out:
 
 inb_bgp_l3out_node_profile:
   - profile: INB_BGP_L3Out_NodeProfile
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     state: present
 
 inb_bgp_l3out_nodes:
   - profile: INB_BGP_L3Out_NodeProfile
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     pod_id: 1
     node_id: 101
@@ -70,7 +72,6 @@ inb_bgp_l3out_nodes:
     router_id_as_lo: false
     state: present
   - profile: INB_BGP_L3Out_NodeProfile
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     pod_id: 1
     node_id: 102
@@ -81,14 +82,12 @@ inb_bgp_l3out_nodes:
 inb_bgp_l3out_interface_profile:
   - profile: INB_BGP_L3Out_Interfaces
     node_profile: INB_BGP_L3Out_NodeProfile
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     state: present
 
 inb_bgp_l3out_interfaces:
   - if_profile: INB_BGP_L3Out_Interfaces
     node_profile: INB_BGP_L3Out_NodeProfile
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     pod_id: 1
     node_id: 101
@@ -108,7 +107,6 @@ inb_bgp_l3out_interfaces:
     state: present
   - if_profile: INB_BGP_L3Out_Interfaces
     node_profile: INB_BGP_L3Out_NodeProfile
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     pod_id: 1
     node_id: 102
@@ -129,8 +127,37 @@ inb_bgp_l3out_interfaces:
 
 inb_bgp_extepg:
   - name: INB_BGP_Ext_EPG
-    tenant: mgmt
     l3out: INB_BGP_L3Out
     subnet: 0.0.0.0/0
     subnet_scope: import-security
     state: present
+
+# --------------------------------------------------------#
+# Contract VARS to bind contract to INB EPG and L3Out EPG #
+# --------------------------------------------------------#
+
+inb_filters:
+  - filter_name: ip_any
+    entry_name: ip_any
+    ether_type: ip
+    protocol: unspecified
+    port: unspecified
+    description: Filter traffic to match any ip traffic
+    state: present
+
+inb_contracts:
+  - contract: ANY
+    subject: Permit_Any
+    filter: ip_any
+    scope: context # (application-profile, globadescription: Permit all traffic 
+    state: present
+
+inb_extepg_contracts:
+  - extepg: INB_BGP_Ext_EPG
+    l3out: INB_BGP_L3Out
+    contract: ANY
+    contract_types:
+      - provider
+      - consumer
+    state: present
+
