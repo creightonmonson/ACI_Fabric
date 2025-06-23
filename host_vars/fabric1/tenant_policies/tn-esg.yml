@@ -6,7 +6,13 @@ esgs:
     vrf: PROD
     ap: Security_Zones
     intra_esg_isolation: unenforced
+    provider_contracts:
+      - ANY  
+    consumer_contracts:
+      - ANY
+      - L3Out_contract 
     state: present
+
   - esg_name: App2_ESG
     description: ESG for application2 end points
     tenant: demo
@@ -14,3 +20,5 @@ esgs:
     ap: Security_Zones
     intra_esg_isolation: unenforced
     state: present
+
+

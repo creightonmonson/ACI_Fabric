@@ -1,107 +1,33 @@
 ---
-tenant: demo
+demo_tenant: demo
 contracts:
-  - contract: Web-App
-    subject: subject1
-    filter: http
+  - contract: ANY
+    subject: Permit_Any
+    filter: ip_any
     scope: context # (application-profile, global, tenant)
+    description: Permit all traffic 
     state: present
-  - contract: Web-App
-    subject: subject2
-    filter: icmp
+  - contract: L3Out_contract
+    subject: Permit_Any
+    filter: ip_any
     scope: context # (application-profile, global, tenant)
-    state: present
-  - contract: Cache
-    subject: subject1
-    filter: cache
-    scope: context # (application-profile, global, tenant)
-    state: present
-  - contract: Cache
-    subject: subject2
-    filter: icmp
-    scope: context # (application-profile, global, tenant)
-    state: present
-  - contract: SQL
-    subject: subject1
-    filter: sql
-    scope: context # (application-profile, global, tenant)
-    state: present
-  - contract: SQL
-    subject: subject2
-    filter: icmp
-    scope: context # (application-profile, global, tenant)
-    state: present
-filters:
-  - filter: sql
-    entry: sql
-    ether_type: ip
-    protocol: tcp
-    port: 3306
-    description: Filter traffic destined to SQL
-  - filter: http
-    entry: http
-    ether_type: ip
-    protocol: tcp
-    port: 8080
-    description: Filter traffic destined to Web server HTTP
-  - filter: icmp
-    entry: icmp
-    ether_type: ip
-    protocol: icmp
-    port: 0
-    description: Filter traffic destined to ICMP
-  - filter: cache
-    entry: cache
-    ether_type: ip
-    protocol: tcp
-    port: 6379
-    description: Filter traffic destined to caching port
-esg_contracts:
-  - esg: App1_ESG
-    ap_name: Security_Zones
-    contract: default
-    type: consumer
-    state: present
-  - esg: App1_ESG
-    ap_name: Security_Zones
-    contract: Web-App
-    type: consumer
-    state: present
-  - esg: App1_ESG
-    ap_name: Security_Zones
-    contract: SQL
-    type: consumer
-    state: present
-  - esg: App1_ESG
-    ap_name: Security_Zones
-    contract: Cache
-    type: consumer
+    description: Permit all traffic 
     state: present
 
-  - esg: App2_ESG
-    ap_name: Security_Zones
-    contract: default
-    type: consumer
-    state: present
-  - esg: App2_ESG
-    ap_name: Security_Zones
-    contract: Web-App
-    type: provider
-    state: present
-  - esg: App2_ESG
-    ap_name: Security_Zones
-    contract: Cache
-    type: provider
-    state: present
-  - esg: App2_ESG
-    ap_name: Security_Zones
-    contract: SQL
-    type: provider
+filters:
+  - filter_name: ip_any
+    entry_name: ip_any
+    ether_type: ip
+    protocol: unspecified
+    port: unspecified
+    description: Filter traffic to match any ip traffic
     state: present
 
 extepg_contracts:
   - extepg: BGP_Ext_EPG
     l3out: BGP_L3Out
-    contract: default
-    contract_type: provider
+    contract: L3Out_contract
+    contract_types:
+      - provider
+      - consumer
     state: present

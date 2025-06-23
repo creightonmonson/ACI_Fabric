@@ -3,8 +3,8 @@
 
 - name: Create Filters (vz:Filter)
   cisco.aci.aci_filter:
-    tenant: "{{ tenant }}"
-    filter: "{{ item.filter }}"
+    tenant: "{{ demo_tenant }}"
+    filter: "{{ item.filter_name }}"
   delegate_to: localhost
   when: filters is defined
   loop: "{{ filters }}"
@@ -15,9 +15,9 @@
 
 - name: Create Filter Entry (vz:Entry)
   cisco.aci.aci_filter_entry:
-    tenant: "{{ tenant }}"
-    filter: "{{ item.filter }}"
-    entry: "{{ item.entry }}"
+    tenant: "{{ demo_tenant }}"
+    filter: "{{ item.filter_name }}"
+    entry: "{{ item.entry_name }}"
     ether_type: "{{ item.ether_type }}"
     ip_protocol: "{{ item.protocol }}"
     dst_port: "{{ item.port }}"
@@ -32,9 +32,10 @@
 
 - name: Create Contracts (vz:BrCP)
   cisco.aci.aci_contract:
-    tenant: "{{ tenant }}"
+    tenant: "{{ demo_tenant }}"
     contract: "{{ item.contract }}"
     scope: "{{ item.scope }}"
+    description: "{{ item.description }}"
     state: "{{ item.state }}"
   delegate_to: localhost
   when: contracts is defined
@@ -46,7 +47,7 @@
 
 - name: Create Contract Subject (vz:Subj)
   cisco.aci.aci_contract_subject:
-    tenant: "{{ tenant }}"
+    tenant: "{{ demo_tenant }}"
     contract: "{{ item.contract }}"
     subject: "{{ item.subject }}"
     state: "{{ item.state }}"
@@ -60,7 +61,7 @@
 
 - name: Subject to Filter Bindings (vz:RsSubjFiltAtt)
   cisco.aci.aci_contract_subject_to_filter:
-    tenant: '{{ tenant }}'
+    tenant: '{{ demo_tenant }}'
     contract: '{{ item.contract }}'
     subject: '{{ item.subject }}'
     filter: '{{ item.filter }}'
@@ -72,17 +73,33 @@
   delay: "{{ retry_delay }}"
   until: result.failed == false
 
-- name: Bind esg to contract (fv:RsCons, fv:RsProv, fv:RsProtBy, fv:RsConsIf, and fv:RsIntraEpg)
+- name: Bind esg to provider contract (fv:RsCons, fv:RsProv, fv:RsProtBy, fv:RsConsIf, and fv:RsIntraEpg)
   cisco.aci.aci_esg_to_contract:
-    tenant: '{{ tenant }}'
-    ap: '{{ item.ap_name }}'
-    esg: '{{ item.esg }}'
-    contract: '{{ item.contract }}'
-    contract_type: '{{ item.type }}'
-    state: "{{ item.state }}"
+    tenant: '{{ demo_tenant }}'
+    ap: '{{ item.0.ap }}'
+    esg: '{{ item.0.esg_name }}'
+    contract: '{{ item.1 }}'
+    contract_type: provider
+    state: "{{ item.0.state }}"
   delegate_to: localhost
-  when: esg_contracts is defined
-  loop: '{{ esg_contracts }}'
+  when: item.0.provider_contracts is defined
+  loop: "{{ esgs | subelements('provider_contracts', skip_missing=True) }}"
+  register: result
+  retries: "{{ loop_retries }}"
+  delay: "{{ retry_delay }}"
+  until: result.failed == false
+
+- name: Bind esg to consumer contract (fv:RsCons, fv:RsProv, fv:RsProtBy, fv:RsConsIf, and fv:RsIntraEpg)
+  cisco.aci.aci_esg_to_contract:
+    tenant: '{{ demo_tenant }}'
+    ap: '{{ item.0.ap }}'
+    esg: '{{ item.0.esg_name }}'
+    contract: '{{ item.1 }}'
+    contract_type: consumer
+    state: "{{ item.0.state }}"
+  delegate_to: localhost
+  when: item.0.consumer_contracts is defined
+  loop: "{{ esgs | subelements('consumer_contracts', skip_missing=True) }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"
@@ -90,15 +107,15 @@
 
 - name: Bind L3Out EPG to contract
   cisco.aci.aci_l3out_extepg_to_contract:
-    tenant: '{{ tenant }}'
-    l3out: '{{ item.l3out }}'
-    extepg: '{{ item.extepg }}'
-    contract: '{{ item.contract }}'
-    contract_type: '{{ item.contract_type }}'
-    state: '{{ item.state }}'
+    tenant: '{{ demo_tenant }}'
+    l3out: '{{ item.0.l3out }}'
+    extepg: '{{ item.0.extepg }}'
+    contract: '{{ item.0.contract }}'
+    contract_type: '{{ item.1 }}'
+    state: '{{ item.0.state }}'
   delegate_to: localhost
   when: extepg_contracts is defined
-  loop: '{{ extepg_contracts }}'
+  loop: "{{ extepg_contracts | subelements('contract_types') }}"
   register: result
   retries: "{{ loop_retries }}"
   delay: "{{ retry_delay }}"

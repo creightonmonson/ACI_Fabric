@@ -149,7 +149,8 @@ inb_contracts:
   - contract: ANY
     subject: Permit_Any
     filter: ip_any
-    scope: context # (application-profile, globadescription: Permit all traffic 
+    scope: context # (application-profile, global, tenant)
+    description: Permit all traffic 
     state: present
 
 inb_extepg_contracts:
