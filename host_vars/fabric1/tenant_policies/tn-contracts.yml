@@ -31,3 +31,11 @@ extepg_contracts:
       - provider
       - consumer
     state: present
+
+  - extepg: Static_Ext_EPG
+    l3out: Static_L3Out
+    contract: L3Out_contract
+    contract_types:
+      - provider
+      - consumer
+    state: present

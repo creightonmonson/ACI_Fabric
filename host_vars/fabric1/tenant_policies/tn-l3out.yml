@@ -1,5 +1,5 @@
 ---
-bgp_l3out:
+l3out:
   - name: BGP_L3Out
     tenant: demo
     vrf: PROD
@@ -8,10 +8,23 @@ bgp_l3out:
     protocol: bgp
     state: present
 
-bgp_l3out_node_profile:
+  - name: Static_L3Out
+    tenant: demo
+    vrf: PROD
+    domain: L3Out_Dom
+    route_control: export
+    protocol: static
+    state: present
+
+l3out_node_profile:
   - profile: BGP_L3Out_Nodes
     tenant: demo
     l3out: BGP_L3Out
+    state: present
+
+  - profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
     state: present
 
 bgp_l3out_nodes:
@@ -32,6 +45,23 @@ bgp_l3out_nodes:
     router_id_as_lo: false
     state: present
 
+  - profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
+    pod_id: 1
+    node_id: 101
+    router_id: 101.101.101.101
+    router_id_as_lo: false
+    state: present
+  - profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
+    pod_id: 1
+    node_id: 102
+    router_id: 102.102.102.102
+    router_id_as_lo: false
+    state: present
+
 bgp_l3out_interface_profile:
   - profile: BGP_L3Out_Interfaces
     node_profile: BGP_L3Out_Nodes
@@ -39,7 +69,14 @@ bgp_l3out_interface_profile:
     l3out: BGP_L3Out
     state: present
 
-bgp_l3out_interfaces:
+  - profile: Static_L3Out_Interfaces
+    node_profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
+    state: present
+
+
+l3out_interfaces:
   - if_profile: BGP_L3Out_Interfaces
     node_profile: BGP_L3Out_Nodes
     tenant: demo
@@ -81,12 +118,52 @@ bgp_l3out_interfaces:
           - send-ext-com
     state: present
 
+  - if_profile: Static_L3Out_Interfaces
+    node_profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
+    pod_id: 1
+    node_id: 101-102
+    if_path: Static_L3Out_VPC_IPG
+    if_type: ext-svi # (l3-port, sub-interface, ext-svi)
+    mode: regular
+    vlan: vlan-301
+    addr: 10.10.30.1/30
+    mtu: 1500
+    state: present
+
+l3out_static_routes:
+  - node_profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
+    pod_id: 1
+    node_id: 101
+    prefixes: 
+      - 200.200.200.0/24
+      - 200.200.201.0/24
+    nexthop: 10.10.30.2
+    state: present
+  - node_profile: Static_L3Out_Nodes
+    tenant: demo
+    l3out: Static_L3Out
+    pod_id: 1
+    node_id: 102
+    prefixes: 
+      - 200.200.200.0/24
+      - 200.200.201.0/24
+    nexthop: 10.10.30.2
+    state: present
+
 bgp_extepg:
   - name: BGP_Ext_EPG
     tenant: demo
     l3out: BGP_L3Out
     subnet: 0.0.0.0/0
     subnet_scope: import-security
-    contract_name: ICMP
-    contract_type: provider
+    state: present
+
+  - name: Static_Ext_EPG
+    tenant: demo
+    l3out: Static_L3Out
+    subnet_scope: import-security
     state: present

@@ -12,3 +12,9 @@ vpc_policy_group:
     aaep: External_L2Net_AAEP
     description: IPG for L2Out VPC
     state: present
+  - name: Static_L3Out_VPC_IPG
+    lldp: LLDP_Enabled
+    lacp: LACP_Active
+    aaep: External_Net_AAEP
+    description: IPG for Static L3Out VPC
+    state: present

@@ -90,3 +90,14 @@ interface_selector:
     to: 26
     ipg: L2Out_VPC_IPG
     state: present
+
+  - name: eth1_35
+    description: VPC to Static Route neighbor
+    ifp: LEAF101-102_IFP
+    interface_type: vpc
+    leaf_port_block: 1
+    from: 35
+    to: 35
+    ipg: Static_L3Out_VPC_IPG
+    state: present
+

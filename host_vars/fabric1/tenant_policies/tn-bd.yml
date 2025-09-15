@@ -6,7 +6,9 @@ bridge_domains:
     subnet_name: 172.16.1.0_BD
     gateway: 172.16.1.1
     mask: '24'
-    scope: public
+    scope: 
+        - public
+        - shared
     description: Bridge Domain for Applications in VLAN 10
     bd_type: ethernet
     mac_address: 00:22:BD:F8:19:FF

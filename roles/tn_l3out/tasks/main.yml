@@ -14,8 +14,8 @@
     l3protocol: '{{ item.protocol }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: bgp_l3out is defined
-  loop: "{{ bgp_l3out }}"
+  when: l3out is defined
+  loop: "{{ l3out }}"
 
 - name: Create BGP L3Out Node Profile (l3ext:LNodeP)
   cisco.aci.aci_l3out_logical_node_profile:
@@ -24,8 +24,8 @@
     node_profile: '{{ item.profile }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: bgp_l3out_node_profile is defined
-  loop: "{{ bgp_l3out_node_profile }}"
+  when: l3out_node_profile is defined
+  loop: "{{ l3out_node_profile }}"
 
 - name: Configure a node in the Node Profile (l3ext:RsNodeL3OutAtt)
   cisco.aci.aci_l3out_logical_node:
@@ -62,13 +62,14 @@
     node_id: '{{ item.node_id }}'
     path_ep: '{{ item.if_path }}'
     interface_type: '{{ item.if_type }}'
+    mode: "{{ item.mode | default(omit) }}"
     encap: "{{ item.vlan }}"
     addr: '{{ item.addr }}'
     mtu: '{{ item.mtu }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: bgp_l3out_interfaces is defined
-  loop: "{{ bgp_l3out_interfaces }}"
+  when: l3out_interfaces is defined
+  loop: "{{ l3out_interfaces }}"
 
 - name: Create BGP Peer connectivity profile under interface profile (bgp:PeerP and bgp:InfraPeerP)
   cisco.aci.aci_l3out_bgp_peer:
@@ -86,8 +87,35 @@
     bgp_controls: "{{ item.1.bgp_controls | default(omit) }}"
     state: '{{ item.0.state }}'
   delegate_to: localhost
-  when: bgp_l3out_interfaces is defined
-  loop: '{{ bgp_l3out_interfaces | subelements("bgp_peers") }}'
+  when: item.0.bgp_peers is defined
+  loop: '{{ l3out_interfaces | subelements("bgp_peers", skip_missing=True) }}'
+
+- name: Create Static L3Out routes (ip:RouteP)
+  cisco.aci.aci_l3out_static_routes:
+    tenant: "{{ item.0.tenant }}"
+    l3out: "{{ item.0.l3out }}"
+    node_profile: "{{ item.0.node_profile }}"
+    pod_id: "{{ item.0.pod_id }}"
+    node_id: "{{ item.0.node_id }}"
+    prefix: "{{ item.1 }}"
+    state: "{{ item.0.state }}"
+  delegate_to: localhost
+  when: item.0.prefixes is defined
+  loop: '{{ l3out_static_routes | subelements("prefixes", skip_missing=True) }}'
+
+- name: Configure next hop to prefix (ip:NexthopP)
+  cisco.aci.aci_l3out_static_routes_nexthop:
+    tenant: "{{ item.0.tenant }}"
+    l3out: "{{ item.0.l3out }}"
+    node_profile: "{{ item.0.node_profile }}"
+    pod_id: "{{ item.0.pod_id }}"
+    node_id: "{{ item.0.node_id }}"
+    prefix: "{{ item.1 }}"
+    nexthop: "{{ item.0.nexthop }}"
+    state: "{{ item.0.state }}"
+  delegate_to: localhost
+  when: item.0.prefixes is defined
+  loop: '{{ l3out_static_routes | subelements("prefixes", skip_missing=True) }}'
 # ------------------------------------
 # Configure L3Out (EPG and contract)
 # ------------------------------------
@@ -128,7 +156,7 @@
     scope: '{{ item.subnet_scope }}'
     state: '{{ item.state }}'
   delegate_to: localhost
-  when: bgp_extepg is defined
+  when: item.subnet is defined
   loop: "{{ bgp_extepg }}"
   register: result
   retries: "{{ loop_retries }}"
